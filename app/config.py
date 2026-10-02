@@ -35,7 +35,10 @@ class Settings(BaseSettings):
     # Temperature 0: this is an extraction/judging system, not a creative one.
     # We want the same answer for the same evidence every time.
     llm_temperature: float = 0.0
-    llm_max_tokens: int = 1024
+    # Must stay under 1000: Groq's free tier enforces a hard per-request cap
+    # of 1000 output tokens (OTPM). A larger value is rejected outright with
+    # a 429 that no amount of retrying will clear.
+    llm_max_tokens: int = 900
     llm_timeout_seconds: float = 60.0
     llm_max_retries: int = 5
 

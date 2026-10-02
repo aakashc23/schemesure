@@ -210,7 +210,7 @@ def split_claims(
         prompt_name="split_claims",
         system=CLAIM_SPLITTER_SYSTEM,
         user=CLAIM_SPLITTER_USER.format(answer=answer),
-        max_tokens=900,
+        max_tokens=700,
         counter=counter,
     )
 
@@ -256,7 +256,7 @@ def judge_claims(
         prompt_name="judge_claims",
         system=CLAIM_JUDGE_SYSTEM,
         user=CLAIM_JUDGE_USER.format(evidence=evidence, claims=numbered_claims),
-        max_tokens=1400,
+        max_tokens=900,
         counter=counter,
     )
 
