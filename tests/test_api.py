@@ -424,3 +424,53 @@ class TestWithoutAnLLM:
             assert len(client.get("/schemes").json()) == 15
         finally:
             client.app.state.pipeline = original
+
+
+# ==========================================================================
+# Vacuous "answers"
+# ==========================================================================
+
+
+class NoClaimsLLM(FakeLLM):
+    """
+    Simulates the real behaviour observed with a scheme we do not index: the
+    model writes its own prose refusal, so the splitter extracts no claims.
+    """
+
+    def _payload(self, prompt_name: str, user: str):
+        if prompt_name == "split_claims":
+            return {"claims": []}
+        return super()._payload(prompt_name, user)
+
+
+class TestVacuousAnswerIsARefusal:
+    def test_zero_claims_is_refused_not_verified(self, client):
+        """
+        PASS with zero claims is vacuously true, not verified. Labelling it
+        "verified" would badge a refusal as a confident answer and attach
+        citations to whichever unrelated scheme happened to be retrieved.
+        """
+        from app.config import get_settings
+
+        fake = NoClaimsLLM(mode="all_supported")
+        client.app.state.pipeline = AnswerPipeline(
+            client.app.state.retriever, fake, get_settings()
+        )
+        try:
+            body = client.post(
+                "/ask",
+                json={"question": "What is the interest rate on Sukanya Samriddhi Yojana?"},
+            ).json()
+
+            assert body["status"] == "refused"
+            # No citations on a refusal: they would imply evidence we did not use.
+            assert body["citations"] == []
+            assert body["guardrail"]["claims"] == []
+            assert any(
+                "no verifiable factual claims" in note
+                for note in body["guardrail"]["notes"]
+            )
+        finally:
+            client.app.state.pipeline = AnswerPipeline(
+                client.app.state.retriever, FakeLLM(), get_settings()
+            )

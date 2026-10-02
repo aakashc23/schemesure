@@ -249,6 +249,24 @@ class AnswerPipeline:
             # Guardrail switched off: the eval baseline. Label it honestly.
             status = AnswerStatus.UNVERIFIED
 
+        elif report.decision == GuardrailDecision.PASS and not report.claims:
+            # PASS with zero claims means the draft asserted no checkable facts —
+            # in practice the model wrote its own refusal ("the passages only
+            # cover Mudra Yojana..."). Vacuously true is not verified, so
+            # labelling this "verified" and attaching citations would badge a
+            # refusal as a confident answer.
+            #
+            # We substitute our own refusal rather than passing the model's
+            # through, because the model's version leaks retrieval internals
+            # (naming whichever unrelated schemes happened to come back) and is
+            # not written in the user's language.
+            answer = refusal_for(language.value, blocked=False)
+            status = AnswerStatus.REFUSED
+            report.notes.append(
+                "The draft contained no verifiable factual claims, so it is "
+                "treated as a refusal rather than a verified answer."
+            )
+
         elif report.decision == GuardrailDecision.BLOCK:
             answer = refusal_for(language.value, blocked=True)
             status = AnswerStatus.REFUSED

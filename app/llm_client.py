@@ -239,6 +239,48 @@ _RETRYABLE = (
 )
 
 
+# "Please try again in 1.68s" / "try again in 2m30.5s" / Retry-After: 3
+_RETRY_HINT_RE = re.compile(
+    r"try again in\s+(?:(\d+)m)?([\d.]+)s", re.I
+)
+_RETRY_AFTER_HEADER_RE = re.compile(r"retry-after['\"]?\s*[:=]\s*['\"]?([\d.]+)", re.I)
+
+
+def _retry_after_seconds(exc: Exception) -> float | None:
+    """
+    Extract how long the server asked us to wait, if it said.
+
+    Groq returns the wait in the 429 message body rather than only in a header,
+    so we parse both. Returns None when there is no usable hint.
+    """
+    # A Retry-After header, when the SDK surfaces the response.
+    response = getattr(exc, "response", None)
+    headers = getattr(response, "headers", None)
+    if headers is not None:
+        try:
+            raw = headers.get("retry-after") or headers.get("Retry-After")
+            if raw:
+                return float(raw)
+        except (TypeError, ValueError):
+            pass
+
+    text = str(exc)
+    match = _RETRY_HINT_RE.search(text)
+    if match:
+        minutes = float(match.group(1) or 0)
+        seconds = float(match.group(2))
+        return minutes * 60 + seconds
+
+    match = _RETRY_AFTER_HEADER_RE.search(text)
+    if match:
+        try:
+            return float(match.group(1))
+        except ValueError:
+            return None
+
+    return None
+
+
 class LLMClient:
     """Thin, logged, retrying wrapper over the OpenAI-compatible chat API."""
 
@@ -294,10 +336,27 @@ class LLMClient:
                 response = self._client.chat.completions.create(**kwargs)
                 latency_ms = int((time.perf_counter() - started) * 1000)
 
-                text = (response.choices[0].message.content or "").strip()
+                choice = response.choices[0]
+                text = (choice.message.content or "").strip()
                 usage = getattr(response, "usage", None)
                 prompt_tokens = int(getattr(usage, "prompt_tokens", 0) or 0)
                 completion_tokens = int(getattr(usage, "completion_tokens", 0) or 0)
+
+                # Empty content despite a successful HTTP call. This really
+                # happens, and the cause is worth naming: a *reasoning* model
+                # (Groq's openai/gpt-oss-*) spends completion tokens on hidden
+                # reasoning before emitting any content, so a small max_tokens
+                # budget is consumed entirely by reasoning and the content comes
+                # back as "". Without this guard the caller sees an empty answer
+                # or an unexplained JSON parse failure instead of the real cause.
+                if not text:
+                    raise LLMError(
+                        f"model '{self.settings.llm_model}' returned empty content "
+                        f"(finish_reason={getattr(choice, 'finish_reason', '?')}, "
+                        f"completion_tokens={completion_tokens}). If this is a "
+                        "reasoning model, raise LLM_MAX_TOKENS or use a "
+                        "non-reasoning model."
+                    )
 
                 _log_call(
                     self.settings, prompt_name, self.settings.llm_model,
@@ -321,9 +380,17 @@ class LLMClient:
                 last_error = f"{type(exc).__name__}: {exc}"
                 retryable = any(hint in str(exc).lower() for hint in _RETRYABLE)
                 if retryable and attempt < self.settings.llm_max_retries:
-                    # Exponential backoff: 2s, 4s, 8s. Groq's free tier is
-                    # per-minute, so waiting really does clear a 429.
-                    time.sleep(2**attempt)
+                    # Prefer the server's own advice over guessing. Groq's 429
+                    # says "Please try again in 1.68s", and its limit is a
+                    # rolling tokens-per-minute budget (8,000 on the free tier),
+                    # so sleeping exactly that long clears the error while fixed
+                    # exponential backoff either waits far too long or retries
+                    # too early and burns an attempt.
+                    delay = _retry_after_seconds(exc)
+                    if delay is None:
+                        delay = float(2**attempt)  # 2s, 4s, 8s...
+                    # +0.5s margin for clock skew; cap so one call cannot hang.
+                    time.sleep(min(delay + 0.5, 65.0))
                     continue
                 break
 

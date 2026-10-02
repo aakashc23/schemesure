@@ -31,13 +31,13 @@ class Settings(BaseSettings):
     # client works unchanged — only base_url and the model name differ.
     llm_base_url: str = "https://api.groq.com/openai/v1"
     llm_api_key: str = ""
-    llm_model: str = "openai/gpt-oss-120b"
+    llm_model: str = "qwen/qwen3.8-27b"
     # Temperature 0: this is an extraction/judging system, not a creative one.
     # We want the same answer for the same evidence every time.
     llm_temperature: float = 0.0
     llm_max_tokens: int = 1024
     llm_timeout_seconds: float = 60.0
-    llm_max_retries: int = 3
+    llm_max_retries: int = 5
 
     # ---- Hugging Face deployment ----------------------------------------
     hf_token: str = ""
