@@ -70,6 +70,74 @@ jobs:
         run: python scripts/scan_secrets.py --tracked
 
   # ---------------------------------------------------------------------------
+  # The container is the production deployment shape, so CI proves it actually
+  # builds and serves. Without this the Dockerfile is an untested claim — and it
+  # is the one artifact that cannot be checked by the unit tests, since it is
+  # where the index build, the CPU-torch install and the two-process startup all
+  # come together.
+  #
+  # No API key is needed: the app boots in a degraded state and /health reports
+  # `llm_key_configured: false`, which is exactly the behaviour being verified.
+  # ---------------------------------------------------------------------------
+  docker:
+    name: Build and smoke-test the container
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the image
+        # This also exercises the build-time index build, so a malformed corpus
+        # or an over-budget chunk fails here rather than in production.
+        run: docker build -t schemesure:ci .
+
+      - name: Start the container
+        run: |
+          docker run -d --name schemesure -p 7860:7860 schemesure:ci
+          echo "waiting for the container to become healthy..."
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:7860/_stcore/health >/dev/null 2>&1; then
+              echo "Streamlit is serving after ~$((i*5))s"
+              exit 0
+            fi
+            if ! docker ps --filter name=schemesure --filter status=running -q | grep -q .; then
+              echo "::error::the container exited during startup"
+              docker logs schemesure
+              exit 1
+            fi
+            sleep 5
+          done
+          echo "::error::the container did not become healthy within 300s"
+          docker logs schemesure
+          exit 1
+
+      - name: Check the internal API is up and the index is populated
+        run: |
+          # FastAPI is bound to 127.0.0.1 inside the container and is never
+          # published, so this check runs from inside it.
+          HEALTH=$(docker exec schemesure curl -sf http://127.0.0.1:8000/health)
+          echo "$HEALTH"
+          echo "$HEALTH" | python -c "
+import json, sys
+h = json.load(sys.stdin)
+assert h['schemes_loaded'] == 15, f\"expected 15 schemes, got {h['schemes_loaded']}\"
+assert h['chunks_indexed'] > 300, f\"index looks empty: {h['chunks_indexed']} chunks\"
+print(f\"OK: {h['schemes_loaded']} schemes, {h['chunks_indexed']} chunks indexed at build time\")
+"
+          # /schemes must serve real data without any LLM key configured.
+          docker exec schemesure curl -sf http://127.0.0.1:8000/schemes \
+            | python -c "import json,sys; print('OK: /schemes returned', len(json.load(sys.stdin)), 'schemes')"
+
+      - name: Container logs
+        if: always()
+        run: docker logs schemesure
+
+      - name: Stop the container
+        if: always()
+        run: docker rm -f schemesure || true
+
+  # ---------------------------------------------------------------------------
   # Deployment
   #
   # The live demo runs on Streamlit Community Cloud, which watches this repo and
