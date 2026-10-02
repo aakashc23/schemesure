@@ -1,0 +1,17 @@
+{
+  "scheme_id": "pmsby",
+  "min_age": 18,
+  "max_age": 70,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "min_age": "Individual bank account holders of participating banks aged between 18 years (completed) and 70 years (age nearer birthday).",
+    "max_age": "Individual bank account holders of participating banks aged between 18 years (completed) and 70 years (age nearer birthday)."
+  },
+  "unmodelled_conditions": [
+    "Must be an individual bank account holder of a participating bank and give consent to join / enable auto-debit."
+  ]
+}

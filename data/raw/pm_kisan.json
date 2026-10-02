@@ -1,0 +1,437 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "62a70e86f038bd8499a6aa53",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Online - via CSC",
+            "process": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Step 1: The following are the prerequisites for the enrollment process:"
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "ol_list"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Aadhaar Card"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Landholding paper"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Savings bank account"
+                      }
+                    ],
+                    "type": "list_item"
+                  }
+                ],
+                "type": "ul_list"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Step 2: The VLE will fill in the complete details of farmer registration details like State, district, subdistrict block, and village, key in the Aadhaar number, Name of the beneficiary, category, Bank detail, Land Registration ID, and Date of birth as printed on Aadhaar card for authentication.."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Step 3: The VLE will fill in the Land details like Survey/ Kahta No., Khasra no., and area of land as mentioned in land holding papers. "
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Step 4: Upload the supporting documents like Land, Aadhar, and Bank passbook."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Step 5: Self-declaration accept and save the application form."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Step 6: After saving the application form make payment through CSC ID."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Step 7: Check the Beneficiary status through the Aadhaar number."
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "ol_list"
+              }
+            ],
+            "process_md": "\nStep 1: The following are the prerequisites for the enrollment process:\n\n\n- Aadhaar Card\n- Landholding paper\n- Savings bank account\n\n\nStep 2: The VLE will fill in the complete details of farmer registration details like State, district, subdistrict block, and village, key in the Aadhaar number, Name of the beneficiary, category, Bank detail, Land Registration ID, and Date of birth as printed on Aadhaar card for authentication..\nStep 3: The VLE will fill in the Land details like Survey/ Kahta No., Khasra no., and area of land as mentioned in land holding papers. \nStep 4: Upload the supporting documents like Land, Aadhar, and Bank passbook.\nStep 5: Self-declaration accept and save the application form.\nStep 6: After saving the application form make payment through CSC ID.\nStep 7: Check the Beneficiary status through the Aadhaar number.\n\n",
+            "url": "https://pmkisan.gov.in/RegistrationFormnew.aspx"
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": false,
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": {
+            "label": "Department of Agriculture and Cooperation",
+            "value": 511
+          },
+          "nodalMinistryName": {
+            "label": "Ministry Of Agriculture and Farmers Welfare",
+            "value": 498
+          },
+          "schemeCategory": [
+            {
+              "label": "Agriculture,Rural & Environment",
+              "value": "628ce6ead6d1a3bde4685252"
+            },
+            {
+              "label": "Social welfare & Empowerment",
+              "value": "628ce87cd6d1a3bde4685312"
+            }
+          ],
+          "schemeFor": "Family",
+          "schemeName": "Pradhan Mantri Kisan Samman Nidhi",
+          "schemeOpenDate": "2019-02-24",
+          "schemeShortTitle": "PM-KISAN",
+          "schemeSubCategory": [
+            {
+              "label": "Agricultural Inputs- seeds, fertilizer etc.",
+              "value": "Agricultural Inputs- seeds, fertilizer etc."
+            },
+            {
+              "label": "Financial assistance",
+              "value": "Financial assistance"
+            },
+            {
+              "label": "Citizen empowerment",
+              "value": "Citizen empowerment"
+            }
+          ],
+          "schemeType": {
+            "label": "Central Sector Scheme",
+            "value": "central-sector-scheme"
+          },
+          "tags": [
+            "Farmers",
+            "Income Support",
+            "Agricultural Inputs",
+            "Kisan",
+            "Agriculture"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Individual",
+              "value": "individual"
+            },
+            {
+              "label": "Family",
+              "value": "family"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "text": "All landholding farmers' families, which have cultivable land holding in their names are eligible to get benefit under the scheme."
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "eligibilityDescription_md": "All landholding farmers&#39; families, which have cultivable land holding in their names are eligible to get benefit under the scheme.\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "label": "Cash",
+            "value": "Cash"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "text": "Financial benefit of"
+                },
+                {
+                  "bold": true,
+                  "text": " Rs. 6000 per annum per family "
+                },
+                {
+                  "text": "payable in three equal installments of "
+                },
+                {
+                  "bold": true,
+                  "text": "Rs 2000 each"
+                },
+                {
+                  "text": ", every four months.  "
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "benefits_md": "Financial benefit of **Rs. 6000 per annum per family** payable in three equal installments of **Rs 2000 each**, every four months.  \n",
+          "briefDescription": "Farmer welfare scheme by Ministry of Agriculture and Farmers Welfare to provide income support to all landholding farmers' families in the country to supplement their financial needs for procuring various inputs related to agriculture and allied activities as well as domestic needs.\n",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "text": "Objective"
+                }
+              ],
+              "type": "heading_four"
+            },
+            {
+              "children": [
+                {
+                  "text": "The scheme aims to supplement the financial needs of all landholding farmers’ families by procuring various inputs to ensure proper crop health and appropriate yields, commensurate with the anticipated farm income as well as for domestic needs. Under the scheme an amount of ₹ 6000/- per year is released by the Central Government online directly into the bank accounts of the eligible farmers under Direct Benefit Transfer mode, subject to certain exclusions. "
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "detailedDescription_md": "#### Objective\nThe scheme aims to supplement the financial needs of all landholding farmers’ families by procuring various inputs to ensure proper crop health and appropriate yields, commensurate with the anticipated farm income as well as for domestic needs. Under the scheme an amount of ₹ 6000/- per year is released by the Central Government online directly into the bank accounts of the eligible farmers under Direct Benefit Transfer mode, subject to certain exclusions. \n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "text": "The following categories of beneficiaries of higher economic status shall not be eligible for benefit under the scheme:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "All Institutional Land holders."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Farmer families in which one or more of its members belong to following categories"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Former and present holders of constitutional posts"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Former and present Ministers/ State Ministers and former/present Members of LokSabha/ RajyaSabha/ State Legislative Assemblies/ State Legislative Councils,former and present Mayors of Municipal Corporations, former and present Chairpersons of District Panchayats."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "All serving or retired officers and employees of Central/ State Government Ministries /Offices/Departments and its field units Central or State PSEs and Attached offices /Autonomous Institutions under Government as well as regular employees of the Local Bodies (Excluding Multi Tasking Staff /Class IV/Group D employees)"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "All superannuated/retired pensioners whose monthly pension is Rs.10,000/-or more (Excluding Multi Tasking Staff / Class IV/Group D employees) of above category"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "All Persons who paid Income Tax in last assessment year"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Professionals like Doctors, Engineers, Lawyers, Chartered Accountants, and Architects registered with Professional bodies and carrying out profession by undertaking practices."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "exclusions_md": "The following categories of beneficiaries of higher economic status shall not be eligible for benefit under the scheme:\n\n1. All Institutional Land holders.\n1. Farmer families in which one or more of its members belong to following categories\n1. Former and present holders of constitutional posts\n1. Former and present Ministers/ State Ministers and former/present Members of LokSabha/ RajyaSabha/ State Legislative Assemblies/ State Legislative Councils,former and present Mayors of Municipal Corporations, former and present Chairpersons of District Panchayats.\n1. All serving or retired officers and employees of Central/ State Government Ministries /Offices/Departments and its field units Central or State PSEs and Attached offices /Autonomous Institutions under Government as well as regular employees of the Local Bodies (Excluding Multi Tasking Staff /Class IV/Group D employees)\n1. All superannuated/retired pensioners whose monthly pension is Rs.10,000/-or more (Excluding Multi Tasking Staff / Class IV/Group D employees) of above category\n1. All Persons who paid Income Tax in last assessment year\n1. Professionals like Doctors, Engineers, Lawyers, Chartered Accountants, and Architects registered with Professional bodies and carrying out profession by undertaking practices.\n\n",
+          "references": [
+            {
+              "title": "Scheme Guidelines",
+              "url": "https://pmkisan.gov.in/Documents/RevisedPM-KISANOperationalGuidelines(English).pdf "
+            },
+            {
+              "title": "Processes Of E-KYC",
+              "url": "https://pmkisan.gov.in/Documents/Note-on-Modes-and-processes-of-ekyc-13th-Nov-English.pdf"
+            },
+            {
+              "title": "New Farmer Registration Form",
+              "url": "https://pmkisan.gov.in/registrationformnew.aspx"
+            },
+            {
+              "title": "Know Your Registration",
+              "url": "https://www.pmkisan.gov.in/KnowYour_Registration.aspx"
+            }
+          ],
+          "schemeImageUrl": ""
+        },
+        "schemeDefinitions": [
+          {
+            "definition": [
+              {
+                "children": [
+                  {
+                    "text": "A landholder farmer's family is defined as \"a family comprising of husband, wife and minor children who own cultivable land as per the land records of the concerned State/UT\". "
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": "The existing land-ownership system will be used for identification of beneficiaries for calculation of benefit."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "definitions_md": "A landholder farmer&#39;s family is defined as &quot;a family comprising of husband, wife and minor children who own cultivable land as per the land records of the concerned State/UT&quot;. \nThe existing land-ownership system will be used for identification of beneficiaries for calculation of benefit.\n<br>\n\n",
+            "name": "Land Holder Farmer Family",
+            "source": "Scheme guideline"
+          }
+        ]
+      },
+      "slug": "pm-kisan"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "62a7100ef038bd8499a6ac1c",
+      "en": {
+        "documents_required": [
+          {
+            "children": [
+              {
+                "text": "Indicative Documents"
+              }
+            ],
+            "type": "heading_four"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "text": "Aadhaar Card"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Landholding papers"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Savings Bank Account."
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "type": "ol_list"
+          }
+        ]
+      },
+      "schemeId": "62a70e86f038bd8499a6aa53"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

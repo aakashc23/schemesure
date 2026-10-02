@@ -1,0 +1,32 @@
+# SchemeSure dependencies — pinned so local, CI and the Docker image agree.
+# Only direct dependencies are listed; pip resolves the transitive ones.
+#
+# NOTE ON torch: sentence-transformers needs torch. On Linux the default wheel
+# is the CUDA build (~2.5 GB), which is far too big for a free Hugging Face
+# Space. The Dockerfile installs the CPU-only wheel first from
+# https://download.pytorch.org/whl/cpu, so this file does not pin torch itself.
+
+# ---- Web API ----
+fastapi==0.142.2
+uvicorn[standard]==0.54.0
+pydantic==2.13.5
+pydantic-settings==2.15.0
+python-dotenv==1.2.4
+
+# ---- Retrieval: vector store + local embeddings ----
+chromadb==1.5.9
+sentence-transformers==6.1.0
+
+# ---- LLM access (OpenAI-compatible client pointed at Groq) ----
+openai==3.23.0
+
+# ---- Frontend ----
+streamlit==1.64.0
+requests==2.34.2
+
+# ---- Deployment ----
+huggingface_hub==1.33.0
+
+# ---- Tests ----
+pytest==9.1.1
+httpx==0.28.1

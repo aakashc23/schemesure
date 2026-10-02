@@ -1,0 +1,13 @@
+# Normalise text files to LF in the repository.
+* text=auto eol=lf
+
+# Shell scripts MUST be LF. A CRLF start.sh fails inside a Linux container with
+# a confusing "no such file or directory" because \r becomes part of the path.
+*.sh text eol=lf
+Dockerfile text eol=lf
+
+# Keep data files LF so chunk IDs (content hashes) are stable across machines.
+*.md text eol=lf
+*.json text eol=lf
+*.jsonl text eol=lf
+*.py text eol=lf

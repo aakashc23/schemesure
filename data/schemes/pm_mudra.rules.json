@@ -1,0 +1,16 @@
+{
+  "scheme_id": "pm_mudra",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {},
+  "unmodelled_conditions": [
+    "Eligible borrowers: individuals, proprietary concerns, partnership firms, private limited companies, public companies and any other legal forms.",
+    "The applicant should not be a defaulter to any bank or financial institution and should have a satisfactory credit track record.",
+    "Individual borrowers may be required to possess the necessary skills, experience or knowledge to undertake the proposed activity."
+  ]
+}

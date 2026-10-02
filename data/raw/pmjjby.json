@@ -1,0 +1,323 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "62a1a38e07ac3b4e623091b1",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Offline",
+            "process": [
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Offline"
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 01:"
+                      },
+                      {
+                        "text": " Download and take print of the “CONSENT-CUM-DECLARATION FORM” given in the link below: "
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "https://www.jansuraksha.gov.in/Files/PMJJBY/English/ApplicationForm.pdf#zoom=250"
+                          }
+                        ],
+                        "link": "https://www.jansuraksha.gov.in/Files/PMJJBY/English/ApplicationForm.pdf#zoom=250",
+                        "type": "link"
+                      },
+                      {
+                        "text": " "
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "align_justify"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 02:"
+                      },
+                      {
+                        "text": " Duly fill and sign the application form, attach the self-attested copies of the required documents, and submit the case to the authorised official of Bank / Post Office. The official will return you the “ACKNOWLEDGEMENT SLIP CUM CERTIFICATE OF INSURANCE”."
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "align_justify"
+              }
+            ],
+            "process_md": "**Offline**\n**Step 01:** Download and take print of the “CONSENT-CUM-DECLARATION FORM” given in the link below: [https://www.jansuraksha.gov.in/Files/PMJJBY/English/ApplicationForm.pdf#zoom=250](https://www.jansuraksha.gov.in/Files/PMJJBY/English/ApplicationForm.pdf#zoom=250) \n**Step 02:** Duly fill and sign the application form, attach the self-attested copies of the required documents, and submit the case to the authorised official of Bank / Post Office. The official will return you the “ACKNOWLEDGEMENT SLIP CUM CERTIFICATE OF INSURANCE”.\n",
+            "url": "https://www.jansuraksha.gov.in/Files/PMJJBY/English/ApplicationForm.pdf#zoom=250"
+          },
+          {
+            "mode": "Online",
+            "process": [
+              {
+                "children": [
+                  {
+                    "text": "One can also avail cover under PMJJBY online using their bank's Net banking facility."
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "process_md": "One can also avail cover under PMJJBY online using their bank&#39;s Net banking facility.\n"
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": false,
+          "implementingAgency": "Banks",
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": {
+            "label": "Department of Financial Service",
+            "value": 1174
+          },
+          "nodalMinistryName": {
+            "label": "Ministry Of Finance",
+            "value": 499
+          },
+          "schemeCategory": [
+            {
+              "label": "Banking,Financial Services and Insurance",
+              "value": "628ce7f6d6d1a3bde46852d0"
+            },
+            {
+              "label": "Social welfare & Empowerment",
+              "value": "628ce87cd6d1a3bde4685312"
+            }
+          ],
+          "schemeFor": "Individual",
+          "schemeName": "Pradhan Mantri Jeevan Jyoti Bima Yojana",
+          "schemeOpenDate": "2015-05-09",
+          "schemeShortTitle": "PMJJBY",
+          "schemeSubCategory": [
+            {
+              "label": "Insurance",
+              "value": "Insurance"
+            },
+            {
+              "label": "Financial assistance",
+              "value": "Financial assistance"
+            },
+            {
+              "label": "Citizen empowerment",
+              "value": "Citizen empowerment"
+            }
+          ],
+          "schemeType": {
+            "label": "Central Sector Scheme",
+            "value": "central-sector-scheme"
+          },
+          "tags": [
+            "LIC",
+            "Consent",
+            "Jansuraksha",
+            "Claim Form"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Individual",
+              "value": "individual"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The age of the applicant must be between 18 to 50 Years."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The applicant must hold an individual bank / post office account."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "eligibilityDescription_md": "\n1. The age of the applicant must be between 18 to 50 Years.\n1. The applicant must hold an individual bank / post office account.\n\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "id": 1,
+            "label": "Cash",
+            "value": "cash"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "PMJJBY offers one- year term "
+                    },
+                    {
+                      "bold": true,
+                      "text": "life cover of ₹ 2.00 Lakh"
+                    },
+                    {
+                      "text": " to all the subscribers in the age group of 18-50 years."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "It covers death due to any reason."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Premium payable is ₹ 436/- per annum "
+                    },
+                    {
+                      "text": "per subscriber, to be auto debited from the subscriber’s bank/post office account."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "benefits_md": "\n1. PMJJBY offers one- year term **life cover of ₹ 2.00 Lakh** to all the subscribers in the age group of 18-50 years.1. It covers death due to any reason.\n1. **Premium payable is ₹ 436/- per annum** per subscriber, to be auto debited from the subscriber’s bank/post office account.\n",
+          "briefDescription": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY) is an insurance scheme offering life insurance cover for death due to any reason. It is a one-year cover, renewable from year to year. The scheme is offered by banks/post offices and administered through life insurance companies.",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "text": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY) is an insurance scheme offering life insurance cover for death due to any reason. It is a one-year cover, renewable from year to year. The scheme is offered by banks/post offices and administered through life insurance companies. All individuals who are account holders of participating banks/ post office in the age group of 18 to 50 years are entitled to join. "
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "detailedDescription_md": "Pradhan Mantri Jeevan Jyoti Bima Yojana (PMJJBY) is an insurance scheme offering life insurance cover for death due to any reason. It is a one-year cover, renewable from year to year. The scheme is offered by banks/post offices and administered through life insurance companies. All individuals who are account holders of participating banks/ post office in the age group of 18 to 50 years are entitled to join. \n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "exclusions_md": "<br>\n\n",
+          "references": [
+            {
+              "title": "Guidelines",
+              "url": "https://jansuraksha.gov.in/Files/PMJJBY/English/Rules.pdf"
+            }
+          ],
+          "schemeImageUrl": " https://www.jansuraksha.gov.in/PICS/mDleft_LOG.png "
+        },
+        "schemeDefinitions": [
+          {
+            "definition": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Participating Banks will be the Master policy holders. A simple and subscriber friendly administration & claim settlement process is  finalized by LIC / chosen insurance company in consultation with the participating bank."
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "align_justify"
+              }
+            ],
+            "definitions_md": "Participating Banks will be the Master policy holders. A simple and subscriber friendly administration &amp;amp; claim settlement process is  finalized by LIC / chosen insurance company in consultation with the participating bank.\n",
+            "name": "Master Policy Holder",
+            "source": "https://jansuraksha.gov.in/Files/PMJJBY/English/Rules.pdf"
+          },
+          {
+            "definition": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "No claim shall be payable in case of death occurring within 30 days from the date of joining/rejoining the policy, except in case of death due to accident."
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "align_justify"
+              }
+            ],
+            "definitions_md": "No claim shall be payable in case of death occurring within 30 days from the date of joining/rejoining the policy, except in case of death due to accident.\n",
+            "name": "Condition",
+            "source": "https://jansuraksha.gov.in/Files/PMJJBY/English/Rules.pdf"
+          }
+        ]
+      },
+      "slug": "pmjjby"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "62a1a4423fe4bdb0ae4590ad",
+      "en": {
+        "documentsRequired_md": "<br>\n\n",
+        "documents_required": [
+          {
+            "children": [
+              {
+                "text": ""
+              }
+            ],
+            "type": "paragraph"
+          }
+        ]
+      },
+      "schemeId": "62a1a38e07ac3b4e623091b1"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

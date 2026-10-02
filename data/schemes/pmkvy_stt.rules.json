@@ -1,0 +1,19 @@
+{
+  "scheme_id": "pmkvy_stt",
+  "min_age": 15,
+  "max_age": 45,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "min_age": "Is aged between 15-45 years",
+    "max_age": "Is aged between 15-45 years"
+  },
+  "unmodelled_conditions": [
+    "Must be of Indian nationality.",
+    "Must possess an Aadhaar card and an Aadhaar-linked bank account.",
+    "Must fulfil other criteria for the respective job role as defined by the awarding body."
+  ]
+}

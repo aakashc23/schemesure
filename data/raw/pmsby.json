@@ -1,0 +1,372 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "6290a249e65001fa5dfa97b0",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Offline",
+            "process": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 01:"
+                      },
+                      {
+                        "text": " In order to enrol in PMSBY offline, one can visit the bank branch where one has a savings account or the candidate can visit the official site: "
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "https://jansuraksha.gov.in/Forms-PMSBY.aspx"
+                          }
+                        ],
+                        "link": "https://jansuraksha.gov.in/Forms-PMSBY.aspx",
+                        "type": "link"
+                      },
+                      {
+                        "bold": true,
+                        "text": " "
+                      },
+                      {
+                        "text": "to download the form. "
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "align_justify"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Step 02:"
+                  },
+                  {
+                    "text": " After downloading the application form , candidate can fill in all the details and submit  them to the bank along with the  required documents."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Step 03:"
+                  },
+                  {
+                    "text": " Once it is successfully submitted , subscriber will get an Acknowledgement Slip Cum Certificate of Insurance."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Contact:"
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "State wise tollfree number"
+                  },
+                  {
+                    "text": " - "
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "https://jansuraksha.gov.in/files/STATEWISETOLLFREE.pdf "
+                      }
+                    ],
+                    "link": "https://jansuraksha.gov.in/files/STATEWISETOLLFREE.pdf",
+                    "type": "link"
+                  },
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "National Toll Free Number"
+                  },
+                  {
+                    "text": " - 1800-180-1111 / 1800-110-001"
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "process_md": "**Step 01:** In order to enrol in PMSBY offline, one can visit the bank branch where one has a savings account or the candidate can visit the official site: [https://jansuraksha.gov.in/Forms-PMSBY.aspx](https://jansuraksha.gov.in/Forms-PMSBY.aspx)**** to download the form. \n**Step 02:** After downloading the application form , candidate can fill in all the details and submit  them to the bank along with the  required documents.\n**Step 03:** Once it is successfully submitted , subscriber will get an Acknowledgement Slip Cum Certificate of Insurance.\nContact:\n**State wise tollfree number** - [https://jansuraksha.gov.in/files/STATEWISETOLLFREE.pdf ](https://jansuraksha.gov.in/files/STATEWISETOLLFREE.pdf)\n**National Toll Free Number** - 1800-180-1111 / 1800-110-001\n",
+            "url": "https://jansuraksha.gov.in/Forms-PMSBY.aspx "
+          },
+          {
+            "mode": "Online",
+            "process": [
+              {
+                "children": [
+                  {
+                    "text": "One can also avail cover under PMSBY online using their bank's Net banking facility."
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "process_md": "One can also avail cover under PMSBY online using their bank&#39;s Net banking facility.\n",
+            "url": ""
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": false,
+          "implementingAgency": "Banks",
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": {
+            "label": "Department of Financial Service",
+            "value": 1174
+          },
+          "nodalMinistryName": {
+            "label": "Ministry Of Finance",
+            "value": 499
+          },
+          "schemeCategory": [
+            {
+              "label": "Banking,Financial Services and Insurance",
+              "value": "628ce7f6d6d1a3bde46852d0"
+            }
+          ],
+          "schemeFor": "Individual",
+          "schemeName": "Pradhan Mantri Suraksha Bima Yojana",
+          "schemeOpenDate": "2015-05-09",
+          "schemeShortTitle": "PMSBY",
+          "schemeSubCategory": [
+            {
+              "label": "Insurance",
+              "value": "Insurance"
+            }
+          ],
+          "schemeType": {
+            "label": "Central Sector Scheme",
+            "value": "central-sector-scheme"
+          },
+          "tags": [
+            "Bank Account Holders",
+            "Insurance",
+            "Accident Insurance",
+            "Death Insurance"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "All",
+              "value": "All"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "text": "Individual bank account holders of participating banks aged between 18 years (completed) and 70 years (age nearer birthday) who give their consent to join / enable auto-debit, will be enrolled into the scheme."
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "eligibilityDescription_md": "Individual bank account holders of participating banks aged between 18 years (completed) and 70 years (age nearer birthday) who give their consent to join / enable auto-debit, will be enrolled into the scheme.\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "label": "Cash",
+            "value": "Cash"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "On Death- the Nominee shall get Rs. 2 Lakhs."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Total and irrecoverable loss of both eyes or loss of use of both hands or feet or loss of sight of one eye and loss of use of hand or foot-  Subscriber shall get Rs. 2 Lakhs."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Total and irrecoverable loss of sight of one eye or loss of use of one hand or foot –subscriber shall get Rs. 1 Lakh."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "benefits_md": "\n1. On Death- the Nominee shall get Rs. 2 Lakhs.\n1. Total and irrecoverable loss of both eyes or loss of use of both hands or feet or loss of sight of one eye and loss of use of hand or foot-  Subscriber shall get Rs. 2 Lakhs.\n1. Total and irrecoverable loss of sight of one eye or loss of use of one hand or foot –subscriber shall get Rs. 1 Lakh.\n\n",
+          "briefDescription": "An Accident Insurance Scheme offering accidental death and disability cover for death or disability on account of an accident.",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "text": "An Accident Insurance Scheme offering accidental death and disability cover for death or disability on account of an accident."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Premium:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "Rs.20/- per annum per member. The premium will be deducted from the account holder’s bank / Post office account through ‘auto debit’ facility on or before 1st June of each annual coverage period under the scheme. "
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Coverage Duration:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "Coverage under PMJJBY is valid for one year from 1st June to 31st May on payment of annual premium."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Accident cover assurance termination:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "The accident cover of the member shall terminate / be restricted accordingly on any of the following events:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "•\tOn attaining age 70 years (age nearer birth day)."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "•\tClosure of account with the Bank or insufficiency of balance to keep the insurance in force."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "In case a member is covered under PMSBY through more than one account and premium is received by insurance company inadvertently, insurance cover will be restricted to Rs. 2 lakh."
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "detailedDescription_md": "An Accident Insurance Scheme offering accidental death and disability cover for death or disability on account of an accident.\n**Premium:**\nRs.20/- per annum per member. The premium will be deducted from the account holder’s bank / Post office account through ‘auto debit’ facility on or before 1st June of each annual coverage period under the scheme. \n**Coverage Duration:**\nCoverage under PMJJBY is valid for one year from 1st June to 31st May on payment of annual premium.\n**Accident cover assurance termination:**\nThe accident cover of the member shall terminate / be restricted accordingly on any of the following events:\n•\tOn attaining age 70 years (age nearer birth day).\n•\tClosure of account with the Bank or insufficiency of balance to keep the insurance in force.\nIn case a member is covered under PMSBY through more than one account and premium is received by insurance company inadvertently, insurance cover will be restricted to Rs. 2 lakh.\n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "exclusions_md": "<br>\n\n",
+          "references": [
+            {
+              "title": "Scheme Guidelines",
+              "url": "https://jansuraksha.gov.in/Files/PMSBY/English/Rules.pdf "
+            }
+          ],
+          "schemeImageUrl": " https://www.jansuraksha.gov.in/PICS/mdM_LOG.png  "
+        },
+        "schemeDefinitions": []
+      },
+      "slug": "pmsby"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "6290a65ce65001fa5dfa9955",
+      "en": {
+        "documentsRequired_md": "\n \n\n",
+        "documents_required": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "text": " "
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "type": "ul_list"
+          }
+        ]
+      },
+      "schemeId": "6290a249e65001fa5dfa97b0"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

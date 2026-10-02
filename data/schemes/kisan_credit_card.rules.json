@@ -1,0 +1,18 @@
+{
+  "scheme_id": "kisan_credit_card",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": [
+    "farmer"
+  ],
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "allowed_occupations": "Farmers - individual/joint borrowers who are owner cultivators; tenant farmers, oral lessees & share croppers; Self Help Groups (SHGs) or Joint Liability Groups (JLGs) of farmers."
+  },
+  "unmodelled_conditions": [
+    "Eligible as an individual/joint borrower who is an owner cultivator, a tenant farmer, oral lessee or share cropper, or as a member of an SHG or Joint Liability Group of farmers."
+  ]
+}

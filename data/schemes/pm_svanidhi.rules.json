@@ -1,0 +1,18 @@
+{
+  "scheme_id": "pm_svanidhi",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": [
+    "street_vendor"
+  ],
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "allowed_occupations": "Street vendors in possession of Certificate of Vending / Identity Card issued by Urban Local Bodies (ULBs)."
+  },
+  "unmodelled_conditions": [
+    "Must hold a Certificate of Vending / Identity Card from the Urban Local Body, or have been identified in the ULB survey, or hold a Letter of Recommendation from the ULB / Town Vending Committee."
+  ]
+}

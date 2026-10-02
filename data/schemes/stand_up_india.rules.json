@@ -1,0 +1,18 @@
+{
+  "scheme_id": "stand_up_india",
+  "min_age": 18,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "min_age": "The age of the applicant must be at least 18 years."
+  },
+  "unmodelled_conditions": [
+    "CONDITIONAL RULE: 'If the applicant is a male, he must be from SC / ST category.' Women applicants are eligible regardless of category. A flat gender/category filter cannot express this, so neither field is set and the engine reports this condition for human checking.",
+    "Finance is provided for Greenfield Enterprises (first-time venture).",
+    "The applicant must not be in default to any bank / financial institution."
+  ]
+}

@@ -1,0 +1,1047 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "62a32aa7f038bd8499a5fcd8",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Online",
+            "process": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "text": "Citizen visit the official website of the "
+                          },
+                          {
+                            "children": [
+                              {
+                                "text": "Ministry"
+                              }
+                            ],
+                            "link": "https://pmmvy.wcd.gov.in/",
+                            "type": "link"
+                          },
+                          {
+                            "text": " and click on the "
+                          },
+                          {
+                            "children": [
+                              {
+                                "text": "Citizen login"
+                              }
+                            ],
+                            "link": "https://pmmvy.wcd.gov.in/Account/Citizenlogin",
+                            "type": "link"
+                          },
+                          {
+                            "text": " tab."
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Enter mobile number and verify. Then enter details like Full Name, State, District, Area, Block, Village and relationship with beneficiary. Then click create account button.  "
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Once account is created. Click on "
+                          },
+                          {
+                            "children": [
+                              {
+                                "text": "Login tab"
+                              }
+                            ],
+                            "link": "https://pmmvy.wcd.gov.in/Account/Login",
+                            "type": "link"
+                          },
+                          {
+                            "text": " on main homepage of the website."
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Now, enter the User ID, Password and Captcha code. Then apply for the scheme."
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "After successful login, click on the \"Data Entry\" tab and choose the option \"Beneficiary Registration\"."
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Now, enter all the detailed personal details on the Beneficiary registration page."
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Choose suitable option under the Scheme applying for First Child OR Second Child."
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Once all the form details are completed. Click Submit Button."
+                          }
+                        ],
+                        "type": "list_item"
+                      }
+                    ],
+                    "type": "align_justify"
+                  }
+                ],
+                "type": "ol_list"
+              }
+            ],
+            "process_md": "\n- Citizen visit the official website of the [Ministry](https://pmmvy.wcd.gov.in/) and click on the [Citizen login](https://pmmvy.wcd.gov.in/Account/Citizenlogin) tab.- Enter mobile number and verify. Then enter details like Full Name, State, District, Area, Block, Village and relationship with beneficiary. Then click create account button.  \n- Once account is created. Click on [Login tab](https://pmmvy.wcd.gov.in/Account/Login) on main homepage of the website.- Now, enter the User ID, Password and Captcha code. Then apply for the scheme.\n- After successful login, click on the &amp;quot;Data Entry&amp;quot; tab and choose the option &amp;quot;Beneficiary Registration&amp;quot;.\n- Now, enter all the detailed personal details on the Beneficiary registration page.\n- Choose suitable option under the Scheme applying for First Child OR Second Child.\n- Once all the form details are completed. Click Submit Button.\n\n",
+            "url": "https://pmmvy-cas.nic.in/backoffice/useraccount/login?ReturnUrl=%2Fbackoffice%2Fhome%2F"
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": true,
+          "implementingAgency": "State And UTs",
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": null,
+          "nodalMinistryName": {
+            "label": "Ministry of Women and Child Development",
+            "value": 503
+          },
+          "schemeCategory": [
+            {
+              "label": "Health & Wellness",
+              "value": "628ce7a2d6d1a3bde46852b1"
+            },
+            {
+              "label": "Social welfare & Empowerment",
+              "value": "628ce87cd6d1a3bde4685312"
+            },
+            {
+              "label": "Utility & Sanitation",
+              "value": "628ce97ad6d1a3bde468537d"
+            },
+            {
+              "label": "Women and Child",
+              "value": "64f57d10ffb93104c7006c97"
+            }
+          ],
+          "schemeFor": "Individual",
+          "schemeName": "Pradhan Mantri Matru Vandana Yojana",
+          "schemeOpenDate": "2017-01-01",
+          "schemeShortTitle": "PMMVY",
+          "schemeSubCategory": [
+            {
+              "label": "Health promotion",
+              "value": "Health promotion"
+            },
+            {
+              "label": "Pregnancy care",
+              "value": "Pregnancy care"
+            }
+          ],
+          "schemeType": {
+            "label": "Centrally Sponsored Scheme",
+            "value": "centrally-sponsored-scheme"
+          },
+          "tags": [
+            "Maternity Benefit Programme",
+            "Financial Assistance",
+            "Pregnant Women",
+            "Cash Incentive",
+            "Good Nutrition"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Individual",
+              "value": "individual"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should be of at least 19 years old and a pregnant women."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should be employed and experiencing wage-loss due to the pregnancy."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The scheme is applicable only for the first live birth."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Eligible beneficiary can apply for the benefit under PMMVY scheme within 270 days from the child birth. "
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "If a beneficiary delivers twins/ triplets/ quadruplets in her second pregnancy, with one or more children being girl, she will receive incentive for second girl child as per the PMMVY 2.0 norms."
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ol_list"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Criteria for determining socially and economically disadvantaged sections of society are the following:"
+                        }
+                      ],
+                      "type": "paragraph"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "text": "Women belonging to scheduled castes and scheduled tribes"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women who are partially (40%) or fully disabled (Divyang Jan)"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women holder of BPL Ration Card"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women Beneficiaries under Pradhan Mantri Jan Aarogya Yojana (PMJAY) under Ayushman Bharat."
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women holding e-Shram card"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women farmers who are beneficiaries under Kisan Samman Nidhi"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women holding MGNREGA Job Card"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women whose net family income is less than Rs. 8 Lakh per annum"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Pregnant and Lactating AWWs/ AWHs/ ASHAs"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Women holding Ration Card under NFSA Act 2013."
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Any other category as may be prescribed by the Central Government"
+                            }
+                          ],
+                          "type": "list_item"
+                        }
+                      ],
+                      "type": "ol_list"
+                    }
+                  ],
+                  "type": "align_justify"
+                }
+              ],
+              "type": "align_justify"
+            }
+          ],
+          "eligibilityDescription_md": "\n   1. The applicant should be of at least 19 years old and a pregnant women.\n   1. The applicant should be employed and experiencing wage-loss due to the pregnancy.\n   1. The scheme is applicable only for the first live birth.\n   1. Eligible beneficiary can apply for the benefit under PMMVY scheme within 270 days from the child birth. \n   1. If a beneficiary delivers twins/ triplets/ quadruplets in her second pregnancy, with one or more children being girl, she will receive incentive for second girl child as per the PMMVY 2.0 norms.\n\n**Criteria for determining socially and economically disadvantaged sections of society are the following:**\n\n   1. Women belonging to scheduled castes and scheduled tribes\n   1. Women who are partially (40%) or fully disabled (Divyang Jan)\n   1. Women holder of BPL Ration Card\n   1. Women Beneficiaries under Pradhan Mantri Jan Aarogya Yojana (PMJAY) under Ayushman Bharat.\n   1. Women holding e-Shram card\n   1. Women farmers who are beneficiaries under Kisan Samman Nidhi\n   1. Women holding MGNREGA Job Card\n   1. Women whose net family income is less than Rs. 8 Lakh per annum\n   1. Pregnant and Lactating AWWs/ AWHs/ ASHAs\n   1. Women holding Ration Card under NFSA Act 2013.\n   1. Any other category as may be prescribed by the Central Government\n\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "label": "Cash",
+            "value": "Cash"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "text": "The cash incentives is provided in two instalments for the first child as per the schedule provided in"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "table below:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Scheme Condition for First Child"
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Instalment "
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Conditions"
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Amount (in Rs.)"
+                        }
+                      ],
+                      "type": "table_cell"
+                    }
+                  ],
+                  "type": "table_row"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "First Instalment"
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "On registration of pregnancy and at least one Antenatal checkup within six months from last menstrual period date at the Anganwadi Centre or approved Health facilities may be identified by the respective administering State/UT. "
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "3,000/-"
+                        }
+                      ],
+                      "type": "table_cell"
+                    }
+                  ],
+                  "type": "table_row"
+                }
+              ],
+              "type": "table"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Second Instalment"
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Childbirth is registered. The child has received all due vaccines till the age of 14 weeks as admissible under the Universal Immunization Programme of Ministry of Health and Family Welfare."
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "2,000/-"
+                        }
+                      ],
+                      "type": "table_cell"
+                    }
+                  ],
+                  "type": "table_row"
+                }
+              ],
+              "type": "table"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Scheme Condition for Second Child (if it is a girl child)"
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Single Instalment"
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "On registration of pregnancy and at least one Ante-Natal Check-up (ANC) within six months from LMP at the Anganwadi Centre (AWC) approved Health facilities may be identified by the respective administering State/UT. The girl child birth shall be registered under this Scheme. The girl child has received all due vaccines till the girl child attains age of fourteen weeks from the date of birth as admissible under the Universal Immunization Programme of Ministry of Health and Family Welfare."
+                        }
+                      ],
+                      "type": "table_cell"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "6,000/-"
+                        }
+                      ],
+                      "type": "table_cell"
+                    }
+                  ],
+                  "type": "table_row"
+                }
+              ],
+              "type": "table"
+            },
+            {
+              "children": [
+                {
+                  "text": "In case of miscarriage/still birth, the beneficiary would be treated as fresh beneficiary in event of any"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "future pregnancy. "
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "benefits_md": "The cash incentives is provided in two instalments for the first child as per the schedule provided in\ntable below:\n\n- **Scheme Condition for First Child**\n\n**Instalment** **Conditions****Amount (in Rs.)****First Instalment**On registration of pregnancy and at least one Antenatal checkup within six months from last menstrual period date at the Anganwadi Centre or approved Health facilities may be identified by the respective administering State/UT. 3,000/-**Second Instalment**Childbirth is registered. The child has received all due vaccines till the age of 14 weeks as admissible under the Universal Immunization Programme of Ministry of Health and Family Welfare.2,000/-\n- **Scheme Condition for Second Child (if it is a girl child)**\n\n**Single Instalment**On registration of pregnancy and at least one Ante-Natal Check-up (ANC) within six months from LMP at the Anganwadi Centre (AWC) approved Health facilities may be identified by the respective administering State/UT. The girl child birth shall be registered under this Scheme. The girl child has received all due vaccines till the girl child attains age of fourteen weeks from the date of birth as admissible under the Universal Immunization Programme of Ministry of Health and Family Welfare.6,000/-In case of miscarriage/still birth, the beneficiary would be treated as fresh beneficiary in event of any\nfuture pregnancy. \n",
+          "briefDescription": "The scheme is to provide maternity benefits to women belonging to socially and economically disadvantaged sections of society. For first child the maternity benefit of ₹5,000 is provided in two instalments under PMMVY and second child, it is ₹6,000 is to be provided subject to second child is girl.",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The "
+                    },
+                    {
+                      "bold": true,
+                      "text": "Pradhan Mantri Matru Vandana Yojana (PMMVY)"
+                    },
+                    {
+                      "text": " is a Centrally Sponsored flagship scheme by the Ministry of Women and Child Development, Government of India, designed to support pregnant women and lactating mothers. The scheme is to provide maternity benefits to women belonging to socially and economically disadvantaged sections of society. The maternity benefit is to be provided to a woman for the first two living children provided the second child is a girl. For the first child the maternity benefit of ₹5,000/- is provided in two instalments under PMMVY and the beneficiary is also entitled to receive the cash incentive as per approved norms towards Maternity Benefit under Janani Suraksha Yojana (JSY) after institutional delivery so that on an average, a women gets ₹6,000/-. For the second child, the benefit of ₹6,000/- is to be provided subject to second child is a girl child, in one installment after the birth. Cases of miscarriage/still births are to be treated as fresh cases for providing maternity benefit under the scheme. Further, as per the new guidelines for '"
+                    },
+                    {
+                      "bold": true,
+                      "text": "Mission Shakti"
+                    },
+                    {
+                      "text": "’, applicable with effect from 01.04.2022, the scheme "
+                    },
+                    {
+                      "bold": true,
+                      "text": "(PMMVY 2.0)"
+                    },
+                    {
+                      "text": " seeks to promote positive behavioral change towards girl child by providing additional cash incentive for the second child, if that is a girl child. Thus, for the second child, the benefit of ₹6,000/- is to be provided in one instalment post birth. This would contribute towards improving Sex Ratio at Birth by discouraging female feticide. Also, in case of miscarriage/stillbirth, the beneficiary will be treated as a fresh beneficiary in the event of any future pregnancy."
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "type": "align_justify"
+            }
+          ],
+          "detailedDescription_md": "The **Pradhan Mantri Matru Vandana Yojana (PMMVY)** is a Centrally Sponsored flagship scheme by the Ministry of Women and Child Development, Government of India, designed to support pregnant women and lactating mothers. The scheme is to provide maternity benefits to women belonging to socially and economically disadvantaged sections of society. The maternity benefit is to be provided to a woman for the first two living children provided the second child is a girl. For the first child the maternity benefit of ₹5,000/- is provided in two instalments under PMMVY and the beneficiary is also entitled to receive the cash incentive as per approved norms towards Maternity Benefit under Janani Suraksha Yojana (JSY) after institutional delivery so that on an average, a women gets ₹6,000/-. For the second child, the benefit of ₹6,000/- is to be provided subject to second child is a girl child, in one installment after the birth. Cases of miscarriage/still births are to be treated as fresh cases for providing maternity benefit under the scheme. Further, as per the new guidelines for &amp;#39;**Mission Shakti**’, applicable with effect from 01.04.2022, the scheme **(PMMVY 2.0)** seeks to promote positive behavioral change towards girl child by providing additional cash incentive for the second child, if that is a girl child. Thus, for the second child, the benefit of ₹6,000/- is to be provided in one instalment post birth. This would contribute towards improving Sex Ratio at Birth by discouraging female feticide. Also, in case of miscarriage/stillbirth, the beneficiary will be treated as a fresh beneficiary in the event of any future pregnancy.\n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The beneficiary's husband’s Aadhaar is not mandatory for availing the benefits under the Scheme."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "All pregnant women and lactating mothers in regular employment with the Central Government or State Government or Public Sector Undertaking or those who are in receipt of similar benefits under any law for the time being in force shall not be entitled to benefits under PMMVY. "
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "exclusions_md": "\n1. The beneficiary&#39;s husband’s Aadhaar is not mandatory for availing the benefits under the Scheme.\n1. All pregnant women and lactating mothers in regular employment with the Central Government or State Government or Public Sector Undertaking or those who are in receipt of similar benefits under any law for the time being in force shall not be entitled to benefits under PMMVY. \n\n",
+          "references": [
+            {
+              "title": "Guidelines",
+              "url": "https://wcd.nic.in/sites/default/files/PMMVY%20Scheme%20Implemetation%20Guidelines%20._0.pdf"
+            },
+            {
+              "title": "Guidelines Of PMMVY 2.0",
+              "url": "https://wcd.nic.in/sites/default/files/PMMVY%20Portal%202.0_User%20Manual%20%281%29_compressed%20%281%29.pdf"
+            },
+            {
+              "title": "Enrolments Under PMMVY",
+              "url": "https://pib.gov.in/PressReleaseIframePage.aspx?PRID=1846142"
+            },
+            {
+              "title": "Mission Shakti Guidelines",
+              "url": "https://pmmvy.wcd.gov.in/Content/assets/PDF/MissionShaktiGuidelines.pdf"
+            },
+            {
+              "title": "Mobile App Link",
+              "url": ": https://pmmvy.wcd.gov.in/apk/PMMVYsoft.apk"
+            },
+            {
+              "title": "Citizen Training Video",
+              "url": "https://pmmvy.wcd.gov.in/Home/TrainingVideo"
+            },
+            {
+              "title": "FAQ",
+              "url": "https://wcd.nic.in/sites/default/files/FAQ_PMMVY%202.0-2.pdf"
+            }
+          ],
+          "schemeImageUrl": "https://en.wikipedia.org/wiki/Pradhan_Mantri_Matri_Vandana_Yojana#/media/File:Pradhan_Mantri_Matritva_Vandana_Yojana.png"
+        },
+        "schemeDefinitions": {
+          "0": {
+            "definition": [
+              {
+                "children": [
+                  {
+                    "text": "expulsion of the contents of a pregnant uterus at ay period prior to or during the twenty-sixth week of pregnancy but does not include any miscarriage the causing of which ins punishable under the Indian Penal Code (45 of 1860);"
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Source"
+                  },
+                  {
+                    "text": " - Maternity Benefit Act,1961"
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "definitions_md": "expulsion of the contents of a pregnant uterus at ay period prior to or during the twenty-sixth week of pregnancy but does not include any miscarriage the causing of which ins punishable under the Indian Penal Code (45 of 1860);\n**Source** - Maternity Benefit Act,1961\n",
+            "name": "Miscarriage",
+            "source": "https://labour.gov.in/sites/default/files/TheMaternityBenefitAct1961.pdf"
+          },
+          "1": {
+            "definition": [
+              {
+                "children": [
+                  {
+                    "text": "the complete expulsion or extraction from its mother of a product of conception, irrespective of the duration of pregnancy, which, after such expulsion or extraction, breathes or shows any other evidence of life, and each product of such birth is considered live-born."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Source"
+                  },
+                  {
+                    "text": " - The Registration of Births and Deaths Act, 1969"
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "definitions_md": "the complete expulsion or extraction from its mother of a product of conception, irrespective of the duration of pregnancy, which, after such expulsion or extraction, breathes or shows any other evidence of life, and each product of such birth is considered live-born.\n**Source** - The Registration of Births and Deaths Act, 1969\n",
+            "name": "live-birth",
+            "source": "https://www.indiacode.nic.in/bitstream/123456789/11674/1/the_registration_of_births_and_deaths_act%2C_1969.pdf"
+          },
+          "2": {
+            "definition": [
+              {
+                "children": [
+                  {
+                    "text": "foetal death where a product of conception has attained at least the prescribed period of gestation."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Source"
+                  },
+                  {
+                    "text": " - The Registration of Births and Deaths Act, 1969 "
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "definitions_md": "foetal death where a product of conception has attained at least the prescribed period of gestation.\n**Source** - The Registration of Births and Deaths Act, 1969 \n",
+            "name": "Stillbirth",
+            "source": "https://www.indiacode.nic.in/bitstream/123456789/11674/1/the_registration_of_births_and_deaths_act%2C_1969.pdf"
+          },
+          "schemeDefinitions": [
+            {
+              "definition": [
+                {
+                  "children": [
+                    {
+                      "text": "expulsion of the contents of a pregnant uterus at ay period prior to or during the twenty-sixth week of pregnancy but does not include any miscarriage the causing of which ins punishable under the Indian Penal Code (45 of 1860);"
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Source"
+                    },
+                    {
+                      "text": " - Maternity Benefit Act,1961"
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "definitions_md": "expulsion of the contents of a pregnant uterus at ay period prior to or during the twenty-sixth week of pregnancy but does not include any miscarriage the causing of which ins punishable under the Indian Penal Code (45 of 1860);\n**Source** - Maternity Benefit Act,1961\n",
+              "name": "Miscarriage",
+              "source": "https://labour.gov.in/sites/default/files/TheMaternityBenefitAct1961.pdf"
+            },
+            {
+              "definition": [
+                {
+                  "children": [
+                    {
+                      "text": "the complete expulsion or extraction from its mother of a product of conception, irrespective of the duration of pregnancy, which, after such expulsion or extraction, breathes or shows any other evidence of life, and each product of such birth is considered live-born."
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Source"
+                    },
+                    {
+                      "text": " - The Registration of Births and Deaths Act, 1969"
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "definitions_md": "the complete expulsion or extraction from its mother of a product of conception, irrespective of the duration of pregnancy, which, after such expulsion or extraction, breathes or shows any other evidence of life, and each product of such birth is considered live-born.\n**Source** - The Registration of Births and Deaths Act, 1969\n",
+              "name": "live-birth",
+              "source": "https://www.indiacode.nic.in/bitstream/123456789/11674/1/the_registration_of_births_and_deaths_act%2C_1969.pdf"
+            },
+            {
+              "definition": [
+                {
+                  "children": [
+                    {
+                      "text": "foetal death where a product of conception has attained at least the prescribed period of gestation."
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Source"
+                    },
+                    {
+                      "text": " - The Registration of Births and Deaths Act, 1969 "
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "definitions_md": "foetal death where a product of conception has attained at least the prescribed period of gestation.\n**Source** - The Registration of Births and Deaths Act, 1969 \n",
+              "name": "Stillbirth",
+              "source": "https://www.indiacode.nic.in/bitstream/123456789/11674/1/the_registration_of_births_and_deaths_act%2C_1969.pdf"
+            }
+          ]
+        }
+      },
+      "slug": "pmmvy"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "62a32af1f038bd8499a5fcf5",
+      "en": {
+        "documentsRequired_md": "**Beneficiaries need documents such as:-**\n\n   1. Aadhaar card, \n   1. Aadhaar mapped bank/post office,\n   1. Bank account details, \n   1. Eligibility proof, \n   1. MCP/RCHI card, \n   1. LMP date, \n   1. ANC date, \n   1. Child birth certificate, \n   1. Child immunization details etc.\n\n**Mentioned below a list of documents which required to upload at the time of registration (any one of**\n**these):-**\n\n   1. Women whose net family income is less than ₹ 8 Lakh per annum.\n   1. Women holding MGNREGA Job Card.\n   1. Women farmers who are beneficiaries under Kisan Samman Nidhi.\n   1. Women holding e-Shram card.\n   1. Women Beneficiaries under Pradhan Mantri Jan Aarogya Yojana (PMJAY) under Ayushman Bharat.\n   1. Women holder of BPL ration Card.\n   1. Women who are partially (40%) or fully disabled (Divyang Jan).\n   1. SC Women.\n   1. ST Women.\n   1. Pregnant and Lactating AWWS/ AWHS/ASHAS.\n   1. Women Beneficiaries holding Ration card under National Food Security Act (NFSA), 2013.\n\nAll the mandatory provisions like Aadhaar, Aadhaar based payment etc. will be checked at the time of registration for smooth and efficient process. Mobile number has been made mandatory for providing information regarding the status of application and disbursement of fund. Mobile App has been introduced for registration under Pradhan Mantri Matru Vandana Yojana (PMMVY). \n",
+        "documents_required": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Beneficiaries need documents such as:-"
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Aadhaar card, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Aadhaar mapped bank/post office,"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Bank account details, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Eligibility proof, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "MCP/RCHI card, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "LMP date, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "ANC date, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Child birth certificate, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Child immunization details etc."
+                      }
+                    ],
+                    "type": "list_item"
+                  }
+                ],
+                "type": "ol_list"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Mentioned below a list of documents which required to upload at the time of registration (any one of"
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "these):-"
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Women whose net family income is less than ₹ 8 Lakh per annum."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women holding MGNREGA Job Card."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women farmers who are beneficiaries under Kisan Samman Nidhi."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women holding e-Shram card."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women Beneficiaries under Pradhan Mantri Jan Aarogya Yojana (PMJAY) under Ayushman Bharat."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women holder of BPL ration Card."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women who are partially (40%) or fully disabled (Divyang Jan)."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "SC Women."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "ST Women."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Pregnant and Lactating AWWS/ AWHS/ASHAS."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Women Beneficiaries holding Ration card under National Food Security Act (NFSA), 2013."
+                      }
+                    ],
+                    "type": "list_item"
+                  }
+                ],
+                "type": "ol_list"
+              },
+              {
+                "children": [
+                  {
+                    "text": "All the mandatory provisions like Aadhaar, Aadhaar based payment etc. will be checked at the time of registration for smooth and efficient process. Mobile number has been made mandatory for providing information regarding the status of application and disbursement of fund. Mobile App has been introduced for registration under Pradhan Mantri Matru Vandana Yojana (PMMVY). "
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "type": "align_justify"
+          }
+        ]
+      },
+      "schemeId": "62a32aa7f038bd8499a5fcd8"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

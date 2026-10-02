@@ -1,0 +1,803 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "65070ad84b1a0fc5d94eb68e",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Online - via CSC",
+            "process": [
+              {
+                "children": [
+                  {
+                    "text": "(i) The eligible beneficiaries are required to get themselves enrolled through nearest CSC in their area."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": "(ii) The beneficiary can apply either on their own or with the help of the CSCs through Village Level Entrepreneurs (VLEs) or Enumerators."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Registration"
+                  },
+                  {
+                    "text": ":"
+                  }
+                ],
+                "type": "block_quote"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Step 1:"
+                  },
+                  {
+                    "text": " Visit the "
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Official Portal"
+                      }
+                    ],
+                    "link": "https://pmvishwakarma.gov.in/",
+                    "type": "link"
+                  },
+                  {
+                    "text": " of \"PM Vishwakarma\" and on the top right corner, click \"Login\". Then click \"CSC - Register Artisans\"."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": ""
+                      }
+                    ],
+                    "link": "https://pmvishwakarma.gov.in/",
+                    "type": "link"
+                  },
+                  {
+                    "text": " You will be taken to the "
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Registration."
+                      }
+                    ],
+                    "link": "https://pmvishwakarma.gov.in/Registration",
+                    "type": "link"
+                  },
+                  {
+                    "text": ""
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": ""
+                      }
+                    ],
+                    "link": "https://pmvishwakarma.gov.in/Registration.",
+                    "type": "link"
+                  },
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Step 2:"
+                  },
+                  {
+                    "text": " On the \"Registration Now\" Page, answer the Set of Questions as Yes/No, and click \"Continue\". On the \"Aadhaar Verification\" Page, enter the 6-digit OTP received on your Aadhaar-linked Mobile Number. Click \"Continue\". On the next page, enter your Aadhaar Number and the Aadhaar Registered Mobile Number. Click \"Continue\"."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Application"
+                  },
+                  {
+                    "text": ":"
+                  }
+                ],
+                "type": "block_quote"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Step 1:"
+                  },
+                  {
+                    "text": " Visit your nearest CSC and complete the Biometric Verification Process."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Step 2:"
+                  },
+                  {
+                    "text": " In the Online Application Form, fill in all the mandatory details, and click \"Submit\". In the next screen, note down the \"Application Number\" for future reference. Click \"Done\"."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Verification"
+                  },
+                  {
+                    "text": ":"
+                  }
+                ],
+                "type": "block_quote"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Stage 1: "
+                  },
+                  {
+                    "text": "Verification of Eligibility at Gram Panchayat or ULB level."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Stage 2: "
+                  },
+                  {
+                    "text": "Vetting and Recommendation of the Applications by the District Implementation Committee."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Stage 3:"
+                  },
+                  {
+                    "text": " The Screening Committee will accord final approval of the beneficiaries for registration after satisfying itself as to their eligibility."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "bold": true,
+                    "text": "Benefit Disbursal:"
+                  }
+                ],
+                "type": "block_quote"
+              },
+              {
+                "children": [
+                  {
+                    "text": "After a successful three-step verification, the artisans and craftspeople will formally register under this Scheme as Vishwakarmas. They will receive a Digital ID, a PM Vishwakarma Digital Certificate and a PM Vishwakarma ID Card. The certificate will enable the applicants’ recognition as a Vishwakarma, making them eligible to avail of all the benefits under the Scheme."
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "process_md": "(i) The eligible beneficiaries are required to get themselves enrolled through nearest CSC in their area.\n(ii) The beneficiary can apply either on their own or with the help of the CSCs through Village Level Entrepreneurs (VLEs) or Enumerators.\n> **Registration**:\n\n**Step 1:** Visit the [Official Portal](https://pmvishwakarma.gov.in/) of &quot;PM Vishwakarma&quot; and on the top right corner, click &quot;Login&quot;. Then click &quot;CSC - Register Artisans&quot;.\n You will be taken to the [Registration.](https://pmvishwakarma.gov.in/Registration)\n**Step 2:** On the &quot;Registration Now&quot; Page, answer the Set of Questions as Yes/No, and click &quot;Continue&quot;. On the &quot;Aadhaar Verification&quot; Page, enter the 6-digit OTP received on your Aadhaar-linked Mobile Number. Click &quot;Continue&quot;. On the next page, enter your Aadhaar Number and the Aadhaar Registered Mobile Number. Click &quot;Continue&quot;.\n> **Application**:\n\n**Step 1:** Visit your nearest CSC and complete the Biometric Verification Process.\n**Step 2:** In the Online Application Form, fill in all the mandatory details, and click &quot;Submit&quot;. In the next screen, note down the &quot;Application Number&quot; for future reference. Click &quot;Done&quot;.\n> **Verification**:\n\n**Stage 1:** Verification of Eligibility at Gram Panchayat or ULB level.\n**Stage 2:** Vetting and Recommendation of the Applications by the District Implementation Committee.\n**Stage 3:** The Screening Committee will accord final approval of the beneficiaries for registration after satisfying itself as to their eligibility.\n> **Benefit Disbursal:**\n\nAfter a successful three-step verification, the artisans and craftspeople will formally register under this Scheme as Vishwakarmas. They will receive a Digital ID, a PM Vishwakarma Digital Certificate and a PM Vishwakarma ID Card. The certificate will enable the applicants’ recognition as a Vishwakarma, making them eligible to avail of all the benefits under the Scheme.\n"
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": false,
+          "implementingAgency": null,
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": null,
+          "nodalMinistryName": {
+            "label": "Ministry Of Micro, Small and Medium Enterprises",
+            "value": 497
+          },
+          "otherDepartmentNames": null,
+          "otherMinistryName": null,
+          "schemeCategory": [
+            {
+              "label": "Business & Entrepreneurship",
+              "value": "628ce733d6d1a3bde4685278"
+            },
+            {
+              "label": "Skills & Employment",
+              "value": "628ce85cd6d1a3bde4685304"
+            }
+          ],
+          "schemeCloseDate": null,
+          "schemeFor": "Individual",
+          "schemeName": "PM Vishwakarma",
+          "schemeOpenDate": "2023-09-17",
+          "schemeShortTitle": "PMV",
+          "schemeSubCategory": [
+            {
+              "label": "Entrepreneurship development",
+              "value": "Entrepreneurship development"
+            },
+            {
+              "label": "Training and Skill Up-gradation",
+              "value": "Training and Skill Up-gradation"
+            },
+            {
+              "label": "Loan",
+              "value": "Loan"
+            },
+            {
+              "label": "Setting up / start-up / entrepreneurship",
+              "value": "Setting up / start-up / entrepreneurship"
+            }
+          ],
+          "schemeType": {
+            "label": "Central Sector Scheme",
+            "value": "central-sector-scheme"
+          },
+          "tags": [
+            "Artisans",
+            "Craftspeople",
+            "Skill Upgradation",
+            "Toolkit Incentive"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Artists",
+              "value": "artists"
+            },
+            {
+              "label": "Individual",
+              "value": "individual"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should be an artisan or craftsperson working with hands and tools."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should be engaged in an unorganized sector on a self-employment basis."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should be engaged in one of the 18 family-based traditional trades mentioned in the scheme."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "On the date of registration for the scheme, the minimum age of the applicant should be 18 years."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should be engaged in the concerned trade on the date of registration."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The applicant should not have availed loans under similar credit-based schemes of the Central Government or State Government for self-employment/ business development, e.g. PMEGP, PM SVANidhi, Mudra, in the past 5 years."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "The registration and benefits under the Scheme shall be restricted to one member of the family."
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ol_list"
+                }
+              ],
+              "type": "align_justify"
+            }
+          ],
+          "eligibilityDescription_md": "\n   1. The applicant should be an artisan or craftsperson working with hands and tools.\n   1. The applicant should be engaged in an unorganized sector on a self-employment basis.\n   1. The applicant should be engaged in one of the 18 family-based traditional trades mentioned in the scheme.\n   1. On the date of registration for the scheme, the minimum age of the applicant should be 18 years.\n   1. The applicant should be engaged in the concerned trade on the date of registration.\n   1. The applicant should not have availed loans under similar credit-based schemes of the Central Government or State Government for self-employment/ business development, e.g. PMEGP, PM SVANidhi, Mudra, in the past 5 years.\n   1. The registration and benefits under the Scheme shall be restricted to one member of the family.\n\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "id": 3,
+            "label": "Composite",
+            "value": "composite"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Benefits"
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Recognition"
+                        },
+                        {
+                          "text": ": Recognition as Vishwakarma through Certificate and ID Card"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Skilling"
+                        },
+                        {
+                          "text": ":"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "text": "Skill Verification followed by 5-7 days (40 hours) of Basic Training"
+                                }
+                              ],
+                              "type": "list_item"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "text": "Interested candidates can also enrol for 15 days (120 hours) of Advanced Training"
+                                }
+                              ],
+                              "type": "list_item"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "text": "Training Stipend: ₹ 500 per day"
+                                }
+                              ],
+                              "type": "list_item"
+                            }
+                          ],
+                          "type": "ol_list"
+                        }
+                      ],
+                      "type": "align_justify"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Toolkit Incentive"
+                        },
+                        {
+                          "text": ": ₹ 15,000 grant"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Credit Support"
+                        },
+                        {
+                          "text": ":"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "text": "Collateral-free Enterprise Development Loans: ₹ 1,00,000 (First Tranche for 18 months repayment) & ₹ 2,00,000 (Second Tranche for 30 months repayment)"
+                                }
+                              ],
+                              "type": "list_item"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "text": "Concessional Rate of Interest: 5% to be charged from the beneficiary with an Interest Subvention cap of 8% to be paid by MoMSME"
+                                }
+                              ],
+                              "type": "list_item"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "text": "Credit Guarantee fees to be borne by GoI"
+                                }
+                              ],
+                              "type": "list_item"
+                            }
+                          ],
+                          "type": "ol_list"
+                        }
+                      ],
+                      "type": "align_justify"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Incentive for Digital Transaction"
+                        },
+                        {
+                          "text": ": ₹ 1 per transaction for a maximum of up to 100 transactions (monthly)"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "bold": true,
+                          "text": "Marketing Support"
+                        },
+                        {
+                          "text": ": The National Committee for Marketing (NCM) will provide services such as Quality Certification, Branding and Promotion, e-commerce Linkage, Trade Fair Advertising, Publicity and Other Marketing Activities."
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ol_list"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "NOTE"
+                    },
+                    {
+                      "text": ": Notification to beneficiaries on disbursement of incentives will be done through SMS."
+                    }
+                  ],
+                  "type": "block_quote"
+                }
+              ],
+              "type": "align_justify"
+            }
+          ],
+          "benefits_md": "**Benefits**\n\n   1. **Recognition**: Recognition as Vishwakarma through Certificate and ID Card   1. **Skilling**:\n      1. Skill Verification followed by 5-7 days (40 hours) of Basic Training\n      1. Interested candidates can also enrol for 15 days (120 hours) of Advanced Training\n      1. Training Stipend: ₹ 500 per day\n\n   1. **Toolkit Incentive**: ₹ 15,000 grant   1. **Credit Support**:\n      1. Collateral-free Enterprise Development Loans: ₹ 1,00,000 (First Tranche for 18 months repayment) &amp;amp;amp; ₹ 2,00,000 (Second Tranche for 30 months repayment)\n      1. Concessional Rate of Interest: 5% to be charged from the beneficiary with an Interest Subvention cap of 8% to be paid by MoMSME\n      1. Credit Guarantee fees to be borne by GoI\n\n   1. **Incentive for Digital Transaction**: ₹ 1 per transaction for a maximum of up to 100 transactions (monthly)   1. **Marketing Support**: The National Committee for Marketing (NCM) will provide services such as Quality Certification, Branding and Promotion, e-commerce Linkage, Trade Fair Advertising, Publicity and Other Marketing Activities.\n&gt; **NOTE**: Notification to beneficiaries on disbursement of incentives will be done through SMS.\n\n",
+          "briefDescription": "The scheme \"PM Vishwakarma \" by the Ministry of Micro, Small & Medium Enterprises, is a new scheme that envisages providing end-to-end holistic support to traditional artisans and craftspeople in scaling up their conventional products and services.",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "PM Vishwakarma is a Central Sector Scheme launched by Ministry of Micro, Small and Medium Enterprises to provide holistic and end-to-end support to artisans and craftspeople through access to collateral free credit, skill training, modern tools, incentive for digital transactions and market linkage support. The scheme will initially be implemented for five years up to 2027-28."
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Objectives"
+                    }
+                  ],
+                  "type": "block_quote"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "To enable the recognition of artisans and craftspeople as Vishwakarma making them eligible to avail all the benefits under the Scheme."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "To provide skill upgradation to hone their skills and make relevant and suitable training opportunities available to them."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "To provide support for better and modern tools to enhance their capability, productivity, and quality of products."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "To provide the intended beneficiaries easy access to collateral-free credit and reduce the cost of credit by providing interest subvention."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "To provide incentives for digital transactions to encourage the digital empowerment of these Vishwakarmas."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "To provide a platform for brand promotion and market linkages to help them access new opportunities for growth."
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ol_list"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Implementing Agency"
+                    }
+                  ],
+                  "type": "block_quote"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "The scheme is conjointly implemented by the following Ministries/Departments:"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Ministry of Micro, Small and Medium Enterprises (MoMSME)."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Ministry of Skill Development and Entrepreneurship (MSDE)."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Department of Financial Services (DFS), Ministry of Finance (MoF)."
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ul_list"
+                }
+              ],
+              "type": "align_justify"
+            }
+          ],
+          "detailedDescription_md": "PM Vishwakarma is a Central Sector Scheme launched by Ministry of Micro, Small and Medium Enterprises to provide holistic and end-to-end support to artisans and craftspeople through access to collateral free credit, skill training, modern tools, incentive for digital transactions and market linkage support. The scheme will initially be implemented for five years up to 2027-28.\n&gt; **Objectives**\n\n\n   1. To enable the recognition of artisans and craftspeople as Vishwakarma making them eligible to avail all the benefits under the Scheme.\n   1. To provide skill upgradation to hone their skills and make relevant and suitable training opportunities available to them.\n   1. To provide support for better and modern tools to enhance their capability, productivity, and quality of products.\n   1. To provide the intended beneficiaries easy access to collateral-free credit and reduce the cost of credit by providing interest subvention.\n   1. To provide incentives for digital transactions to encourage the digital empowerment of these Vishwakarmas.\n   1. To provide a platform for brand promotion and market linkages to help them access new opportunities for growth.\n\n&gt; **Implementing Agency**\n\n\n  - The scheme is conjointly implemented by the following Ministries/Departments:\n  - Ministry of Micro, Small and Medium Enterprises (MoMSME).\n  - Ministry of Skill Development and Entrepreneurship (MSDE).\n  - Department of Financial Services (DFS), Ministry of Finance (MoF).\n\n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "A person in government service and their family members shall not be eligible."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            }
+          ],
+          "exclusions_md": "\n- A person in government service and their family members shall not be eligible.\n\n",
+          "references": [
+            {
+              "title": "Guidelines",
+              "url": "https://pmvishwakarma.gov.in/FileHandling/GetPdf/MiscFiles%5Ceng_v28.0_PM_Vishwakarma_Guidelines_final.pdf"
+            },
+            {
+              "title": "FAQ",
+              "url": "https://pmvishwakarma.gov.in/Home/FAQ"
+            },
+            {
+              "title": "Official Website",
+              "url": "https://pmvishwakarma.gov.in/"
+            }
+          ],
+          "schemeImageUrl": ""
+        },
+        "schemeDefinitions": []
+      },
+      "slug": "pmv"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "65070ba27243a4f0303f1e1b",
+      "en": {
+        "documentsRequired_md": "**Required documents or information**: \n\n\n   1. Aadhaar, \n   1. Mobile number, \n   1. Bank details, \n   1. Ration card mandatory for the registration.\n\n\n> **Note: 1** In case of a beneficiary not having a ration card, they would be required to produce Aadhaar cards of all family members. \n\n> **Note: 2** If beneficiary does not have bank account, they will be first required to open a bank account for which hand holding shall be done by the CSC.\n\n",
+        "documents_required": [
+          {
+            "children": [
+              {
+                "bold": true,
+                "text": "Required documents or information",
+                "underline": true
+              },
+              {
+                "text": ": ",
+                "underline": true
+              }
+            ],
+            "type": "paragraph"
+          },
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Aadhaar, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Mobile number, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Bank details, "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Ration card mandatory for the registration."
+                      }
+                    ],
+                    "type": "list_item"
+                  }
+                ],
+                "type": "ol_list"
+              }
+            ],
+            "type": "ul_list"
+          },
+          {
+            "children": [
+              {
+                "bold": true,
+                "text": "Note: 1"
+              },
+              {
+                "text": " In case of a beneficiary not having a ration card, they would be required to produce Aadhaar cards of all family members. "
+              }
+            ],
+            "type": "block_quote"
+          },
+          {
+            "children": [
+              {
+                "bold": true,
+                "text": "Note: 2 "
+              },
+              {
+                "text": "If beneficiary does not have bank account, they will be first required to open a bank account for which hand holding shall be done by the CSC."
+              }
+            ],
+            "type": "block_quote"
+          }
+        ]
+      },
+      "schemeId": "65070ad84b1a0fc5d94eb68e"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

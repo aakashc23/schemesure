@@ -1,0 +1,19 @@
+{
+  "scheme_id": "pm_kisan",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": [
+    "farmer"
+  ],
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "allowed_occupations": "All landholding farmers' families, which have cultivable land holding in their names are eligible to get benefit under the scheme."
+  },
+  "unmodelled_conditions": [
+    "Must have cultivable land holding in their own name.",
+    "Excluded: institutional land holders; income tax payers in the last assessment year; serving/retired government employees (except Group D / Class IV / Multi Tasking Staff); retired pensioners with monthly pension of Rs.10,000 or more; present and former holders of constitutional posts; registered practising professionals (doctors, engineers, lawyers, chartered accountants, architects)."
+  ]
+}

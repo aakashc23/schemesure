@@ -1,0 +1,540 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "62a2ea32f038bd8499a5ec00",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Online",
+            "process": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "text": "Following are the prerequisites for the enrollment process:"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "text": "Aadhar Card"
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Ration card"
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Address Proof"
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Passport size photograph"
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Bank Details"
+                          }
+                        ],
+                        "type": "list_item"
+                      }
+                    ],
+                    "type": "ol_list"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Apply the application form through online "
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "official website"
+                          }
+                        ],
+                        "link": "www.pmuy.gov.in",
+                        "type": "link"
+                      },
+                      {
+                        "text": ". "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Select the oil company name example Indane / Bharatgas / HP Gas"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Select Type of Connection like Ujjwala 2.0 New Connection"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Choose State, District and Name of Distributor."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Enter Mobile Number, Captcha and OTP."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Select Migrant Family status in YES or NO"
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "For family Identifier in NO fill Annexure 1 "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "For  family Identifier in Yes fill Ration Card "
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Select Category."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Fill all Family Details, Personal details, address details, bank details, Choose Cylinder Types, Select rural or urban and select declaration and submit."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Generate Reference number and visit Gas agency."
+                      }
+                    ],
+                    "type": "list_item"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": ""
+                      }
+                    ],
+                    "type": "paragraph"
+                  }
+                ],
+                "type": "ol_list"
+              }
+            ],
+            "process_md": "\n1. Following are the prerequisites for the enrollment process:\n\n   1. Aadhar Card\n   1. Ration card\n   1. Address Proof\n   1. Passport size photograph\n   1. Bank Details\n\n1. Apply the application form through online [official website](www.pmuy.gov.in). 1. Select the oil company name example Indane / Bharatgas / HP Gas\n1. Select Type of Connection like Ujjwala 2.0 New Connection\n1. Choose State, District and Name of Distributor.\n1. Enter Mobile Number, Captcha and OTP.\n1. Select Migrant Family status in YES or NO\n1. For family Identifier in NO fill Annexure 1 \n1. For  family Identifier in Yes fill Ration Card \n1. Select Category.\n1. Fill all Family Details, Personal details, address details, bank details, Choose Cylinder Types, Select rural or urban and select declaration and submit.\n1. Generate Reference number and visit Gas agency.\n\n",
+            "url": "https://www.pmuy.gov.in/index.aspx"
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": true,
+          "implementingAgency": null,
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": null,
+          "nodalMinistryName": {
+            "label": "Ministry Of Petroleum and Natural Gas",
+            "value": 1254
+          },
+          "otherDepartmentNames": null,
+          "otherMinistryName": null,
+          "schemeCategory": [
+            {
+              "label": "Utility & Sanitation",
+              "value": "628ce97ad6d1a3bde468537d"
+            },
+            {
+              "label": "Women and Child",
+              "value": "64f57d10ffb93104c7006c97"
+            }
+          ],
+          "schemeCloseDate": "2021-09-30",
+          "schemeFor": "Family",
+          "schemeName": "Pradhan Mantri Ujjwala Yojana",
+          "schemeOpenDate": "2016-05-01",
+          "schemeShortTitle": "PMUY",
+          "schemeSubCategory": [
+            {
+              "label": "LPG cylinder",
+              "value": "LPG cylinder"
+            }
+          ],
+          "state": null,
+          "tags": [
+            "Ujjwala",
+            "Women",
+            "BPL",
+            "Gas Cylinder",
+            "LPG Cylinder"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Family",
+              "value": "family"
+            },
+            {
+              "label": "Individual",
+              "value": "individual"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "text": "An adult woman belonging to a poor household and not having an LPG connection in her household will be eligible under UJJWALA 2.0. The beneficiaries should belong to any of the following categories:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Eligible as per SECC 2011 list"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Belongs to SC/ST households, be a beneficiary of Pradhan Mantri Awas Yojana (PMAY), Antyodaya Anna Yojana (AAY), Forest dwellers, Most Backward Classes (MBC), Tea and Ex-Tea Garden Tribes, People residing in river islands (Beneficiary will submit supporting document)"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "If she is not falling in the above 2 categories, then she can stake her claim to be a beneficiary under Poor household by submitting 14-point declaration (as per prescribed format)"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "eligibilityDescription_md": "An adult woman belonging to a poor household and not having an LPG connection in her household will be eligible under UJJWALA 2.0. The beneficiaries should belong to any of the following categories:\n\n1. Eligible as per SECC 2011 list\n1. Belongs to SC/ST households, be a beneficiary of Pradhan Mantri Awas Yojana (PMAY), Antyodaya Anna Yojana (AAY), Forest dwellers, Most Backward Classes (MBC), Tea and Ex-Tea Garden Tribes, People residing in river islands (Beneficiary will submit supporting document)\n1. If she is not falling in the above 2 categories, then she can stake her claim to be a beneficiary under Poor household by submitting 14-point declaration (as per prescribed format)\n\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "label": "Composite",
+            "value": "composite"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Rs. 1600 for a connection 14.2kg cylinder or Rs. 1150 for a 5 kg cylinder. "
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Additionally, All PMUY beneficiaries will be provided with first LPG refill and Stove (hot plate) both free of cost along with their deposit free connection."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "Note: "
+                }
+              ],
+              "type": "heading_four"
+            },
+            {
+              "children": [
+                {
+                  "text": "Priority would be given to the states which have lower LPG coverage (Compared to the national average) as on 1st Jan 2016."
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "benefits_md": "\n1. Rs. 1600 for a connection 14.2kg cylinder or Rs. 1150 for a 5 kg cylinder. \n1. Additionally, All PMUY beneficiaries will be provided with first LPG refill and Stove (hot plate) both free of cost along with their deposit free connection.\n\n<br>\n\n#### Note: \nPriority would be given to the states which have lower LPG coverage (Compared to the national average) as on 1st Jan 2016.\n",
+          "briefDescription": "A scheme by Ministry of Petroleum and Natural Gas for Providing free LPG connections to women belonging to the Below Poverty Line (BPL) households.\n",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "In May 2016, the Ministry of Petroleum and Natural Gas (MOPNG), introduced the ‘Pradhan Mantri Ujjwala Yojana’ (PMUY) as a flagship scheme with an objective to make clean cooking fuel such as LPG available to the rural and deprived households which were otherwise using traditional cooking fuels such as firewood, coal, cow-dung cakes etc. Usage of traditional cooking fuels had detrimental impacts on the health of rural women as well as on the environment."
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The scheme was launched on 1st May 2016 in Ballia, Uttar Pradesh by Hon’ble Prime Minister of India, Shri. Narendra Modi"
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "type": "ol_list"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The target under the scheme was to release 8 Crore LPG Connections to the deprived households by March 2020."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "On 7th September 2019, Hon’ble Prime Minister of India handed over the 8th Crore LPG connection in Aurangabad, Maharashtra."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The release of 8 Crore LPG connections under the scheme has also helped in increasing the LPG coverage from 62% on 1st May 2016 to 99.8% as on 1st April 2021."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Under the Union Budget for FY 21-22, provision for release of additional 1 Crore LPG connections under the PMUY scheme has been made. In this phase, special facility has been given to migrant families."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": ""
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "detailedDescription_md": "\nIn May 2016, the Ministry of Petroleum and Natural Gas (MOPNG), introduced the ‘Pradhan Mantri Ujjwala Yojana’ (PMUY) as a flagship scheme with an objective to make clean cooking fuel such as LPG available to the rural and deprived households which were otherwise using traditional cooking fuels such as firewood, coal, cow-dung cakes etc. Usage of traditional cooking fuels had detrimental impacts on the health of rural women as well as on the environment.\nThe scheme was launched on 1st May 2016 in Ballia, Uttar Pradesh by Hon’ble Prime Minister of India, Shri. Narendra Modi\n\n\n- The target under the scheme was to release 8 Crore LPG Connections to the deprived households by March 2020.\n- On 7th September 2019, Hon’ble Prime Minister of India handed over the 8th Crore LPG connection in Aurangabad, Maharashtra.\n- The release of 8 Crore LPG connections under the scheme has also helped in increasing the LPG coverage from 62% on 1st May 2016 to 99.8% as on 1st April 2021.\n- Under the Union Budget for FY 21-22, provision for release of additional 1 Crore LPG connections under the PMUY scheme has been made. In this phase, special facility has been given to migrant families.\n\n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "text": "Male Member from a household cannot apply for the scheme."
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "exclusions_md": "Male Member from a household cannot apply for the scheme.\n",
+          "references": [
+            {
+              "title": "Scheme Guidelines",
+              "url": "http://nadia.gov.in/DISHA/DISHASchemeGuidelines/Pradhan%20Mantri%20UJJWALA%20Yojna%20Guideline.pdf "
+            },
+            {
+              "title": "Additional Guidelines",
+              "url": "https://www.pmuy.gov.in/index.aspx"
+            },
+            {
+              "title": "Additional Guidelines",
+              "url": "https://mopng.gov.in/en/marketing/pmuy"
+            }
+          ],
+          "schemeImageUrl": "https://uttara-s3-bucket.s3.ap-south-1.amazonaws.com/schemes/pmuy/pmuy.svg"
+        },
+        "schemeDefinitions": []
+      },
+      "slug": "pmuy"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "62a2ec91f038bd8499a5ec68",
+      "en": {
+        "documents_required": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "text": "Valid Photo ID"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Ration Card issued by the State from which application is being made/ other State Govt. document certifying family composition/ Self-Declaration as per Annexure I (for migrant applicants)"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Proof of Address - Aadhaar will be taken as Proof of Identity and Proof of Address if the connection is required in the same address. In that case only Aadhaar is sufficient."
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Bank Account Number and IFSC."
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Aadhaar (not mandatory for Assam and Meghalaya)"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Passport size photograph"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "type": "ol_list"
+          }
+        ]
+      },
+      "schemeId": "62a2ea32f038bd8499a5ec00"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "scheme_id": "nmmss",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": 350000,
+  "allowed_states": null,
+  "allowed_occupations": [
+    "student"
+  ],
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "max_annual_income": "Students whose parental income from all sources is not more than Rs 3,50,000/- per annum are eligible to avail the scholarship.",
+    "allowed_occupations": "The applicant must be a student."
+  },
+  "unmodelled_conditions": [
+    "Must have a minimum of 55% marks or equivalent grade in the Class VII examination to appear in the selection test (relaxable by 5% for SC/ST students).",
+    "Must be studying as a regular student in a Government, Government-aided or local body school.",
+    "Must pass both the Mental Ability Test and the Scholastic Aptitude Test with at least 40% marks in aggregate (32% for SC/ST students).",
+    "Reservation applies as per State/UT Government norms."
+  ]
+}

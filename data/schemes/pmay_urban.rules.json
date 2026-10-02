@@ -1,0 +1,20 @@
+{
+  "scheme_id": "pmay_urban",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": 1800000,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "max_annual_income": "Middle Income Group-2 (MIG-2): households with annual income between Rs 12,00,001 and Rs 18,00,000. (Rs 18,00,000 is the highest household income covered by any of the scheme's four income categories: EWS up to Rs 3,00,000; LIG Rs 3,00,001-6,00,000; MIG-1 Rs 6,00,001-12,00,000; MIG-2 Rs 12,00,001-18,00,000.)"
+  },
+  "unmodelled_conditions": [
+    "The applicant or their family members must not own a pucca house anywhere in the country.",
+    "The family must comprise husband/wife and unmarried children.",
+    "The town/city where the family resides must be covered under the scheme.",
+    "The family must not have previously availed benefits of any housing-related scheme of the Government of India.",
+    "Income band determines which vertical of the scheme applies (EWS, LIG, MIG-1, MIG-2); this engine only checks the overall Rs 18,00,000 ceiling."
+  ]
+}

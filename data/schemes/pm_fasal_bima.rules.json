@@ -1,0 +1,22 @@
+{
+  "scheme_id": "pm_fasal_bima",
+  "min_age": null,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": [
+    "farmer"
+  ],
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "allowed_occupations": "All farmers, including tenant farmers and sharecroppers growing notified crops in notified areas."
+  },
+  "unmodelled_conditions": [
+    "Must grow notified crops in notified areas.",
+    "Must have an insurable interest in the insured crops.",
+    "Must possess a valid and authenticated land ownership certificate or a valid land tenure agreement.",
+    "Must apply within the prescribed time frame, usually within 2 weeks of the start of the sowing season.",
+    "Must not have received compensation for the same crop loss from any other medium or source."
+  ]
+}

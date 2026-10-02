@@ -1,0 +1,23 @@
+{
+  "scheme_id": "pm_vishwakarma",
+  "min_age": 18,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": [
+    "artisan",
+    "craftsperson"
+  ],
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "min_age": "On the date of registration for the scheme, the minimum age of the applicant should be 18 years.",
+    "allowed_occupations": "The applicant should be an artisan or craftsperson working with hands and tools."
+  },
+  "unmodelled_conditions": [
+    "Must be engaged in the unorganized sector on a self-employment basis.",
+    "Must be engaged in one of the 18 family-based traditional trades listed in the scheme.",
+    "Must not have availed loans under similar central or state credit-based self-employment schemes (e.g. PMEGP, PM SVANidhi, Mudra) in the past 5 years.",
+    "Benefits are restricted to one member of the family."
+  ]
+}

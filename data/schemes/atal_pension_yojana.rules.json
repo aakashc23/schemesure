@@ -1,0 +1,19 @@
+{
+  "scheme_id": "atal_pension_yojana",
+  "min_age": 18,
+  "max_age": 40,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "min_age": "The minimum age of joining APY is 18 years and maximum is 40 years.",
+    "max_age": "The minimum age of joining APY is 18 years and maximum is 40 years."
+  },
+  "unmodelled_conditions": [
+    "Must be a savings bank account holder.",
+    "The official overview describes APY as being for a savings account holder 'who is not an income tax-payee'. This is a tax-status condition, not a stated income ceiling, so no numeric income limit is encoded.",
+    "Contributions must be made by auto-debit from the savings bank account until the age of 60."
+  ]
+}

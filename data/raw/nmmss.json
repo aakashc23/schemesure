@@ -1,0 +1,970 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "62efef426259253a27b73843",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Online",
+            "process": [
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "italic": true,
+                        "text": "New Registration",
+                        "underline": true
+                      },
+                      {
+                        "bold": true,
+                        "italic": true,
+                        "text": ":"
+                      }
+                    ],
+                    "type": "block_quote"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 1:"
+                      },
+                      {
+                        "text": " Visit the "
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Registration "
+                          }
+                        ],
+                        "link": "https://scholarships.gov.in/fresh/newstdRegfrmInstruction",
+                        "type": "link"
+                      },
+                      {
+                        "text": "page of the National Scholarships Portal."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 2: "
+                      },
+                      {
+                        "text": "Guidelines for Registration will appear. Scroll to the bottom. Read carefully the undertaking. Accept the Terms. Click “Continue”."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 3:"
+                      },
+                      {
+                        "text": " A Registration Form will appear. (The fields marked as * are compulsory). Fill in the details and click “Register”. Your Application ID and password will be displayed. The same will also be sent as an SMS to your registered mobile number."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Fresh Application",
+                        "underline": true
+                      },
+                      {
+                        "bold": true,
+                        "text": ":"
+                      }
+                    ],
+                    "type": "block_quote"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 1: "
+                      },
+                      {
+                        "text": "Visit the applicant "
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Login "
+                          }
+                        ],
+                        "link": "https://scholarships.gov.in/fresh/loginPage",
+                        "type": "link"
+                      },
+                      {
+                        "text": "page of the National Scholarships Portal Enter your Application ID and password."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 2:"
+                      },
+                      {
+                        "text": " Type the Captcha and click “Login”."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 3:"
+                      },
+                      {
+                        "text": " On the next screen, provide the OTP received on your registered mobile number. You will be directed to the Password Reset screen. Create a new password and confirm."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 4:"
+                      },
+                      {
+                        "text": " Click “Submit”. You will be directed to the “Applicant’s Dashboard”."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 5:"
+                      },
+                      {
+                        "text": " On the left pane, click “Application Form”. The fields marked as * are compulsory. Fill in the details and upload the documents. The verification of credentials of the students (caste, educational qualifications etc.) will be done through the DIGILOCKER facility of the MeitY, Govt. of India. "
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Step 6:"
+                      },
+                      {
+                        "text": " You can either click on “Save as Draft” to complete the application later. Else, click “Final Submit” to apply."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Track Payment Status:",
+                        "underline": true
+                      }
+                    ],
+                    "type": "block_quote"
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "The student can track their payment status from the template “Know Your Payment” in the "
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "Public Financial Management System (PFMS) Portal"
+                          }
+                        ],
+                        "link": "https://pfms.nic.in/Users/LoginDetails/Login.aspx",
+                        "type": "link"
+                      },
+                      {
+                        "text": " either by indicating their Aadhaar Number, Bank Account number or NSP Application ID."
+                      }
+                    ],
+                    "type": "paragraph"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Selection of fresh Awardee Students:",
+                        "underline": true
+                      }
+                    ],
+                    "type": "block_quote"
+                  },
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "text": "Each State/UT conducts its own test for selection of students for the award of the National Means-cum-Merit Scholarship. "
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "The test is conducted at stage of class-VIII. The students, who fulfill the eligibility criteria, must pass both the tests, i.e., Mental Ability Test (MAT) and Scholastic Aptitude Test (SAT) under NMMSS exam with at least 40 % marks in aggregate taken together for these two tests. "
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "For the SC/ST students, this cut off is 32% marks."
+                          }
+                        ],
+                        "type": "list_item"
+                      }
+                    ],
+                    "type": "ul_list"
+                  },
+                  {
+                    "children": [
+                      {
+                        "bold": true,
+                        "text": "Selection of Renewal Awardees Students:",
+                        "underline": true
+                      }
+                    ],
+                    "type": "block_quote"
+                  },
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "text": "The awardees should get minimum of 60% marks in Class X for continuation of scholarship (relaxable by 5% for SC/ST candidates) in next higher classes. "
+                          }
+                        ],
+                        "type": "list_item"
+                      },
+                      {
+                        "children": [
+                          {
+                            "text": "For continuing the scholarship in class X and XII, the awardees should get clear promotion form class IX to class X and from class XI to class XII in the first attempt."
+                          }
+                        ],
+                        "type": "list_item"
+                      }
+                    ],
+                    "type": "ul_list"
+                  }
+                ],
+                "type": "align_justify"
+              },
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "process_md": "&gt; ***New Registration******:***\n\n**Step 1:** Visit the [Registration ](https://scholarships.gov.in/fresh/newstdRegfrmInstruction)page of the National Scholarships Portal.\n**Step 2:** Guidelines for Registration will appear. Scroll to the bottom. Read carefully the undertaking. Accept the Terms. Click “Continue”.\n**Step 3:** A Registration Form will appear. (The fields marked as * are compulsory). Fill in the details and click “Register”. Your Application ID and password will be displayed. The same will also be sent as an SMS to your registered mobile number.\n&gt; **Fresh Application****:**\n\n**Step 1:** Visit the applicant [Login ](https://scholarships.gov.in/fresh/loginPage)page of the National Scholarships Portal Enter your Application ID and password.\n**Step 2:** Type the Captcha and click “Login”.\n**Step 3:** On the next screen, provide the OTP received on your registered mobile number. You will be directed to the Password Reset screen. Create a new password and confirm.\n**Step 4:** Click “Submit”. You will be directed to the “Applicant’s Dashboard”.\n**Step 5:** On the left pane, click “Application Form”. The fields marked as * are compulsory. Fill in the details and upload the documents. The verification of credentials of the students (caste, educational qualifications etc.) will be done through the DIGILOCKER facility of the MeitY, Govt. of India. \n**Step 6:** You can either click on “Save as Draft” to complete the application later. Else, click “Final Submit” to apply.\n&gt; **Track Payment Status:**\n\nThe student can track their payment status from the template “Know Your Payment” in the [Public Financial Management System (PFMS) Portal](https://pfms.nic.in/Users/LoginDetails/Login.aspx) either by indicating their Aadhaar Number, Bank Account number or NSP Application ID.\n&gt; **Selection of fresh Awardee Students:**\n\n\n  - Each State/UT conducts its own test for selection of students for the award of the National Means-cum-Merit Scholarship. \n  - The test is conducted at stage of class-VIII. The students, who fulfill the eligibility criteria, must pass both the tests, i.e., Mental Ability Test (MAT) and Scholastic Aptitude Test (SAT) under NMMSS exam with at least 40 % marks in aggregate taken together for these two tests. \n  - For the SC/ST students, this cut off is 32% marks.\n\n&gt; **Selection of Renewal Awardees Students:**\n\n\n  - The awardees should get minimum of 60% marks in Class X for continuation of scholarship (relaxable by 5% for SC/ST candidates) in next higher classes. \n  - For continuing the scholarship in class X and XII, the awardees should get clear promotion form class IX to class X and from class XI to class XII in the first attempt.\n\n<br>\n\n",
+            "url": ""
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": true,
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": {
+            "label": "Department of School Education and Literacy",
+            "value": 508
+          },
+          "nodalMinistryName": {
+            "label": "Ministry of Education",
+            "value": 488
+          },
+          "schemeCategory": [
+            {
+              "label": "Education & Learning",
+              "value": "628ce76cd6d1a3bde4685292"
+            }
+          ],
+          "schemeFor": "Individual",
+          "schemeName": "National Means-cum-Merit Scholarship Scheme",
+          "schemeOpenDate": "2008-05-01",
+          "schemeShortTitle": "NMMSS",
+          "schemeSubCategory": [
+            {
+              "label": "Scholarships and student finance",
+              "value": "Scholarships and student finance"
+            }
+          ],
+          "schemeType": {
+            "label": "Central Sector Scheme",
+            "value": "central-sector-scheme"
+          },
+          "tags": [
+            "Scholarship",
+            "Meritorious Student",
+            "Means-cum-Merit",
+            "Economically Weaker Section",
+            "NMMSS"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Individual",
+              "value": "individual"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "For Fresh Applications:"
+                }
+              ],
+              "type": "block_quote"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The applicant must be a student."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Students whose parental income from all sources is not more than ₹3,50,000/- per annum are eligible to avail the scholarship. "
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The students must have minimum of 55 % marks or equivalent grade in Class VII examination for appearing in selection test for award of scholarship (relaxable by 5% for SC/ST students). "
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The students should be studying as regular student in a Government, Government-aided and local body school."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Note:"
+                },
+                {
+                  "text": " There is reservation as per State/UT Government norms."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Procedure for Selection of Awardee Students: "
+                }
+              ],
+              "type": "block_quote"
+            },
+            {
+              "children": [
+                {
+                  "text": "Each State/UT will conduct its own test at the 8th-grade level for the selection of students. The State Level Examination may consist of the following two tests:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Mental Ability Test (MAT), 90 minutes duration: 90 multiple-choice questions testing verbal and non-verbal meta-cognitive abilities like reasoning and critical thinking. The questions in the test may be on analogy. classification. numerical series, pattern perception, hidden figure, etc."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Scholastic Aptitude Test (SAT), 90 minutes duration: 90 multiple-choice questions covering subjects, namely, science, social studies, and mathematics, as taught in classes 7th and 8th."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "For selecting the students, the following conditions shall apply:"
+                }
+              ],
+              "type": "block_quote"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The students must pass both the MAT and the SAT with at least 40 % marks in aggregate taken together for these two tests. For the SC/ST students, this cut-off will be 32% marks."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "At the time of selection for the award of scholarship, the student must have scored at least 55% mark or equivalent grade in the Class 8th examination. There will be 5 % relaxation for SC/ST students."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The awardees should satisfy the other eligibility conditions mentioned in the scheme."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Note: "
+                },
+                {
+                  "text": "An awardee is eligible for the scholarship provided he/she:"
+                }
+              ],
+              "type": "block_quote"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Takes up studies in approved courses."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Maintains good conduct as certified by the Head of the College/Institution and continues his/her studies as a regular student in a government/Government aided/ Local Body school."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Does not absent himself/herself without proper leave."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Takes up studies on a full-time basis."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The scheme will provide reservations to different categories of students as per the State/UT norms; as different States/UTs have their own norms of reservation."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "A student can avail of only one Scholarship under any Central Government Scholarship scheme."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The awardees will be required to open bank accounts preferably in SBI, any public sector bank, or any scheduled bank which has a core banking facility."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "No claim for scholarship arrears will be entertained after the expiry of 12 months of the academic session for which one has applied for the claim."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "In case any awardee leaves his/her course of study within one month of registration/admission, no scholarship shall be paid to him/her."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "In case the student is not able to appear at the annual examination due to serious illness, he/she should send the medical certificate to the Head of the Institution within three months of his/her falling ill. The duration of illness should be clearly certified by a specialist who is a Registered Medical Practitioner. The facility will be available to the student to continue the same course in which they are studying, provided the principal or the head of the institution certifies that the overall performance of the student during the year has been very good."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The student must join the next class/desired course within 3 months of the declaration of the result of the previous class/course."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The scholarship shall be deemed to be discontinued if any gap of one academic session arises in studies at any time due to any reason."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Scholarship once discontinued on the basis of the rules of disbursement of scholarship cannot be revived under any circumstances."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "All rules are subject to change from time to time, as and when required, which will be binding on all awardees."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "For Renewal Applications:"
+                }
+              ],
+              "type": "block_quote"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The awardees should get a minimum of 60% marks in Class 10th for the continuation of the scholarship (relaxable by 5% for SC/ST candidates) in the next higher classes. "
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "For continuing the scholarship in class 10th and 12th, the awardees should get clear promotion from class 9th to class 10th and from class 11th to class 12th in the first attempt."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "bold": true,
+                  "text": "Note:"
+                }
+              ],
+              "type": "block_quote"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The awardees should get clear promotion from class 8th to Class 9th for being eligible for starting the scholarship, as indicated above."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The scholarship at the Secondary and Higher Secondary stage or equivalent classes 9th to 12th is payable for a maximum period of four years for studies in India only."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "For continuing the scholarship in class 10th and 12th, the awardees should get clear promotion from class 9th to class 10th and from class 11th to class 12th in the first attempt."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The awardees must obtain a minimum of 60% marks in the Class 10th examination (relaxable by 5% for SC/ST students) or equivalent examination for continuation of the scholarship at the higher secondary stage."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "In case an institution/school does not conduct an examination at the end of Class 9th and/or Class 11th, the scholarship for the second year will be continued on the submission of a certificate to this effect from the Head of the Institution/School."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ul_list"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "eligibilityDescription_md": "> **For Fresh Applications:**\n\n\n1. The applicant must be a student.\n1. Students whose parental income from all sources is not more than ₹3,50,000/- per annum are eligible to avail the scholarship. \n1. The students must have minimum of 55 % marks or equivalent grade in Class VII examination for appearing in selection test for award of scholarship (relaxable by 5% for SC/ST students). \n1. The students should be studying as regular student in a Government, Government-aided and local body school.\n\n**Note:** There is reservation as per State/UT Government norms.\n> **Procedure for Selection of Awardee Students:** \n\nEach State/UT will conduct its own test at the 8th-grade level for the selection of students. The State Level Examination may consist of the following two tests:\n\n- Mental Ability Test (MAT), 90 minutes duration: 90 multiple-choice questions testing verbal and non-verbal meta-cognitive abilities like reasoning and critical thinking. The questions in the test may be on analogy. classification. numerical series, pattern perception, hidden figure, etc.\n- Scholastic Aptitude Test (SAT), 90 minutes duration: 90 multiple-choice questions covering subjects, namely, science, social studies, and mathematics, as taught in classes 7th and 8th.\n\n> **For selecting the students, the following conditions shall apply:**\n\n\n- The students must pass both the MAT and the SAT with at least 40 % marks in aggregate taken together for these two tests. For the SC/ST students, this cut-off will be 32% marks.\n- At the time of selection for the award of scholarship, the student must have scored at least 55% mark or equivalent grade in the Class 8th examination. There will be 5 % relaxation for SC/ST students.\n- The awardees should satisfy the other eligibility conditions mentioned in the scheme.\n\n> **Note:** An awardee is eligible for the scholarship provided he/she:\n\n\n- Takes up studies in approved courses.\n- Maintains good conduct as certified by the Head of the College/Institution and continues his/her studies as a regular student in a government/Government aided/ Local Body school.\n- Does not absent himself/herself without proper leave.\n- Takes up studies on a full-time basis.\n- The scheme will provide reservations to different categories of students as per the State/UT norms; as different States/UTs have their own norms of reservation.\n- A student can avail of only one Scholarship under any Central Government Scholarship scheme.\n- The awardees will be required to open bank accounts preferably in SBI, any public sector bank, or any scheduled bank which has a core banking facility.\n- No claim for scholarship arrears will be entertained after the expiry of 12 months of the academic session for which one has applied for the claim.\n- In case any awardee leaves his/her course of study within one month of registration/admission, no scholarship shall be paid to him/her.\n- In case the student is not able to appear at the annual examination due to serious illness, he/she should send the medical certificate to the Head of the Institution within three months of his/her falling ill. The duration of illness should be clearly certified by a specialist who is a Registered Medical Practitioner. The facility will be available to the student to continue the same course in which they are studying, provided the principal or the head of the institution certifies that the overall performance of the student during the year has been very good.\n- The student must join the next class/desired course within 3 months of the declaration of the result of the previous class/course.\n- The scholarship shall be deemed to be discontinued if any gap of one academic session arises in studies at any time due to any reason.\n- Scholarship once discontinued on the basis of the rules of disbursement of scholarship cannot be revived under any circumstances.\n- All rules are subject to change from time to time, as and when required, which will be binding on all awardees.\n\n> **For Renewal Applications:**\n\n\n- The awardees should get a minimum of 60% marks in Class 10th for the continuation of the scholarship (relaxable by 5% for SC/ST candidates) in the next higher classes. \n- For continuing the scholarship in class 10th and 12th, the awardees should get clear promotion from class 9th to class 10th and from class 11th to class 12th in the first attempt.\n\n> **Note:**\n\n\n- The awardees should get clear promotion from class 8th to Class 9th for being eligible for starting the scholarship, as indicated above.\n- The scholarship at the Secondary and Higher Secondary stage or equivalent classes 9th to 12th is payable for a maximum period of four years for studies in India only.\n- For continuing the scholarship in class 10th and 12th, the awardees should get clear promotion from class 9th to class 10th and from class 11th to class 12th in the first attempt.\n- The awardees must obtain a minimum of 60% marks in the Class 10th examination (relaxable by 5% for SC/ST students) or equivalent examination for continuation of the scholarship at the higher secondary stage.\n- In case an institution/school does not conduct an examination at the end of Class 9th and/or Class 11th, the scholarship for the second year will be continued on the submission of a certificate to this effect from the Head of the Institution/School.\n\n<br>\n\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "label": "Cash",
+            "value": "Cash"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Under this scheme, 1,00,000 fresh scholarships @ ₹12,000/- per annum  (₹1,000 per month) are awarded to the meritorious students every year at Class IX level, which can be continued upto Class Xll."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The awardees will be required to open bank accounts preferably in SBI, or any public sector bank or any scheduled bank which has core banking facility."
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The amount of scholarships will be disbursed to students directly into their bank accounts by electronic transfer through Direct Benefit Transfer (DBT)."
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "benefits_md": "\n1. Under this scheme, 1,00,000 fresh scholarships @ ₹12,000/- per annum  (₹1,000 per month) are awarded to the meritorious students every year at Class IX level, which can be continued upto Class Xll.\n1. The awardees will be required to open bank accounts preferably in SBI, or any public sector bank or any scheduled bank which has core banking facility.\n1. The amount of scholarships will be disbursed to students directly into their bank accounts by electronic transfer through Direct Benefit Transfer (DBT).\n\n<br>\n\n",
+          "briefDescription": "The objective of the scheme is to award scholarships to meritorious students of economically weaker sections to arrest their drop out at class VIII and encourage them to continue their education at secondary stage.",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "The “National Means-cum-Merit Scholarship Scheme” is a Central Sector Scheme launched in 2008 by the Department of School Education & Literacy, Ministry of Education, Government of India. The objective of the scheme is to award scholarships to meritorious students of economically weaker sections to arrest their drop out at class VIII and encourage them to continue their education at secondary stage. "
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Under this scheme, it is proposed to award 1,00,000 scholarships to the gifted or meritorious students whose parental income is not more than ₹3,50,000/- per annum from all sources at the time of selection of awardees for scholarship. Each State/UT has "
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "fixed quota"
+                        }
+                      ],
+                      "link": "https://dsel.education.gov.in/sites/default/files/NMMSS_Guidelines_22.pdf",
+                      "type": "link"
+                    },
+                    {
+                      "text": " of scholarship for concerned age group of class VII and VIII. The scheme will provide reservation to different categories of students as per the State/UT norms; as different States/UTs have their own norms of reservation."
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "This scholarship will be provided on yearly basis to the students studying as regular students and entering in class IX in a Government, Government-aided, local body schools. Thus, the scholarship will be for a maximum period of four years."
+                    }
+                  ],
+                  "type": "paragraph"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "The scheme has been approved for continuation for another 5 years during the period of 15th Finance Commission cycle from 2021-22 to 2025-26."
+                    }
+                  ],
+                  "type": "paragraph"
+                }
+              ],
+              "type": "align_justify"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "detailedDescription_md": "The “National Means-cum-Merit Scholarship Scheme” is a Central Sector Scheme launched in 2008 by the Department of School Education &amp;amp; Literacy, Ministry of Education, Government of India. The objective of the scheme is to award scholarships to meritorious students of economically weaker sections to arrest their drop out at class VIII and encourage them to continue their education at secondary stage. \nUnder this scheme, it is proposed to award 1,00,000 scholarships to the gifted or meritorious students whose parental income is not more than ₹3,50,000/- per annum from all sources at the time of selection of awardees for scholarship. Each State/UT has [fixed quota](https://dsel.education.gov.in/sites/default/files/NMMSS_Guidelines_22.pdf) of scholarship for concerned age group of class VII and VIII. The scheme will provide reservation to different categories of students as per the State/UT norms; as different States/UTs have their own norms of reservation.\nThis scholarship will be provided on yearly basis to the students studying as regular students and entering in class IX in a Government, Government-aided, local body schools. Thus, the scholarship will be for a maximum period of four years.\nThe scheme has been approved for continuation for another 5 years during the period of 15th Finance Commission cycle from 2021-22 to 2025-26.\n<br>\n\n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "The students studying in \"Kendriya Vidyalayas and Jawahar Navodaya Vidyalayas\" are not entitled to get scholarships under this scheme. "
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Those students studying in Residential Schools run by the Centre/ State Government Institutions, where facilities like boarding, lodging, and education are provided and students studying in private schools are also not eligible for the scholarship under the scheme."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "No scholarship shall be available for studies abroad for any course."
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "No scholarship at this stage is payable for studying diploma/certificate level courses."
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ol_list"
+                }
+              ],
+              "type": "align_justify"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "exclusions_md": "\n   1. The students studying in &amp;quot;Kendriya Vidyalayas and Jawahar Navodaya Vidyalayas&amp;quot; are not entitled to get scholarships under this scheme. \n   1. Those students studying in Residential Schools run by the Centre/ State Government Institutions, where facilities like boarding, lodging, and education are provided and students studying in private schools are also not eligible for the scholarship under the scheme.\n   1. No scholarship shall be available for studies abroad for any course.\n   1. No scholarship at this stage is payable for studying diploma/certificate level courses.\n\n<br>\n\n",
+          "references": [
+            {
+              "title": "Guidelines 1",
+              "url": "https://scholarships.gov.in/public/schemeGuidelines/NMMSSGuidelines.pdf"
+            },
+            {
+              "title": "Official Website",
+              "url": "https://dsel.education.gov.in/en/scheme/nmmss"
+            },
+            {
+              "title": "Guidelines 2",
+              "url": "https://dsel.education.gov.in/sites/default/files/NMMSS_Guidelines_22.pdf"
+            },
+            {
+              "title": "National Scholarship Portal",
+              "url": "https://scholarships.gov.in/"
+            }
+          ],
+          "schemeImageUrl": ""
+        },
+        "schemeDefinitions": []
+      },
+      "slug": "nmmss"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "62effec7d8244826f9587b02",
+      "en": {
+        "documentsRequired_md": "\n1. Aadhaar Card\n1. Educational Certificates/ marksheet\n1. Caste Certificate\n1. Income Certificate of Parents\n1. Disability Certificate, if applicable\n1. Domicile Certificate\n1. Any other supporting documents as required\n\n<br>\n\n",
+        "documents_required": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "text": "Aadhaar Card"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Educational Certificates/ marksheet"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Caste Certificate"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Income Certificate of Parents"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Disability Certificate, if applicable"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Domicile Certificate"
+                  }
+                ],
+                "type": "list_item"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Any other supporting documents as required"
+                  }
+                ],
+                "type": "list_item"
+              }
+            ],
+            "type": "ol_list"
+          },
+          {
+            "children": [
+              {
+                "text": ""
+              }
+            ],
+            "type": "paragraph"
+          }
+        ]
+      },
+      "schemeId": "62efef426259253a27b73843"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

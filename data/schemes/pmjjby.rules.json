@@ -1,0 +1,17 @@
+{
+  "scheme_id": "pmjjby",
+  "min_age": 18,
+  "max_age": 50,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": null,
+  "category": null,
+  "rule_sources": {
+    "min_age": "The age of the applicant must be between 18 to 50 Years.",
+    "max_age": "The age of the applicant must be between 18 to 50 Years."
+  },
+  "unmodelled_conditions": [
+    "Must hold an individual bank / post office account."
+  ]
+}

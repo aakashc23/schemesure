@@ -1,0 +1,549 @@
+{
+  "scheme": {
+    "data": {
+      "_id": "62a0338eeaca073ef5081d53",
+      "en": {
+        "applicationProcess": [
+          {
+            "mode": "Offline",
+            "process": [
+              {
+                "children": [
+                  {
+                    "text": "The interested candidate can contact the nearest Training Center to apply."
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": "Training Center: "
+                  }
+                ],
+                "type": "heading_four"
+              },
+              {
+                "children": [
+                  {
+                    "text": "https://www.pmkvyofficial.org/trainingcenter "
+                  }
+                ],
+                "type": "paragraph"
+              },
+              {
+                "children": [
+                  {
+                    "text": ""
+                  }
+                ],
+                "type": "paragraph"
+              }
+            ],
+            "url": "https://www.pmkvyofficial.org/trainingcenter "
+          }
+        ],
+        "basicDetails": {
+          "dbtScheme": true,
+          "implementingAgency": null,
+          "level": {
+            "label": "Central",
+            "value": "central"
+          },
+          "nodalDepartmentName": null,
+          "nodalMinistryName": {
+            "label": "Ministry Of Skill Development And Entrepreneurship",
+            "value": 1160
+          },
+          "otherDepartmentNames": null,
+          "otherMinistryName": null,
+          "schemeCategory": [
+            {
+              "label": "Business & Entrepreneurship",
+              "value": "628ce733d6d1a3bde4685278"
+            },
+            {
+              "label": "Skills & Employment",
+              "value": "628ce85cd6d1a3bde4685304"
+            }
+          ],
+          "schemeCloseDate": null,
+          "schemeFor": "Individual",
+          "schemeName": "Pradhan Mantri Kaushal Vikas Yojana - Short Term Training",
+          "schemeOpenDate": "2015-07-15",
+          "schemeShortTitle": "PMKVY -STT",
+          "schemeSubCategory": [
+            {
+              "label": "Setting up / start-up / entrepreneurship",
+              "value": "Setting up / start-up / entrepreneurship"
+            },
+            {
+              "label": "Training and Skill Up-gradation",
+              "value": "Training and Skill Up-gradation"
+            },
+            {
+              "label": "Placement assistance",
+              "value": "Placement assistance"
+            }
+          ],
+          "tags": [
+            "Placement",
+            "Counselling",
+            "Training",
+            "Dropout",
+            "Unemployed",
+            "Skill",
+            "Vikas",
+            "Kaushal"
+          ],
+          "targetBeneficiaries": [
+            {
+              "label": "Individual",
+              "value": "individual"
+            }
+          ]
+        },
+        "eligibilityCriteria": {
+          "eligibilityDescription": [
+            {
+              "children": [
+                {
+                  "text": "This scheme is applicable to any candidate of Indian nationality who:"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "text": "Is aged between 15-45 years"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Possesses an Aadhaar card and an Aadhaar linked bank account"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "text": "Fulfils other criteria for the respective job role as defined by the awarding body"
+                    }
+                  ],
+                  "type": "list_item"
+                }
+              ],
+              "type": "ol_list"
+            }
+          ],
+          "eligibilityDescription_md": "This scheme is applicable to any candidate of Indian nationality who:\n<br>\n\n\n1. Is aged between 15-45 years\n1. Possesses an Aadhaar card and an Aadhaar linked bank account\n1. Fulfils other criteria for the respective job role as defined by the awarding body\n\n"
+        },
+        "schemeContent": {
+          "benefitTypes": {
+            "label": "Composite",
+            "value": "composite"
+          },
+          "benefits": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Counselling:"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "Online Information / Counselling Platform"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Through Counselling Helpline"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Through District-level skill information centre "
+                        }
+                      ],
+                      "type": "list_item"
+                    }
+                  ],
+                  "type": "ol_list"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Training:"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "Digital Content"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Training in Soft Skills, Entrepreneurship, Financial and Digital Literacy"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": "Additional Support"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "text": "Accidental Insurance"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "One-time incentive to all certified candidates "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Boarding and lodging cost support "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Conveyance cost "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Post Placement Stipend "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Additional support to PwD candidates "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Induction kit and participant handbook "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Yearly incentive to Training Provider "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "One-time placement travel cost "
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Career progression support"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Special Incentive for foreign placements"
+                            }
+                          ],
+                          "type": "list_item"
+                        },
+                        {
+                          "children": [
+                            {
+                              "text": "Post Placement Tracking Allowance"
+                            }
+                          ],
+                          "type": "list_item"
+                        }
+                      ],
+                      "type": "ol_list"
+                    }
+                  ],
+                  "type": "ol_list"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Placement"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "bold": true,
+                      "text": "Post Training Support"
+                    }
+                  ],
+                  "type": "list_item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "text": "The scheme will be compatible with the international standards by provisioning  add-on bridge courses and language courses"
+                        }
+                      ],
+                      "type": "list_item"
+                    },
+                    {
+                      "children": [
+                        {
+                          "text": ""
+                        }
+                      ],
+                      "type": "paragraph"
+                    }
+                  ],
+                  "type": "ol_list"
+                }
+              ],
+              "type": "ol_list"
+            },
+            {
+              "children": [
+                {
+                  "text": "The scheme will be compatible with the international standards by provisioning  add-on bridge courses and language courses."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "Note:"
+                }
+              ],
+              "type": "heading_four"
+            },
+            {
+              "children": [
+                {
+                  "text": "It is mandatory for the candidates to have an Aadhaar ID during the enrolment process. It is also mandatory for the students to maintain 70% attendance to be eligible to appear in the assessments"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "briefDescription": "A skill development scheme by Ministry of Skill Development and Entrepreneurship for school/college dropouts/unemployed aged 15-45 at PMKVY Training Centres (TCs). ",
+          "detailedDescription": [
+            {
+              "children": [
+                {
+                  "text": "STT component imparted at PMKVY Training Centres (TC) is expected to benefit candidates of Indian nationality who are either school/college dropouts or unemployed. Apart from providing training according to the National Skills Qualification Framework (NSQF), TCs also impart training in soft skills, entrepreneurship, financial and digital literacy. Upon successful completion of assessment, candidates are provided placement assistance by training providers."
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "The Short-Term Training (STT) shall be implemented under both Central and State component of the scheme. STT shall have provision for both fresh skilling for trainees who are first time learners and reskilling for the trainees/existing workforce who have already undergone formal/informal skilling and need additional skill sets"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "Apart from providing training according to the National Skills Qualification Framework (NSQF), additional training shall also be imparted in English, Employability & Entrepreneurship (EEE) modules. Process shall be initiated for imparting add-on Bridge courses and language courses for making schemes compatible to international standards and requirements. This will enhance the potential for international employment of the Indian youth"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "Duration of the training shall vary as per job role"
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            },
+            {
+              "children": [
+                {
+                  "text": "The scheme shall promote fee-based courses in higher level skills and courses that are NSQF level 5 and above. Review of the courses under PMKVY 3.0 shall be carried out for introducing fees in popular courses with higher industry demand and above average wages. However, PMKVY 3.0 would continue to support weaker and marginalized sections of the society"
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "detailedDescription_md": "STT component imparted at PMKVY Training Centres (TC) is expected to benefit candidates of Indian nationality who are either school/college dropouts or unemployed. Apart from providing training according to the National Skills Qualification Framework (NSQF), TCs also impart training in soft skills, entrepreneurship, financial and digital literacy. Upon successful completion of assessment, candidates are provided placement assistance by training providers.\n<br>\n\nThe Short-Term Training (STT) shall be implemented under both Central and State component of the scheme. STT shall have provision for both fresh skilling for trainees who are first time learners and reskilling for the trainees/existing workforce who have already undergone formal/informal skilling and need additional skill sets\n<br>\n\nApart from providing training according to the National Skills Qualification Framework (NSQF), additional training shall also be imparted in English, Employability &amp; Entrepreneurship (EEE) modules. Process shall be initiated for imparting add-on Bridge courses and language courses for making schemes compatible to international standards and requirements. This will enhance the potential for international employment of the Indian youth\n<br>\n\nDuration of the training shall vary as per job role\n<br>\n\nThe scheme shall promote fee-based courses in higher level skills and courses that are NSQF level 5 and above. Review of the courses under PMKVY 3.0 shall be carried out for introducing fees in popular courses with higher industry demand and above average wages. However, PMKVY 3.0 would continue to support weaker and marginalized sections of the society\n",
+          "exclusions": [
+            {
+              "children": [
+                {
+                  "text": ""
+                }
+              ],
+              "type": "paragraph"
+            }
+          ],
+          "references": [
+            {
+              "title": "Scheme Guidelines",
+              "url": "https://www.pmkvyofficial.org/photos/shares/guidlines/PMKY-Guideline_report_(08-01-2021)V3.pdf "
+            }
+          ],
+          "schemeImageUrl": ""
+        },
+        "schemeDefinitions": []
+      },
+      "slug": "pmkvy-stt"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  },
+  "documents": {
+    "data": {
+      "_id": "62a0350eeaca073ef5081f48",
+      "en": {
+        "documents_required": [
+          {
+            "children": [
+              {
+                "text": "As required for the job role."
+              }
+            ],
+            "type": "paragraph"
+          }
+        ]
+      },
+      "schemeId": "62a0338eeaca073ef5081d53"
+    },
+    "error": "{}",
+    "errorDescription": "",
+    "status": "Success",
+    "statusCode": 200
+  }
+}

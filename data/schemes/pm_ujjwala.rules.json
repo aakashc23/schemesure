@@ -1,0 +1,18 @@
+{
+  "scheme_id": "pm_ujjwala",
+  "min_age": 18,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": "female",
+  "category": null,
+  "rule_sources": {
+    "gender": "An adult woman belonging to a poor household and not having an LPG connection in her household will be eligible under UJJWALA 2.0.",
+    "min_age": "Derived from 'An adult woman...' in the official eligibility text. The source says 'adult' rather than a number; 18 is used as the statutory age of adulthood in India."
+  },
+  "unmodelled_conditions": [
+    "Must belong to a poor household and must not already have an LPG connection in the household.",
+    "Must qualify through ONE of: the SECC 2011 list; SC/ST household, PMAY / Antyodaya Anna Yojana beneficiary, forest dweller, Most Backward Class, Tea or Ex-Tea Garden Tribe, or resident of a river island; or a 14-point declaration as a poor household. Because these are alternatives, no single category is encoded as a hard filter."
+  ]
+}

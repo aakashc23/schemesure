@@ -1,0 +1,20 @@
+{
+  "scheme_id": "pm_matru_vandana",
+  "min_age": 19,
+  "max_age": null,
+  "max_annual_income": null,
+  "allowed_states": null,
+  "allowed_occupations": null,
+  "gender": "female",
+  "category": null,
+  "rule_sources": {
+    "min_age": "The applicant should be of at least 19 years old and a pregnant women.",
+    "gender": "The applicant should be of at least 19 years old and a pregnant women."
+  },
+  "unmodelled_conditions": [
+    "Must be pregnant, employed, and experiencing wage-loss due to the pregnancy.",
+    "Applicable only for the first live birth (with a separate provision for a second girl child in the case of twins/triplets/quadruplets).",
+    "Must apply within 270 days from the child's birth.",
+    "Must fall in one of the listed socially/economically disadvantaged categories. 'Net family income less than Rs 8 Lakh per annum' is only ONE of those alternative routes, so it is NOT encoded as a universal income ceiling."
+  ]
+}
