@@ -249,15 +249,23 @@ with ask_tab:
         index=0,
     )
 
-    question = st.text_area(
-        "Your question",
-        value=EXAMPLES[choice],
-        height=90,
-        max_chars=500,
-        placeholder="e.g. Who is eligible for PM SVANidhi?",
-    )
+    # A form, deliberately. A bare st.text_area only commits its value on blur or
+    # Ctrl+Enter, so a visitor who types a question and clicks the button can get
+    # a false "Please type a question first" on the first click. Inside a form,
+    # every widget commits together when the submit button is pressed.
+    with st.form("ask_form"):
+        question = st.text_area(
+            "Your question",
+            value=EXAMPLES[choice],
+            height=90,
+            max_chars=500,
+            placeholder="e.g. Who is eligible for PM SVANidhi?",
+        )
+        submitted = st.form_submit_button(
+            "Ask", type="primary", disabled=not health.get("llm_key_configured")
+        )
 
-    if st.button("Ask", type="primary", disabled=not health.get("llm_key_configured")):
+    if submitted:
         if not question.strip():
             st.warning("Please type a question first.")
         else:
@@ -306,18 +314,22 @@ with eligibility_tab:
         "against the official rules."
     )
 
-    description = st.text_area(
-        "About you",
-        height=110,
-        max_chars=500,
-        placeholder=(
-            "e.g. I am a 35 year old farmer from Bihar. My yearly income is "
-            "about 2 lakh rupees."
-        ),
-    )
+    with st.form("eligibility_form"):
+        description = st.text_area(
+            "About you",
+            height=110,
+            max_chars=500,
+            placeholder=(
+                "e.g. I am a 35 year old farmer from Bihar. My yearly income is "
+                "about 2 lakh rupees."
+            ),
+        )
+        checked = st.form_submit_button(
+            "Check eligibility", type="primary",
+            disabled=not health.get("llm_key_configured"),
+        )
 
-    if st.button("Check eligibility", type="primary",
-                 disabled=not health.get("llm_key_configured")):
+    if checked:
         if not description.strip():
             st.warning("Please describe yourself first.")
         else:
