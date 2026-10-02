@@ -48,7 +48,7 @@ sys.path.insert(0, str(ROOT))
 
 from app.config import Settings  # noqa: E402
 from app.llm_client import CallCounter, LLMClient, LLMError  # noqa: E402
-from app.schemas import AnswerStatus, Verdict  # noqa: E402
+from app.schemas import AnswerStatus, GuardrailDecision, Verdict  # noqa: E402
 from core.generator import AnswerPipeline  # noqa: E402
 from core.guardrail import Guardrail  # noqa: E402
 from core.retriever import Retriever  # noqa: E402
@@ -167,7 +167,30 @@ def run_one(
     # This is the number that matters: unsupported claims the user actually saw.
     record["delivered_claims"] = None
     record["delivered_unsupported"] = None
-    if auditor is not None and not refused and retrieval.chunks:
+    record["audit_reused"] = False
+
+    # When the guardrail returned PASS, the answer shipped unchanged — so the
+    # verdicts it already produced ARE verdicts on the delivered answer, judged
+    # with the same prompt against the same evidence. Re-auditing would issue a
+    # byte-identical duplicate call. Reusing them is not self-assessment; it is
+    # declining to pay twice for one measurement.
+    #
+    # This matters because Groq's free tier caps the account at 200,000 tokens
+    # per day, and the audit is ~1,550 tokens per question. REPAIR still gets a
+    # real audit: the repaired answer is new text, and the whole point is to
+    # catch the repair step introducing a fresh unsupported claim.
+    if (
+        not refused
+        and response.guardrail.decision == GuardrailDecision.PASS
+        and response.guardrail.claims
+    ):
+        record["delivered_claims"] = len(response.guardrail.claims)
+        record["delivered_unsupported"] = sum(
+            1 for claim in response.guardrail.claims if claim.verdict != Verdict.SUPPORTED
+        )
+        record["audit_reused"] = True
+
+    elif auditor is not None and not refused and retrieval.chunks:
         audit_counter = CallCounter()
         try:
             audit = auditor.verify(response.answer, retrieval.chunks, counter=audit_counter)
@@ -269,6 +292,7 @@ def summarise(records: list[dict]) -> dict:
         "avg_llm_calls": round(statistics.mean(production_calls), 2) if production_calls else 0,
         "total_llm_calls": sum(production_calls),
         "total_audit_calls": sum(r.get("audit_calls", 0) for r in ok),
+        "audits_reused": sum(1 for r in ok if r.get("audit_reused")),
 
         "guardrail_decisions": decisions,
         "refusal_by_category": by_category,
@@ -605,6 +629,20 @@ def main() -> int:
         "answerable": sum(1 for r in rows if r["answerable"]),
         "unanswerable": sum(1 for r in rows if not r["answerable"]),
     }
+
+    # Merge with any previous run, so the two conditions can be measured on
+    # separate days (the 200,000 tokens/day cap makes one sitting impossible)
+    # and still produce a single comparison table.
+    if RAW_PATH.exists():
+        try:
+            previous = json.loads(io.open(RAW_PATH, encoding="utf-8").read())
+            for key in ("off", "on"):
+                if key not in summaries and key in previous.get("summaries", {}):
+                    summaries[key] = previous["summaries"][key]
+                    all_records[key] = previous.get("records", {}).get(key, [])
+                    print(f"  (reusing the earlier '{key}' run from {RAW_PATH.name})")
+        except (OSError, json.JSONDecodeError):
+            pass
 
     with io.open(RAW_PATH, "w", encoding="utf-8") as fh:
         json.dump({"meta": meta, "summaries": summaries, "records": all_records},
