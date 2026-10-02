@@ -8,10 +8,18 @@ there, it says so instead of guessing.
 🔗 **Live demo:** <!--DEMO_URL-->**https://schemesureaakash.streamlit.app**<!--/DEMO_URL-->
 🔗 **Code:** https://github.com/aakashc23/schemesure
 
-```bash
-curl -s -X POST https://<your-app>/ask -H 'Content-Type: application/json' \
-  -d '{"question":"PM Kisan ka paisa kitna milta hai?"}' | jq '.answer, .status'
-```
+Ask it in Hinglish and it answers in Hinglish, verified and cited:
+
+> **Q:** *PM Kisan ka paisa kitna milta hai?*
+> **✅ Verified** — "PM Kisan scheme mein har family ko saal mein Rs. 6000 milte
+> hain [2]. Ye paisa teen barabar hisson mein diya jata hai, jismein har hissa
+> Rs 2000 ka hota hai [2]."
+
+Then open **"How was this verified?"** to see each claim and the passage it was
+checked against. Try the last two examples in the dropdown to watch it refuse.
+
+*(The FastAPI service is internal to the deployed process and is not exposed
+publicly — run it locally to get `/docs`. See [Local setup](#local-setup).)*
 
 ---
 
