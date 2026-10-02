@@ -39,7 +39,7 @@ can back them up.
 > *(quote your headline numbers from `eval/results.md`)*
 >
 > It's FastAPI, ChromaDB and a local multilingual embedding model, with a
-> Streamlit frontend, 166 tests that run with no network calls, Dockerised, and
+> Streamlit frontend, 169 tests that run with no network calls, Dockerised, and
 > deployed with CI. It answers in English, Hindi and Hinglish.
 
 **If you have 30 seconds instead:** "A RAG assistant for Indian government
@@ -236,7 +236,7 @@ gain; the retriever interface is small enough to swap later.
 pre-built index. Docker makes that one artifact that runs identically everywhere,
 and it lets me build the index at image-build time so a broken corpus fails the
 build instead of reaching users.
-*CI:* 166 tests on every push catches the thing I didn't think to re-check. It
+*CI:* 169 tests on every push catches the thing I didn't think to re-check. It
 also validates the data and scans for leaked credentials before anything ships.
 
 ---
@@ -380,7 +380,7 @@ Use the real numbers from `eval/results.md`. Placeholders marked `<...>`.
 > holding over-blocking at `<X>%`, at a measured cost of 4 LLM calls per answer.
 
 **3.**
-> Engineered a rule-based eligibility engine (pure Python, 166 automated tests,
+> Engineered a rule-based eligibility engine (pure Python, 169 automated tests,
 > zero network calls in CI) that returns an auditable per-rule reason and an
 > explicit NEED_MORE_INFO state instead of guessing, with every rule traceable to
 > the official source sentence it was derived from; calibrated the retrieval

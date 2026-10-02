@@ -474,3 +474,74 @@ class TestVacuousAnswerIsARefusal:
             client.app.state.pipeline = AnswerPipeline(
                 client.app.state.retriever, FakeLLM(), get_settings()
             )
+
+
+# ==========================================================================
+# Citation sourcing
+# ==========================================================================
+
+
+class TestCitationHonesty:
+    """
+    An answer with no [n] markers must not be given every retrieved passage as a
+    citation — that implies we verified evidence we never used. The judge's own
+    validated chunk ids are the honest second choice.
+    """
+
+    def test_verified_chunk_ids_are_preferred_over_all_chunks(self):
+        from app.schemas import ChunkMetadata, ClaimCheck, RetrievedChunk, Verdict
+        from core.generator import build_citations
+
+        def chunk(chunk_id: str, scheme: str) -> RetrievedChunk:
+            return RetrievedChunk(
+                chunk_id=chunk_id, text="t", score=0.9,
+                metadata=ChunkMetadata(
+                    scheme_id=scheme, scheme_name=scheme, section="Benefits",
+                    source_url="https://x.gov.in", last_verified="2026-10-02",
+                ),
+            )
+
+        chunks = [chunk("a#s#0", "a"), chunk("b#s#0", "b"), chunk("c#s#0", "c")]
+
+        # No markers, no verified ids -> fall back to everything.
+        assert len(build_citations("An answer with no markers.", chunks)) == 3
+
+        # No markers, but the judge verified one chunk -> cite only that one.
+        only_verified = build_citations("An answer with no markers.", chunks, ["b#s#0"])
+        assert [c.chunk_id for c in only_verified] == ["b#s#0"]
+        assert only_verified[0].index == 2  # keeps its [n] position
+
+    def test_explicit_markers_still_win(self):
+        from app.schemas import ChunkMetadata, RetrievedChunk
+        from core.generator import build_citations
+
+        chunks = [
+            RetrievedChunk(
+                chunk_id=f"s{i}#x#0", text="t", score=0.9,
+                metadata=ChunkMetadata(
+                    scheme_id=f"s{i}", scheme_name=f"S{i}", section="Benefits",
+                    source_url="https://x.gov.in", last_verified="2026-10-02",
+                ),
+            )
+            for i in range(1, 4)
+        ]
+        # The answer cites [3]; the verified list says [1]. The answer wins.
+        citations = build_citations("Fact [3].", chunks, ["s1#x#0"])
+        assert [c.chunk_id for c in citations] == ["s3#x#0"]
+
+    def test_unknown_verified_id_is_ignored(self):
+        from app.schemas import ChunkMetadata, RetrievedChunk
+        from core.generator import build_citations
+
+        chunks = [
+            RetrievedChunk(
+                chunk_id="a#s#0", text="t", score=0.9,
+                metadata=ChunkMetadata(
+                    scheme_id="a", scheme_name="A", section="Benefits",
+                    source_url="https://x.gov.in", last_verified="2026-10-02",
+                ),
+            )
+        ]
+        # An id not in the retrieved set cannot become a citation.
+        citations = build_citations("No markers.", chunks, ["ghost#s#9"])
+        assert [c.chunk_id for c in citations] == ["a#s#0"]  # falls back to all

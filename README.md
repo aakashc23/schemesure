@@ -220,10 +220,10 @@ A single averaged "refusal rate" would hide the only interesting part.
 | Rules | Plain Python + JSON per scheme | Auditable, exact, testable |
 | UI | Streamlit over HTTP | No business logic in the frontend |
 | Monitoring | SQLite (`llm_calls.db`) | Every call logged; `/metrics` reads real measurements |
-| Tests | pytest — **166 tests, no network calls** | LLM always mocked; retrieval is real |
+| Tests | pytest — **169 tests, no network calls** | LLM always mocked; retrieval is real |
 | Container | Docker (`Dockerfile` + `start.sh`) | Two processes, one port; index built at build time |
 | Live host | Streamlit Community Cloud | Free, and redeploys on every push to `main` |
-| CI | GitHub Actions | Validate data → build index → 166 tests → secret scan |
+| CI | GitHub Actions | Validate data → build index → 169 tests → secret scan |
 
 ### A note on where it is hosted
 
@@ -329,7 +329,7 @@ The UI is at `http://localhost:8501`, the API docs at `http://localhost:8000/doc
 Useful commands:
 
 ```bash
-python -m pytest -q                      # 166 tests, no API key needed
+python -m pytest -q                      # 169 tests, no API key needed
 python scripts/validate_data.py          # validate the corpus
 python scripts/build_golden_set.py       # rebuild + verify the golden set
 python eval/run_eval.py --limit 6        # quick eval smoke test
@@ -399,7 +399,7 @@ eval/    golden_set.jsonl  run_eval.py  results.md
 scripts/ fetch_schemes.py build_rules.py validate_data.py
          build_golden_set.py make_verify_checklist.py
          scan_secrets.py deploy_hf.py
-tests/   166 tests
+tests/   169 tests
 docs/    DECISIONS.md LEARN.md INTERVIEW_NOTES.md
          DEPLOYMENT.md VERIFY_CHECKLIST.md
 ui/      streamlit_app.py

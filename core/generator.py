@@ -72,19 +72,41 @@ def extract_cited_indices(answer: str) -> list[int]:
     return seen
 
 
-def build_citations(answer: str, chunks: list[RetrievedChunk]) -> list[Citation]:
+def build_citations(
+    answer: str,
+    chunks: list[RetrievedChunk],
+    verified_chunk_ids: list[str] | None = None,
+) -> list[Citation]:
     """
     Build the citation list shown under an answer.
 
-    We list the passages the answer actually cited. If it cited none (or cited
-    numbers outside the evidence range, which the guardrail will have caught
-    separately), we fall back to the retrieved passages so the user can always
-    see where the information was meant to come from.
+    Preference order, and the reasoning behind it:
+
+    1. **The passages the answer actually cited** via its [n] markers. This is
+       the normal case and the most precise.
+    2. **The passages the guardrail judge verified claims against.** Used when
+       the answer carries no usable markers — a repaired answer sometimes drops
+       them. These ids were validated in code, so they are real evidence for
+       facts that really are in the answer.
+    3. **Every retrieved passage**, as a last resort.
+
+    Falling straight to (3) would attach five sources to an answer that cited
+    none, implying we verified evidence we did not use. (2) exists so the
+    citations shown are the ones verification actually relied on.
     """
     if not chunks:
         return []
 
     cited = [index for index in extract_cited_indices(answer) if 1 <= index <= len(chunks)]
+
+    if not cited and verified_chunk_ids:
+        # Map verified chunk ids back to their [n] positions, preserving order.
+        position_of = {chunk.chunk_id: index for index, chunk in enumerate(chunks, start=1)}
+        for chunk_id in verified_chunk_ids:
+            index = position_of.get(chunk_id)
+            if index is not None and index not in cited:
+                cited.append(index)
+
     indices = cited or list(range(1, len(chunks) + 1))
 
     citations: list[Citation] = []
@@ -290,9 +312,19 @@ class AnswerPipeline:
                 answer = refusal_for(language.value, blocked=True)
                 status = AnswerStatus.REFUSED
 
+        # Chunks the judge verified a supported claim against. Used as a
+        # second-choice citation source when the answer carries no [n] markers.
+        verified_chunk_ids = [
+            check.evidence_chunk_id
+            for check in report.claims
+            if check.verdict == Verdict.SUPPORTED
+            and check.citation_valid
+            and check.evidence_chunk_id
+        ]
+
         citations = (
             [] if status == AnswerStatus.REFUSED
-            else build_citations(answer, retrieval.chunks)
+            else build_citations(answer, retrieval.chunks, verified_chunk_ids)
         )
 
         log_event("guardrail_decision", report.decision.value, settings=self.settings)
