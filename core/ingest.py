@@ -358,9 +358,23 @@ def get_embedding_model(settings: Settings | None = None):
     """Load (once) and return the sentence-transformers model."""
     global _MODEL
     if _MODEL is None:
+        import torch
         from sentence_transformers import SentenceTransformer
 
         settings = settings or get_settings()
+
+        # One thread, deliberately. Our workload is a single short query embedded
+        # at a time, so torch's default of one thread per core buys nothing —
+        # there is no large matmul to parallelise, and a query still embeds in
+        # ~54 ms. It matters on a shared free-tier host with 1-2 cores, where the
+        # API thread and Streamlit live in the same process and would otherwise
+        # compete for CPU.
+        #
+        # Measured: this does NOT reduce memory. Resident size stays ~1.2 GB
+        # either way, because that is torch's loaded libraries rather than
+        # per-thread allocation. The win here is CPU contention, not footprint.
+        torch.set_num_threads(1)
+
         _MODEL = SentenceTransformer(
             settings.embedding_model, device=settings.embedding_device
         )
