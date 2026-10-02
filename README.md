@@ -195,7 +195,13 @@ The same 50 golden-set questions run twice — guardrail **off** (plain RAG) and
 **[`eval/results.md`](eval/results.md)**.
 
 <!--EVAL_TABLE_START-->
-_Populated by `python eval/run_eval.py`. See [`eval/results.md`](eval/results.md)._
+> **Not yet run.** The harness, the golden set and the metrics are built and
+> tested; the benchmark needs ~302,000 tokens and Groq's free tier allows
+> 200,000/day, so it runs one condition per day. Method, cost breakdown and the
+> exact commands are in [`eval/results.md`](eval/results.md).
+>
+> No numbers are quoted anywhere in this repository until that run completes —
+> inventing them would undercut the one thing this project is about.
 <!--EVAL_TABLE_END-->
 
 Two things make the measurement honest:
