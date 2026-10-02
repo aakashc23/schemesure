@@ -116,18 +116,24 @@ jobs:
         run: |
           # FastAPI is bound to 127.0.0.1 inside the container and is never
           # published, so this check runs from inside it.
-          HEALTH=$(docker exec schemesure curl -sf http://127.0.0.1:8000/health)
-          echo "$HEALTH"
-          echo "$HEALTH" | python -c "
-import json, sys
-h = json.load(sys.stdin)
-assert h['schemes_loaded'] == 15, f\"expected 15 schemes, got {h['schemes_loaded']}\"
-assert h['chunks_indexed'] > 300, f\"index looks empty: {h['chunks_indexed']} chunks\"
-print(f\"OK: {h['schemes_loaded']} schemes, {h['chunks_indexed']} chunks indexed at build time\")
-"
-          # /schemes must serve real data without any LLM key configured.
-          docker exec schemesure curl -sf http://127.0.0.1:8000/schemes \
-            | python -c "import json,sys; print('OK: /schemes returned', len(json.load(sys.stdin)), 'schemes')"
+          docker exec schemesure curl -sf http://127.0.0.1:8000/health > health.json
+          cat health.json
+          docker exec schemesure curl -sf http://127.0.0.1:8000/schemes > schemes.json
+          python - <<'PY'
+          import json
+
+          health = json.load(open("health.json"))
+          assert health["schemes_loaded"] == 15, f"expected 15 schemes, got {health['schemes_loaded']}"
+          assert health["chunks_indexed"] > 300, f"index looks empty: {health['chunks_indexed']} chunks"
+          print(f"OK: {health['schemes_loaded']} schemes, "
+                f"{health['chunks_indexed']} chunks indexed at build time")
+
+          # /schemes must serve real data even with no LLM key configured.
+          schemes = json.load(open("schemes.json"))
+          assert len(schemes) == 15, f"/schemes returned {len(schemes)}"
+          assert all(".gov.in" in s["source_url"] for s in schemes), "a source_url is not official"
+          print(f"OK: /schemes returned {len(schemes)} schemes, all citing .gov.in sources")
+          PY
 
       - name: Container logs
         if: always()
