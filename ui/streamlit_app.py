@@ -363,7 +363,7 @@ with eligibility_tab:
                         }
                         for result in data["results"]
                     ],
-                    use_container_width=True,
+                    width="stretch",
                     hide_index=True,
                 )
 
@@ -425,7 +425,7 @@ with schemes_tab:
                 }
                 for scheme in schemes
             ],
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
             column_config={
                 "Official source": st.column_config.LinkColumn("Official source", display_text="open")

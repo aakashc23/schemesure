@@ -434,7 +434,7 @@ code — if logic lived here, the eval would measure something users never touch
 
 ---
 
-## Part 7 — Testing: 169 tests, no internet
+## Part 7 — Testing: 179 tests, no internet
 
 Run them with `python -m pytest -q`. They need **no API key** and make **no
 network calls** — so they are fast (~17s) and never flaky.
@@ -576,7 +576,7 @@ On every push and pull request, GitHub rents a fresh Linux machine and runs:
    the data is broken, every later failure is a confusing symptom of the same
    cause.
 2. `python -m core.ingest` — build the index (the tests use real retrieval).
-3. `python -m pytest -v` — all 169 tests.
+3. `python -m pytest -v` — all 179 tests.
 4. `python scripts/scan_secrets.py --tracked` — did a credential sneak in?
 
 The whole thing takes about two minutes, and you see a ✓ or ✗ on the commit.
