@@ -60,6 +60,24 @@ async def lifespan(app: FastAPI):
 
     logger.info("loading embedding model %s ...", settings.embedding_model)
     app.state.retriever = Retriever(settings)
+
+    # Self-heal an empty index.
+    #
+    # The Docker image builds the index at build time, so this is a no-op there.
+    # But hosts without a build step (Streamlit Community Cloud, a bare `git
+    # clone`) start with no index at all, and an empty index means every question
+    # gets refused — a failure that looks like a model problem rather than a
+    # missing build step. Building it here costs ~20s once at startup.
+    if app.state.retriever.count() == 0:
+        logger.warning("index is empty — building it now from data/schemes ...")
+        from core.ingest import build_index
+
+        summary = build_index(settings, rebuild=False)
+        logger.info("built %d chunks from %d schemes",
+                    summary["chunks"], summary["schemes"])
+        # Re-open so the retriever sees the newly written collection.
+        app.state.retriever = Retriever(settings)
+
     logger.info("index ready: %d chunks", app.state.retriever.count())
 
     app.state.rules = load_rules(settings)

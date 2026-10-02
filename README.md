@@ -1,20 +1,3 @@
----
-title: SchemeSure
-emoji: 🇮🇳
-colorFrom: green
-colorTo: blue
-sdk: docker
-app_port: 7860
-pinned: false
-short_description: Hallucination-aware RAG for Indian government scheme info
-tags:
-  - rag
-  - hallucination-detection
-  - fastapi
-  - streamlit
-  - multilingual
----
-
 # SchemeSure
 
 **A hallucination-aware RAG assistant for Indian government scheme information.**
@@ -22,8 +5,13 @@ Ask in English, Hindi or Hinglish. Every answer is checked claim-by-claim agains
 the retrieved official text *before* it reaches you — and when the evidence is not
 there, it says so instead of guessing.
 
-🔗 **Live demo:** _(see the Space linked in this repo's About section)_
+🔗 **Live demo:** <!--DEMO_URL-->_deploying — link will appear here_<!--/DEMO_URL-->
 🔗 **Code:** https://github.com/aakashc23/schemesure
+
+```bash
+curl -s -X POST https://<your-app>/ask -H 'Content-Type: application/json' \
+  -d '{"question":"PM Kisan ka paisa kitna milta hai?"}' | jq '.answer, .status'
+```
 
 ---
 
@@ -233,7 +221,34 @@ A single averaged "refusal rate" would hide the only interesting part.
 | UI | Streamlit over HTTP | No business logic in the frontend |
 | Monitoring | SQLite (`llm_calls.db`) | Every call logged; `/metrics` reads real measurements |
 | Tests | pytest — **166 tests, no network calls** | LLM always mocked; retrieval is real |
-| Deploy | Docker → Hugging Face Space, GitHub Actions | One container, index built at build time |
+| Container | Docker (`Dockerfile` + `start.sh`) | Two processes, one port; index built at build time |
+| Live host | Streamlit Community Cloud | Free, and redeploys on every push to `main` |
+| CI | GitHub Actions | Validate data → build index → 166 tests → secret scan |
+
+### A note on where it is hosted
+
+The project was built for a **Hugging Face Docker Space**, and `Dockerfile`,
+`start.sh` and `scripts/deploy_hf.py` all work for that. Partway through,
+deploying revealed that Hugging Face now returns **402 Payment Required** for
+Docker Spaces:
+
+> *"Static Spaces are free for everyone, but hosting Gradio and Docker Spaces on
+> free cpu-basic requires a PRO subscription."*
+
+Only `static` Spaces remain free (the Streamlit SDK no longer exists at all), and
+a static Space cannot run Python. So the live demo moved to Streamlit Community
+Cloud — free, no card, and it redeploys itself on every push.
+
+The architecture did **not** collapse to accommodate that. Streamlit Cloud gives
+you one process, so [`streamlit_app.py`](streamlit_app.py) starts the real
+FastAPI app in a background thread and the UI talks to it over HTTP on localhost.
+The boundary is intact: the UI still only knows how to make HTTP calls, all logic
+still lives behind the API, and the evaluation harness still measures the same
+code path. The Docker container remains the production path and still runs
+anywhere (locally, Cloud Run, or a Space with PRO).
+
+Measured footprint: **~1.2 GB RSS**, almost all of it torch. That is what ruled
+out the 512 MB free tiers (Render, Fly.io) during the search for a host.
 
 **On the embedding model:** `multilingual-e5-small` has a longer context but
 compressed every score into a narrow band — off-topic "capital of France" scored

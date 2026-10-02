@@ -40,7 +40,6 @@ ALLOW_PATTERNS = [
     "Dockerfile",
     "start.sh",
     "requirements.txt",
-    "README.md",
     ".dockerignore",
     "app/*.py",
     "core/*.py",
@@ -59,9 +58,49 @@ TERMINAL_OK = {"RUNNING"}
 TERMINAL_BAD = {"BUILD_ERROR", "RUNTIME_ERROR", "CONFIG_ERROR", "DELETING", "PAUSED"}
 
 
+# A Space is configured by YAML front-matter in its README. We do NOT keep that
+# block in the repo's own README, because GitHub renders it as a stray table at
+# the top of the page. Instead it is prepended at upload time, so the repo README
+# stays clean and the Space still gets its configuration.
+SPACE_FRONT_MATTER = """\
+---
+title: SchemeSure
+emoji: 🇮🇳
+colorFrom: green
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+short_description: Hallucination-aware RAG for Indian government scheme info
+---
+
+"""
+
+
 def fail(message: str) -> int:
     print(f"\nERROR: {message}")
     return 1
+
+
+def build_space_readme(root: Path) -> Path:
+    """
+    Write the Space's README (front-matter + the repo README) to a temp file.
+
+    Returns the path to upload as README.md.
+    """
+    import tempfile
+
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    # Guard against double-prepending if the repo README ever regains a block.
+    if readme.startswith("---"):
+        body = readme
+    else:
+        body = SPACE_FRONT_MATTER + readme
+
+    out_dir = Path(tempfile.mkdtemp(prefix="schemesure_space_"))
+    out_path = out_dir / "README.md"
+    out_path.write_text(body, encoding="utf-8")
+    return out_path
 
 
 def resolve_space_id(api, settings) -> str:
@@ -258,6 +297,16 @@ def main() -> int:
             allow_patterns=ALLOW_PATTERNS,
             commit_message="Deploy SchemeSure",
         )
+        # The README is uploaded separately because the Space needs the YAML
+        # front-matter that the repo's own README deliberately does not carry.
+        api.upload_file(
+            path_or_fileobj=str(build_space_readme(ROOT)),
+            path_in_repo="README.md",
+            repo_id=space_id,
+            repo_type="space",
+            commit_message="Update Space README (with front-matter)",
+        )
+        print("  + README.md (front-matter prepended)")
     except Exception as exc:  # noqa: BLE001
         return fail(f"upload failed: {exc}")
 

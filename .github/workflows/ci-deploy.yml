@@ -69,11 +69,26 @@ jobs:
       - name: Scan for leaked credentials
         run: python scripts/scan_secrets.py --tracked
 
+  # ---------------------------------------------------------------------------
+  # Deployment
+  #
+  # The live demo runs on Streamlit Community Cloud, which watches this repo and
+  # redeploys itself on every push to main — so the normal deploy path needs no
+  # job here. Worth being honest about the consequence: Streamlit Cloud rebuilds
+  # on push regardless of whether this test job passed. The gate that *does*
+  # hold is the branch: tests run on every pull request, so a change should not
+  # reach main red in the first place.
+  #
+  # This job keeps the Hugging Face path working for anyone with a PRO
+  # subscription (Docker Spaces are no longer free), and for a Cloud Run or
+  # self-hosted deployment of the same image. It is manual-only — on a free
+  # account the Spaces API returns 402, and failing every push would train
+  # everyone to ignore a red tick.
+  # ---------------------------------------------------------------------------
   deploy:
-    name: Deploy to Hugging Face Space
+    name: Deploy to Hugging Face Space (manual, needs PRO)
     needs: test
-    # Only a direct push to main deploys; pull requests stop at the test job.
-    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 45
 

@@ -45,10 +45,11 @@ WORKDIR $HOME/app
 # (slow) dependency layer.
 COPY --chown=user requirements.txt ./
 
-# CPU-only torch, explicitly. sentence-transformers pulls in torch, and the
-# default Linux wheel is the CUDA build at ~2.5 GB — far too large for a free
-# Space and entirely wasted, since there is no GPU. Installing from the CPU
-# index first means the requirements.txt install finds torch already satisfied.
+# CPU-only torch, installed first and explicitly. sentence-transformers pulls in
+# torch, and PyPI's default Linux wheel is the CUDA build at ~2.5 GB — entirely
+# wasted on a machine with no GPU. requirements.txt pins `torch==2.14.1+cpu` for
+# Linux, so this step just warms a cache layer that code changes do not
+# invalidate; the requirements install then finds torch already satisfied.
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir torch==2.14.1 \
         --index-url https://download.pytorch.org/whl/cpu \

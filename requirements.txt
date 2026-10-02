@@ -1,10 +1,21 @@
-# SchemeSure dependencies — pinned so local, CI and the Docker image agree.
+# SchemeSure dependencies — pinned so local, CI and every host agree.
 # Only direct dependencies are listed; pip resolves the transitive ones.
+
+# ---- torch: CPU-only, deliberately -----------------------------------------
+# sentence-transformers needs torch. On Linux, PyPI's default `torch` wheel is
+# the CUDA build at ~2.5 GB — a huge download for a machine with no GPU, and
+# enough to exhaust the disk or build timeout on a free host.
 #
-# NOTE ON torch: sentence-transformers needs torch. On Linux the default wheel
-# is the CUDA build (~2.5 GB), which is far too big for a free Hugging Face
-# Space. The Dockerfile installs the CPU-only wheel first from
-# https://download.pytorch.org/whl/cpu, so this file does not pin torch itself.
+# The CPU wheels live on PyTorch's own index, and the `+cpu` local version is
+# what forces pip to take them. Windows' default PyPI wheel is already CPU-only,
+# and no `+cpu` build is published for it, hence the platform markers.
+#
+# This is pinned here (rather than only in the Dockerfile) because hosts without
+# a build step — Streamlit Community Cloud, a bare `git clone` — install from
+# this file and nothing else.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.14.1+cpu ; sys_platform == "linux"
+torch==2.14.1 ; sys_platform != "linux"
 
 # ---- Web API ----
 fastapi==0.142.2
