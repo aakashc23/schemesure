@@ -310,7 +310,11 @@ def build_markdown(slug: str, scheme_id: str, payload: dict, docs_payload: dict)
     references = []
     for ref in content.get("references") or []:
         if isinstance(ref, dict):
-            url = str(ref.get("url", "")).strip()
+            # A few reference URLs in the official payload carry stray leading
+            # punctuation or padding (e.g. ": https://..." and " https://... ").
+            # Trimming that is a formatting fix, not a change of fact: it is what
+            # makes the link resolve. The raw value stays in data/raw/ either way.
+            url = str(ref.get("url", "")).strip().lstrip(":,; \t").strip()
             title = clean_markdown(ref.get("title")) or url
             if url:
                 references.append((title, url))

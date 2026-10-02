@@ -26,7 +26,7 @@ reference_urls:
   - title: "Mission Shakti Guidelines"
     url: "https://pmmvy.wcd.gov.in/Content/assets/PDF/MissionShaktiGuidelines.pdf"
   - title: "Mobile App Link"
-    url: ": https://pmmvy.wcd.gov.in/apk/PMMVYsoft.apk"
+    url: "https://pmmvy.wcd.gov.in/apk/PMMVYsoft.apk"
   - title: "Citizen Training Video"
     url: "https://pmmvy.wcd.gov.in/Home/TrainingVideo"
   - title: "FAQ"
