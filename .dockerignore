@@ -1,0 +1,31 @@
+# Never ship secrets into an image.
+.env
+.env.local
+
+# Rebuilt inside the image by `python -m core.ingest`.
+chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+
+# Host-specific; the image installs its own dependencies.
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Not needed at runtime.
+tests/
+eval/
+scripts/
+docs/
+.github/
+.git/
+.gitignore
+.gitattributes
+pytest.ini
+CLAUDE.md
+data/raw/

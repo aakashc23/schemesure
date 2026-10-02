@@ -1,0 +1,106 @@
+name: CI/CD
+
+# Tests run on every push and pull request. Deployment runs only for pushes to
+# main that pass the tests — a red test suite can never reach the live Space.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+concurrency:
+  # A newer push supersedes an in-flight run, so two deploys never race.
+  group: ci-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+  # The corpus contains Devanagari and the rupee sign; without this, printing
+  # scheme text fails on some runner locales.
+  PYTHONIOENCODING: utf-8
+
+jobs:
+  test:
+    name: Validate data and run tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install dependencies (CPU-only torch)
+        # The default Linux torch wheel is the ~2.5 GB CUDA build. There is no GPU
+        # here, so install from the CPU index first; the requirements install then
+        # finds torch already satisfied.
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements.txt
+
+      - name: Cache the embedding model
+        # ~120 MB from the HF Hub. Cached so later runs do not re-download it.
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-paraphrase-multilingual-MiniLM-L12-v2
+
+      - name: Validate the scheme data
+        # Runs first: if the corpus is malformed, every test failure after this
+        # would be a confusing symptom of the same root cause.
+        run: python scripts/validate_data.py
+
+      - name: Build the Chroma index
+        # The integration tests exercise real retrieval, so they need a real
+        # index. This also re-checks that no chunk exceeds the token budget.
+        run: python -m core.ingest
+
+      - name: Run the test suite
+        # No API key is configured here, and none is needed: every test replaces
+        # the LLM with a fake. The suite makes no network calls.
+        run: python -m pytest -v
+
+      - name: Scan for leaked credentials
+        run: python scripts/scan_secrets.py --tracked
+
+  deploy:
+    name: Deploy to Hugging Face Space
+    needs: test
+    # Only a direct push to main deploys; pull requests stop at the test job.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install deployment dependencies
+        # Deliberately minimal: the deploy script only uploads files and reads
+        # settings, so it needs neither torch nor chromadb.
+        run: |
+          python -m pip install --upgrade pip
+          pip install "huggingface_hub==1.33.0" "pydantic-settings==2.15.0" \
+                      "python-dotenv==1.2.4" "requests==2.34.2"
+
+      - name: Deploy
+        # Secrets come from the repository's GitHub Secrets. There is no .env in
+        # CI; pydantic-settings reads these environment variables instead.
+        # deploy_hf.py forwards the LLM values to the Space as *Space secrets*,
+        # so they are never written into an uploaded file.
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE_ID: ${{ secrets.HF_SPACE_ID }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+        run: python scripts/deploy_hf.py
