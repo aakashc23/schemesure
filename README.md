@@ -5,7 +5,7 @@ Ask in English, Hindi or Hinglish. Every answer is checked claim-by-claim agains
 the retrieved official text *before* it reaches you — and when the evidence is not
 there, it says so instead of guessing.
 
-🔗 **Live demo:** <!--DEMO_URL-->_deploying — link will appear here_<!--/DEMO_URL-->
+🔗 **Live demo:** <!--DEMO_URL-->**https://schemesureaakash.streamlit.app**<!--/DEMO_URL-->
 🔗 **Code:** https://github.com/aakashc23/schemesure
 
 ```bash
