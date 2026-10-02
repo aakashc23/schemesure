@@ -103,6 +103,34 @@ def main() -> int:
                  f"`scripts/make_verify_checklist.py`*\n")
     lines.append("---\n")
 
+    # Two facts were cross-checked against a *different* official source than the
+    # one the pipeline reads. That tests the whole chain (API -> parser ->
+    # markdown -> rules), not just the parser, which is why it is recorded here.
+    lines.append("## Independent cross-checks already done\n")
+    lines.append(
+        "Everything below comes from the myScheme API. To check that chain end to "
+        "end — not just that the parser is faithful — two headline facts were "
+        "verified against a **different** official source:\n"
+    )
+    lines.append("| Fact in this repo | Independent official source | Result |")
+    lines.append("|---|---|---|")
+    lines.append(
+        "| PMJJBY: ₹2 lakh cover, ₹436/year premium, age 18–50 "
+        "| `financialservices.gov.in/pmjjby` and the Jan Suraksha rules "
+        "(Department of Financial Services) | ✅ all three match exactly |"
+    )
+    lines.append(
+        "| PM-KISAN: ₹6,000/year in three equal instalments of ₹2,000 every four months "
+        "| `services.india.gov.in` / PIB releases (Ministry of Agriculture) "
+        "| ✅ matches exactly |"
+    )
+    lines.append("")
+    lines.append(
+        "That is 2 of 15 schemes. The remaining 13 are listed below for you to "
+        "check the same way — the point of this file.\n"
+    )
+    lines.append("---\n")
+
     # Summary table first, so the whole set is visible at a glance.
     lines.append("## At a glance\n")
     lines.append("| # | Scheme | Ministry | Verified on |")

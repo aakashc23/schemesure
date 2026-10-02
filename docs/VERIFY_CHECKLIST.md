@@ -10,6 +10,19 @@ This file exists so the scheme data can be **spot-checked by a human**. Everythi
 
 ---
 
+## Independent cross-checks already done
+
+Everything below comes from the myScheme API. To check that chain end to end — not just that the parser is faithful — two headline facts were verified against a **different** official source:
+
+| Fact in this repo | Independent official source | Result |
+|---|---|---|
+| PMJJBY: ₹2 lakh cover, ₹436/year premium, age 18–50 | `financialservices.gov.in/pmjjby` and the Jan Suraksha rules (Department of Financial Services) | ✅ all three match exactly |
+| PM-KISAN: ₹6,000/year in three equal instalments of ₹2,000 every four months | `services.india.gov.in` / PIB releases (Ministry of Agriculture) | ✅ matches exactly |
+
+That is 2 of 15 schemes. The remaining 13 are listed below for you to check the same way — the point of this file.
+
+---
+
 ## At a glance
 
 | # | Scheme | Ministry | Verified on |
