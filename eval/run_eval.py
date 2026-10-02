@@ -56,6 +56,8 @@ from core.retriever import Retriever  # noqa: E402
 GOLDEN_PATH = ROOT / "eval" / "golden_set.jsonl"
 RESULTS_PATH = ROOT / "eval" / "results.md"
 RAW_PATH = ROOT / "eval" / "raw_results.json"
+# Written after every question so a long run is never all-or-nothing.
+CHECKPOINT_PATH = ROOT / "eval" / "_checkpoint.json"
 
 
 # ==========================================================================
@@ -540,6 +542,23 @@ def main() -> int:
         for index, row in enumerate(rows, start=1):
             record = run_one(row, pipeline, retriever, auditor)
             records.append(record)
+
+            # Checkpoint after every question.
+            #
+            # A full run takes over an hour, because Groq's free tier allows
+            # 8,000 tokens/minute and a verified answer costs ~1,500. Writing
+            # only at the end means a crash, a Ctrl-C or a laptop sleeping
+            # discards every completed question — which is exactly what happened
+            # once, and the reason this exists.
+            try:
+                with io.open(CHECKPOINT_PATH, "w", encoding="utf-8") as fh:
+                    json.dump(
+                        {"condition": condition, "completed": index,
+                         "total": len(rows), "records": records},
+                        fh, ensure_ascii=False, indent=2,
+                    )
+            except OSError:
+                pass  # never let checkpointing break the run
 
             status = record.get("status", "ERROR")
             marker = {

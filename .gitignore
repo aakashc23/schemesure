@@ -52,3 +52,4 @@ desktop.ini
 
 # ---- Streamlit ----
 .streamlit/secrets.toml
+_checkpoint.json
