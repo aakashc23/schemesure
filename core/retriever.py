@@ -40,6 +40,11 @@ class Retriever:
         self.settings = settings or get_settings()
         self.model = get_embedding_model(self.settings)
         self.collection = get_collection(self.settings)
+        # chunk text -> its stored embedding, filled from Chroma by `search`.
+        # Ingest embeds exactly the stored text with this model, so reusing the
+        # stored vector is identical to re-embedding it — and re-embedding five
+        # 100-token passages costs ~2 s on one CPU thread, per answer.
+        self._stored_vectors: dict[str, object] = {}
 
     # ---- introspection used by /health and /schemes ----------------------
 
@@ -59,9 +64,23 @@ class Retriever:
         Returns a numpy array of shape (len(texts), dim), L2-normalised, so the
         dot product of two rows is their cosine similarity. The guardrail uses
         this for its independent claim-vs-evidence similarity signal.
+
+        Texts that are retrieved chunks reuse the vector Chroma already stores
+        (see `search`); only the rest — the short claims — are encoded.
         """
-        return self.model.encode(
-            list(texts), normalize_embeddings=True, convert_to_numpy=True
+        import numpy as np
+
+        texts = list(texts)
+        missing = [text for text in texts if text not in self._stored_vectors]
+        fresh = {}
+        if missing:
+            encoded = self.model.encode(
+                missing, normalize_embeddings=True, convert_to_numpy=True
+            )
+            fresh = dict(zip(missing, encoded))
+        return np.asarray(
+            [self._stored_vectors.get(text, fresh.get(text)) for text in texts],
+            dtype=float,
         )
 
     # ---- the search ------------------------------------------------------
@@ -98,7 +117,7 @@ class Retriever:
         raw = self.collection.query(
             query_embeddings=[vector.tolist()],
             n_results=top_k,
-            include=["documents", "metadatas", "distances"],
+            include=["documents", "metadatas", "distances", "embeddings"],
         )
 
         # Chroma returns one list per query; we only ever send one.
@@ -106,6 +125,13 @@ class Retriever:
         documents = (raw.get("documents") or [[]])[0]
         metadatas = (raw.get("metadatas") or [[]])[0]
         distances = (raw.get("distances") or [[]])[0]
+        stored = raw.get("embeddings")
+        stored = stored[0] if stored is not None and len(stored) else []
+
+        # Remember the stored vectors for `embed` (bounded by the corpus size).
+        for document, vector in zip(documents, stored):
+            if document and vector is not None:
+                self._stored_vectors[document] = vector
 
         chunks: list[RetrievedChunk] = []
         for chunk_id, document, metadata, distance in zip(
