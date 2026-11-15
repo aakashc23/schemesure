@@ -45,7 +45,7 @@ comparison the plan proposed — is behind, and is the focus of the second half
 | API | 9 endpoints, input limits, error mapping, answer cache | `app/main.py` |
 | Web UI | Ask (with claims, evidence and pipeline views), Eligibility, Schemes, How it works, System | `ui/streamlit_app.py` |
 | Monitoring | every LLM call logged; `/metrics` and the System tab read it | `app/llm_client.py` |
-| Testing and CI | 573 offline tests; CI validates data, builds the index, runs tests, scans for secrets, builds and smoke-tests the Docker image | `tests/`, `.github/workflows/ci-deploy.yml` |
+| Testing and CI | 574 offline tests; CI validates data, builds the index, runs tests, scans for secrets, builds and smoke-tests the Docker image | `tests/`, `.github/workflows/ci-deploy.yml` |
 | Deployment | live on Streamlit Community Cloud; Docker image as the portable path | `docs/DEPLOYMENT.md` |
 | Retrieval benchmark | Recall@1/3/5, MRR@10 with Wilson intervals, raw vs normalised, threshold sweep | `eval/retrieval_results.md`, `eval/threshold_results.md` |
 

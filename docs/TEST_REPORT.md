@@ -5,7 +5,7 @@ gives the exact command, so every number can be reproduced. Nothing here is esti
 
 | Layer | What it shows | Result |
 |---|---|---|
-| [1. Automated tests](#1-automated-tests) | the code does what it claims, offline | **573 passed, 0 failed** |
+| [1. Automated tests](#1-automated-tests) | the code does what it claims, offline | **574 passed, 0 failed** |
 | [2. Retrieval benchmark](#2-retrieval-benchmark-full-run) | the right scheme comes back | full run, n = 50 |
 | [3. End-to-end evaluation](#3-end-to-end-evaluation-preliminary) | guardrail OFF vs ON | **preliminary**, subset |
 | [4. Manual and live checks](#4-manual-and-live-checks) | the deployed app works | see table |
@@ -21,12 +21,12 @@ python -m pytest -q
 
 No API key and no network: every LLM call is replaced by a fake, while retrieval
 uses the real embedding model and a real Chroma index. Run time on the development
-laptop (CPU only) was 211 s, most of it the Streamlit UI tests.
+laptop (CPU only) was 57–211 s across two runs on the same day, most of it the Streamlit UI tests.
 
 | File | Tests | What it pins down |
 |---|---|---|
 | `test_eligibility_inputs.py` | 90 | income parsing ("2.5 lakh", "1,50,000", values under ₹1,000), age parsing, occupation synonyms and vocabulary, broad occupations → NEED_MORE_INFO |
-| `test_ui.py` | 59 | every tab renders (Streamlit AppTest, fake API); status pills; claims/evidence/pipeline views; eligibility text, form and re-check flows; error messages; old and new API response shapes |
+| `test_ui.py` | 60 | every tab renders (Streamlit AppTest, fake API); status pills; claims/evidence/pipeline views; eligibility text, form and re-check flows; error messages; old and new API response shapes |
 | `test_api_features.py` | 55 | refusal reasons, evidence summary, stage trace, answer cache, `/eligibility/check`, `/eligibility/options`, `/schemes/{id}`, `/health` and `/metrics` fields |
 | `test_guardrail_grounding.py` | 54 | number/link grounding on real chunk text in English, Hindi and Hinglish; re-check after repair; citation restriction; judge alignment; similarity recording never changing a verdict |
 | `test_eligibility.py` | 51 | the rule engine: age/income boundaries (inclusive), null rules, missing fields, gender, occupation, a decisive failure outranking missing data, Indian digit grouping |
@@ -43,9 +43,9 @@ laptop (CPU only) was 211 s, most of it the Streamlit UI tests.
 | `test_eval_common.py` | 9 | stratified selection, Wilson intervals, AUROC, fact matching with digit boundaries |
 | `test_eval_retrieval.py` | 7 | Recall@k, MRR, threshold sweep |
 | `test_retriever_embed.py` | 3 | similarity reuses Chroma's stored passage vectors, identical to re-embedding; only claims are encoded |
-| **Total** | **573** | |
+| **Total** | **574** | |
 
-**Result:** 573 passed, 0 failed (full run, exit code 0, 211 s).
+**Result:** 574 passed, 0 failed (full run, exit code 0).
 
 CI (`.github/workflows/ci-deploy.yml`) runs the same suite on every push to main and every pull request into main: it validates the data, builds the index, runs the tests and scans tracked files for secrets; a separate parallel job builds and smoke-tests the Docker image.
 
@@ -157,11 +157,27 @@ The headline numbers need reading against the individual cases. We checked each 
 | Data validation | `python scripts/validate_data.py` | passed, 15 schemes; 14 content warnings (e.g. one reference URL not on a .gov.in host) |
 | Index build | `python -m core.ingest` | 312 chunks, none over the 110-token budget |
 | Live app before this milestone | built-in browser, `schemesureaakash.streamlit.app` | Hinglish "PM Kisan ka paisa kitna milta hai?" → Verified, Hinglish answer, cited `pm_kisan#benefits#0` |
-| Live app after deployment | see [§4.1](#41-live-deployment-check) | |
+| GitHub Actions CI on `main` | run 43760842109 for commit `4d2f1eb` | success: "Validate data and run tests" and "Build and smoke-test the container" both passed; the manual HF deploy job was skipped as designed |
+| Live app after deployment | built-in browser, after the merge to `main` (commit `4d2f1eb`) | new UI served; Ask and form eligibility work, see [§4.1](#41-live-deployment-check) |
 
 ### 4.1 Live deployment check
 
-<!--LIVE_CHECK-->
+Checked on 2026-11-16 in the built-in browser at
+<https://schemesureaakash.streamlit.app>, a few minutes after `main` was pushed and
+Streamlit Cloud redeployed.
+
+| Check | Result |
+|---|---|
+| Sidebar status | API reachable · 15 schemes · 312 passages · `qwen/qwen3.8-27b` · verification on · key configured · answer cache on |
+| Hindi example, "अटल पेंशन योजना में शामिल होने की आयु सीमा क्या है?" | **Verified**, Hindi answer (minimum 18, maximum 40), 4 LLM calls, 1.3 s, 2/2 claims supported, source `atal_pension_yojana#eligibility#0` |
+| Trap example, "What is the interest rate on Sukanya Samriddhi Yojana?" | **Not enough official info**, refusal reason `no_claims`, 3 LLM calls, 0.6 s |
+| Eligibility → Fill in a form, occupation *Street vendor*, all else empty | 2 likely eligible, 8 need more info, 5 not eligible, **0 LLM calls** |
+
+**Bug found by this check and fixed:** for the `no_claims` refusal, the Verification
+tab read "Decision: PASS — 0 of 0 claim(s) supported", which looks like a pass on a
+withheld answer. The UI now labels what happened to the answer ("nothing to verify —
+answer withheld", and similar labels for the other refusal reasons), with a regression
+test in `tests/test_ui.py`.
 
 ---
 

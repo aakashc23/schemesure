@@ -576,6 +576,25 @@ class TestAskTab:
         assert "0.109" in text
         assert "nothing was drafted" in text
 
+    def test_no_claims_refusal_is_not_labelled_pass(self):
+        """Found on the live app: a refused draft with no claims read "Decision: PASS"."""
+        refused = dict(
+            ASK_VERIFIED,
+            status="refused",
+            refusal_reason="no_claims",
+            answer="I do not have official information on this.",
+            citations=[],
+            guardrail=dict(
+                ASK_VERIFIED["guardrail"], decision="PASS", claims=[], supported_count=0,
+                notes=["No factual claims were extracted; nothing to verify."],
+            ),
+        )
+        app, _ = asked(refused)
+        assert not app.exception
+        text = all_text(app)
+        assert "Decision: PASS" not in text
+        assert "nothing to verify — answer withheld" in text
+
     def test_old_style_refusal_without_reason_still_gets_the_red_pill(self):
         refused = dict(
             ASK_OLD_SHAPE, status="refused", answer="I do not have official information on this.",

@@ -378,6 +378,19 @@ def render_verification(data: dict) -> None:
     claims = guardrail.get("claims") or []
     decision = guardrail.get("decision", "?")
 
+    # The guardrail's raw decision can read wrongly on a refusal: a draft with no
+    # checkable claims is a vacuous "PASS", and a repair whose re-check failed is
+    # still "REPAIR". Label what actually happened to the answer instead.
+    reason = data.get("refusal_reason")
+    if reason == "no_claims":
+        decision = "nothing to verify — answer withheld"
+    elif reason == "low_evidence":
+        decision = "not run — evidence below the threshold"
+    elif reason == "service_unavailable":
+        decision = "could not run — service unavailable"
+    elif reason == "not_supported" and decision == "REPAIR":
+        decision = "REPAIR, but the rebuilt answer failed its re-check — withheld"
+
     block_threshold = guardrail.get("block_threshold")
     summary = (
         f"**Decision: {decision}** — "
