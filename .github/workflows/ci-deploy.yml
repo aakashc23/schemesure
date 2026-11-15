@@ -45,7 +45,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Cache the embedding model
-        # ~120 MB from the HF Hub. Cached so later runs do not re-download it.
+        # ~470 MB from the HF Hub. Cached so later runs do not re-download it.
         uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface

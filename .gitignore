@@ -53,3 +53,8 @@ desktop.ini
 # ---- Streamlit ----
 .streamlit/secrets.toml
 _checkpoint.json
+
+# ---- Evaluation scratch (re-creatable) ----
+eval/cache/
+eval/**/_checkpoint*.json
+eval/raw_results.previous.json

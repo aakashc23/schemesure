@@ -1,132 +1,110 @@
 # Evaluation results
 
-> **Status: not yet run.** The harness, the 50-question golden set and the
-> metrics are all built and tested; what is missing is a completed run against
-> the live model. This file is written automatically by `python eval/run_eval.py`
-> and will replace everything below with the measured numbers.
->
-> No figures are quoted anywhere in this repository until that run completes.
-> Inventing them would undercut the one thing the project is about.
+## Status (2026-11-16)
 
-## Why it has not run yet
+| Benchmark | Questions | State | Results |
+|---|---|---|---|
+| Retrieval, raw vs normalised queries | 50 (35 answerable) | **complete** | [`retrieval_results.md`](retrieval_results.md) |
+| Refusal-threshold sweep | 50 | **complete** | [`threshold_results.md`](threshold_results.md) |
+| Guardrail OFF vs ON, preliminary subset | 20 (11 answerable, 9 unanswerable) | **complete, PRELIMINARY** | [`runs/subset-20q-c5a697aa/results.md`](runs/subset-20q-c5a697aa/results.md) |
+| Guardrail OFF vs ON, full set | 50 | **not yet run** | this file will be replaced by the run |
 
-Groq's free tier caps the account at **200,000 tokens per day** on a rolling
-24-hour window. Measured cost of the full benchmark:
+The full OFF/ON run needs roughly 300,000 tokens. Groq's free tier allows about
+200,000 a day and also limits output tokens to 1,000 a minute, so the run is done one
+condition per day, ideally on a key separate from the live demo. A case-by-case
+reading of the preliminary subset is in
+[`docs/TEST_REPORT.md` §3](../docs/TEST_REPORT.md#3-end-to-end-evaluation-preliminary).
+Read it before quoting any OFF/ON number.
 
-| Strategy | Tokens | Fits in one day? |
-|---|---|---|
-| Both conditions, with claim-level audit | ~368,000 | no |
-| Both conditions, audit reused on PASS | ~302,000 | no |
-| One condition, with audit | ~145,000–157,000 | **yes** |
+## How to run
 
-So the benchmark needs either two days (one condition each) or a reduced
-question set. The harness supports both: `--condition off` / `--condition on`
-runs one half, and the results are merged into a single comparison table
-automatically on the second run.
-
-## How to run it
-
-One command per condition. Each takes roughly 25–30 minutes.
+Retrieval only (0 LLM calls for `raw`, 1 cached call per question for `normalized`):
 
 ```bash
-python eval/run_eval.py --condition off --delay 2
+python -m eval.run_retrieval --variants raw,normalized
 ```
 
-Then, once the daily token budget has refreshed:
+Full OFF/ON benchmark, one condition per day:
 
 ```bash
-python eval/run_eval.py --condition on --delay 2
+python -m eval.run_eval --condition off --delay 8
 ```
 
-Finally, push the numbers into the README and the resume bullets:
+```bash
+python -m eval.run_eval --condition on --delay 8
+```
+
+The second command merges with the first automatically, but only if the model,
+embeddings, threshold and golden set are unchanged; otherwise it refuses to compare.
+If a run is interrupted, add `--resume`. Questions that failed because the LLM
+service was unavailable are retried, and until then they are excluded from **both**
+conditions so the comparison stays paired.
+
+A cheaper preliminary run on a subset that covers every language and failure mode:
+
+```bash
+python -m eval.run_eval --stratified 20 --delay 8
+```
+
+Publish the numbers into the README (it refuses to fill resume bullets from a
+subset):
 
 ```bash
 python scripts/update_readme_eval.py
 ```
 
-To check the harness works without spending much budget, run a smoke test first:
+## What is measured
 
-```bash
-python eval/run_eval.py --limit 6 --delay 2
-```
-
-It writes `eval/_checkpoint.json` after every question, so an interrupted run
-loses at most one question.
-
-## What will be measured
-
-The same 50 golden-set questions, run twice — guardrail **off** (plain RAG, the
-baseline) and **on** — with identical retrieval, model and prompts. The only
-difference is whether answers are verified before being returned.
+The same golden-set questions, run twice — guardrail **off** (plain RAG, the
+baseline) and **on** — with identical retrieval (one cached normalisation per
+question, shared by both), model and prompts.
 
 | Metric | What it means | Better |
 |---|---|---|
-| **Unsupported claim rate** | Of all factual claims in answers the user actually saw, how many were not backed by the retrieved official text. The headline number. | lower |
+| **Unsupported claim rate** | Of all factual claims in answers the user actually saw, how many the judge found unsupported by the retrieved official text | lower |
 | Answers containing any unsupported claim | Share of answers with at least one ungrounded claim | lower |
 | Correct refusal rate | Unanswerable questions that were refused | higher |
-| Over-blocking rate | Answerable questions that were refused anyway — the cost of strictness | lower |
-| Key fact coverage | Expected facts that appeared in the answer | higher |
+| Over-blocking rate | Answerable questions refused anyway — the cost of strictness | lower |
+| Key-fact coverage / end-to-end accuracy | Expected facts present in the answer; end-to-end counts a refusal as 0 | higher |
 | Retrieval hit rate | Expected scheme present in the top-5 passages | higher |
-| LLM calls / question | Measured per request, not estimated | lower |
-| Latency (avg / median / p95) | Wall-clock per question | lower |
+| LLM calls, tokens, latency | Measured per request, not estimated | lower |
 
-### Two choices that keep the measurement honest
+Every proportion is reported with its n; empty denominators print as "n/a", never 0%.
 
-**The delivered answer is audited, not the draft.** Measuring the draft would
-flatter the guardrail — the draft is what it is about to fix. What matters is
-what reaches the user, so the final answer is re-checked claim-by-claim. This
-also catches the repair step writing a *new* unsupported claim while removing an
-old one.
+### Choices that keep the measurement honest
 
-One exception, and it is not a shortcut: when the guardrail returns **PASS** the
-answer ships unchanged, so the verdicts it already produced *are* verdicts on the
-delivered answer, judged with the same prompt against the same evidence.
-Re-auditing would issue a byte-identical duplicate call. REPAIR answers always
-get a fresh audit, because that text is new.
-
-**Unanswerable questions are split by failure mode**, because the defence against
-each is different and a single averaged "refusal rate" would hide the only
-interesting part:
+- **The delivered answer is audited, not the draft.** When the guardrail returns
+  PASS, the answer ships unchanged, so its verdicts are reused (re-auditing would be
+  a byte-identical call). REPAIR answers carry the verdicts of their own re-check.
+  `--audit-all` forces an independent re-audit of everything.
+- **One refusal detector for both conditions**: pipeline status, canned refusal
+  text, or an answer with no checkable claims.
+- **Infrastructure failures are excluded, in pairs**, not counted as refusals.
+- **Unanswerable questions are split by failure mode**, because the defence against
+  each differs:
 
 | Type | Example | What catches it |
 |---|---|---|
-| `off_topic` | "capital of France" | The retrieval threshold, before any LLM call — so these cost **0** LLM calls |
-| `fake_scheme` | "PM Free Laptop Yojana 2026" | **Only the guardrail.** Measured at 0.61 similarity — above the 0.45 threshold |
-| `not_indexed` | "Sukanya Samriddhi interest rate" | **Only the guardrail.** Measured at 0.71 — real, confident, wrong-scheme evidence |
-| `trick_unstated_fact` | A real scheme, asked for something the source never states | The guardrail, claim by claim |
-
-The baseline is expected to already refuse the `off_topic` questions, because the
-retrieval threshold catches those before any generation happens. The guardrail's
-contribution should show up almost entirely in the other three categories — which
-is exactly why they are reported separately.
+| `off_topic` | "capital of France" | The retrieval threshold, before generation (1 LLM call: normalisation) |
+| `fake_scheme` | "PM Free Laptop Yojana 2026" | Claim-level verification; scores 0.45–0.62, mostly above the threshold |
+| `not_indexed` | "Sukanya Samriddhi interest rate" | Claim-level verification; up to 0.71 — confident, wrong-scheme evidence |
+| `trick_unstated_fact` | A real scheme, asked for something the source never states | Claim-level verification |
 
 ## The golden set
 
-50 questions, built by `scripts/build_golden_set.py`:
+50 questions, built by `scripts/build_golden_set.py`: 35 answerable across all 15
+schemes and 15 unanswerable across the four failure modes. By language: 36 English,
+7 Hindi (Devanagari), 7 Hinglish (romanised). Every expected fact is checked to
+appear in its scheme's source file when the set is built.
 
-- **35 answerable**, covering all 15 schemes — 36 English, 7 Hindi (Devanagari),
-  7 Hinglish (romanised).
-- **15 unanswerable**, split across the four failure modes above.
+## Limitations to state alongside any number
 
-Every expected fact is verified to appear in its scheme's `.md` file before the
-set is written; if one does not, the build fails rather than producing a
-benchmark that measures the author's memory.
-
-## Limitations to state alongside any number this produces
-
-- **50 questions is small.** Differences of a few percent are noise. The numbers
-  show direction and rough magnitude, not precision.
-- **The judge is the same model family as the generator**, so a shared blind spot
-  would be invisible to this evaluation. A stronger setup uses a different model
-  as judge plus a human-labelled subset to validate it.
-- **The audit uses an LLM too**, so the unsupported-claim rate is itself an
-  estimate, deliberately biased toward strictness by the judge prompt.
-- **Key fact coverage uses substring matching**, so a correct answer that phrases
-  a number differently is scored as a miss.
-- **Written by the same person who built the system**, so the golden set may
-  under-represent failure modes that were never considered.
-
----
-
-*Regenerate with `python eval/run_eval.py`. Per-question records, including every
-answer and verdict, are written to `eval/raw_results.json`.*
+- **Small n.** 50 questions overall; 4–5 answerable Hindi or Hinglish questions.
+- **Same judge everywhere.** The judge is the same model as the generator, and the
+  audit uses that judge too. In the preliminary subset the judge was over-strict at
+  least once. A human-labelled subset and a different judge model are planned.
+- **Key facts are matched by substring.** Both misses in the preliminary subset were
+  correct answers worded differently.
+- **Scheme-level relevance.** A hit means the right scheme was retrieved, not every
+  passage needed to answer fully.
+- **Author-written questions** may under-represent failure modes nobody thought of.
