@@ -32,6 +32,7 @@ from __future__ import annotations
 import argparse
 import io
 import re
+import threading
 import shutil
 import sys
 from dataclasses import dataclass
@@ -349,15 +350,26 @@ def chunk_document(path: Path, count_tokens) -> list[Chunk]:
 # Embedding + Chroma
 # ==========================================================================
 
-# Module-level cache: loading the model takes a few seconds and ~120 MB, and
-# FastAPI must do it exactly once at startup, not per request.
+# Module-level cache: loading the model takes a few seconds and about 470 MB of
+# weights (measured: model.safetensors is 470,641,600 bytes), and FastAPI must do
+# it exactly once at startup, not per request.
 _MODEL = None
+# Two threads can reach get_embedding_model() at the same moment (for example a
+# second API start-up on Streamlit Cloud). Without a lock both would load their
+# own copy of the weights. The lock makes "load once" actually true.
+_MODEL_LOCK = threading.Lock()
 
 
 def get_embedding_model(settings: Settings | None = None):
-    """Load (once) and return the sentence-transformers model."""
+    """Load (once, thread-safely) and return the sentence-transformers model."""
     global _MODEL
-    if _MODEL is None:
+    if _MODEL is not None:
+        return _MODEL
+    with _MODEL_LOCK:
+        # Re-check inside the lock: another thread may have finished loading
+        # while this one waited.
+        if _MODEL is not None:
+            return _MODEL
         import torch
         from sentence_transformers import SentenceTransformer
 
@@ -378,7 +390,7 @@ def get_embedding_model(settings: Settings | None = None):
         _MODEL = SentenceTransformer(
             settings.embedding_model, device=settings.embedding_device
         )
-    return _MODEL
+        return _MODEL
 
 
 def make_token_counter(model):

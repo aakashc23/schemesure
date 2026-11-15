@@ -11,7 +11,7 @@ from __future__ import annotations
 import pytest
 
 from app.schemas import EligibilityStatus, Gender, UserProfile
-from core.eligibility import SchemeRules, check_all_schemes, check_scheme, load_rules
+from core.eligibility import SchemeRules, check_all_schemes, check_scheme, format_inr, load_rules
 
 
 # --------------------------------------------------------------------------
@@ -115,7 +115,7 @@ class TestIncomeBoundaries:
     def test_reason_shows_both_numbers(self):
         result = check_scheme(UserProfile(annual_income=500_000), INCOME_350K)
         reasons = " ".join(check.reason for check in result.checks)
-        assert "500,000" in reasons and "350,000" in reasons
+        assert "5,00,000" in reasons and "3,50,000" in reasons
 
 
 # ==========================================================================
@@ -335,3 +335,25 @@ class TestRealRulesFiles:
         assert results["pmsby"] == EligibilityStatus.NOT_ELIGIBLE               # max 70
         assert results["atal_pension_yojana"] == EligibilityStatus.NOT_ELIGIBLE  # max 40
         assert results["pm_kisan"] == EligibilityStatus.ELIGIBLE                 # no age rule
+
+
+# ==========================================================================
+# Indian digit grouping in reasons
+# ==========================================================================
+
+
+@pytest.mark.parametrize(
+    "amount, expected",
+    [
+        (0, "0"),
+        (999, "999"),
+        (1000, "1,000"),
+        (99999, "99,999"),
+        (100000, "1,00,000"),
+        (350000, "3,50,000"),
+        (1800000, "18,00,000"),
+        (10000000, "1,00,00,000"),
+    ],
+)
+def test_format_inr_uses_indian_grouping(amount, expected):
+    assert format_inr(amount) == expected

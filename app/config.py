@@ -41,6 +41,10 @@ class Settings(BaseSettings):
     llm_max_tokens: int = 900
     llm_timeout_seconds: float = 60.0
     llm_max_retries: int = 5
+    # Total wall-clock budget for ONE user request across all its LLM calls and
+    # retries. Must stay below the UI's own HTTP timeout (120 s) so the server
+    # always answers (with an honest error) before the browser gives up.
+    request_deadline_seconds: float = 90.0
 
     # ---- Hugging Face deployment ----------------------------------------
     hf_token: str = ""
@@ -65,9 +69,15 @@ class Settings(BaseSettings):
 
     # ---- Guardrail -------------------------------------------------------
     guardrail_enabled: bool = True
-    # Fraction of unsupported claims at or above which the whole answer is
-    # blocked instead of repaired.
+    # Fraction of unsupported claims ABOVE which (strictly greater than, see
+    # core/guardrail.py decide()) the whole answer is blocked instead of repaired.
     guardrail_block_threshold: float = 0.5
+
+    # ---- Answer cache (protects the free-tier token budget during demos) --
+    # Identical repeated questions are served from memory (zero LLM calls).
+    # 0 disables the cache entirely.
+    answer_cache_ttl_seconds: int = 3600
+    answer_cache_max_entries: int = 256
 
     # ---- Monitoring ------------------------------------------------------
     llm_log_db: str = "./llm_calls.db"

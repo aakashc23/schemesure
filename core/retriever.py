@@ -50,6 +50,20 @@ class Retriever:
         except Exception:  # noqa: BLE001 - /health must never raise
             return 0
 
+    # ---- embedding (shared with the guardrail's similarity signal) -------
+
+    def embed(self, texts: list[str]):
+        """
+        Embed `texts` with the SAME model used for retrieval.
+
+        Returns a numpy array of shape (len(texts), dim), L2-normalised, so the
+        dot product of two rows is their cosine similarity. The guardrail uses
+        this for its independent claim-vs-evidence similarity signal.
+        """
+        return self.model.encode(
+            list(texts), normalize_embeddings=True, convert_to_numpy=True
+        )
+
     # ---- the search ------------------------------------------------------
 
     def search(

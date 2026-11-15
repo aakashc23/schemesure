@@ -39,12 +39,14 @@ from __future__ import annotations
 
 import io
 import json
+import re
 from dataclasses import dataclass, field
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 
 from app.config import Settings, get_settings
 from app.llm_client import CallCounter, LLMClient, LLMError
-from app.prompts import PROFILE_EXTRACTOR_SYSTEM, PROFILE_EXTRACTOR_USER
+from app.prompts import PROFILE_EXTRACTOR_USER, profile_extractor_system
 from app.schemas import (
     EligibilityStatus,
     Gender,
@@ -53,6 +55,111 @@ from app.schemas import (
     UserProfile,
 )
 from core.ingest import parse_front_matter
+
+
+# ==========================================================================
+# Vocabularies (ONE source of truth)
+# ==========================================================================
+# The extraction prompt, the form options (GET /eligibility/options), the synonym
+# map and the *.rules.json files must all speak the same words. If they did not,
+# an occupation the LLM invents ("vegetable seller") would be compared against a
+# rule list and wrongly produce NOT_ELIGIBLE. So the vocabulary lives here, the
+# prompt is built from it, and a test checks every rules file only uses it.
+
+KNOWN_OCCUPATIONS: tuple[str, ...] = (
+    "farmer", "student", "street_vendor", "artisan", "craftsperson",
+    "unorganized_worker", "salaried", "self_employed", "homemaker",
+    "unemployed", "retired",
+)
+
+# UMBRELLA occupations: they overlap the specific ones. A street vendor, an
+# artisan and a farmer are all "self employed" and all "unorganized workers", so
+# for these two values "not in the scheme's list" does NOT prove the person is
+# outside the scheme. The engine therefore asks a follow-up question (NEED_MORE_INFO)
+# instead of returning a firm NOT_ELIGIBLE. (Review finding: false NOT_ELIGIBLE.)
+BROAD_OCCUPATIONS: frozenset[str] = frozenset({"self_employed", "unorganized_worker"})
+
+# Categories the prompt asks for and the form offers. No rules file uses a
+# category today; the set is what an applicant would name.
+KNOWN_CATEGORIES: tuple[str, ...] = ("General", "OBC", "SC", "ST", "EWS")
+
+# Everyday words mapped to the vocabulary above. CONSERVATIVE on purpose: a wrong
+# mapping silently changes a verdict, an unmapped word merely becomes "unknown"
+# and the engine asks for more information. Keys are in _normalize() form.
+OCCUPATION_SYNONYMS: dict[str, str] = {
+    # "kisan" is simply the Hindi word for farmer; "cultivator" and
+    # "agriculturist" are the standard official English words for someone who
+    # farms land. Land ownership is a separate condition that the schemes list
+    # under "conditions still to check yourself", so mapping the word is safe.
+    "kisan": "farmer",
+    "cultivator": "farmer",
+    "agriculturist": "farmer",
+    # A hawker / rehri / thela is, by definition, someone who sells goods on the
+    # street (the rehri and thela are the handcarts). Same trade as a vendor.
+    "hawker": "street_vendor",
+    "rehri": "street_vendor",
+    "thela": "street_vendor",
+    "vendor": "street_vendor",
+    "street_hawker": "street_vendor",
+    "street_seller": "street_vendor",
+    # Plural of an existing value.
+    "students": "student",
+    "farmers": "farmer",
+    "street_vendors": "street_vendor",
+    # British spelling of an existing value.
+    "unorganised_worker": "unorganized_worker",
+    # The prompt already tells the model to use homemaker for a housewife.
+    "housewife": "homemaker",
+    # Deliberately NOT mapped: labourer / agricultural labourer. A labourer works
+    # on someone else's land and is NOT a landholding farmer, so PM-KISAN must
+    # not treat them as one. They stay unknown -> NEED_MORE_INFO.
+}
+
+
+def _normalize(value: str | None) -> str:
+    """Lowercase, trim, and collapse separators so 'Street Vendor' == 'street_vendor'."""
+    if value is None:
+        return ""
+    return value.strip().lower().replace("-", "_").replace(" ", "_")
+
+
+def _normalize_occupation(value: str | None) -> str | None:
+    """
+    Map a free-text occupation onto KNOWN_OCCUPATIONS, or None if unknown.
+
+    Applied to the LLM's extraction AND to structured form input, so both paths
+    behave identically. Unknown -> None -> NEED_MORE_INFO ("tell me your
+    occupation"), never a false NOT_ELIGIBLE (audit finding L11).
+    """
+    key = _normalize(value)
+    if not key:
+        return None
+    key = OCCUPATION_SYNONYMS.get(key, key)
+    return key if key in KNOWN_OCCUPATIONS else None
+
+
+def _canonical_category(value: str | None) -> str | None:
+    """'obc' -> 'OBC'. Unrecognised text is kept as typed (rules compare loosely)."""
+    if value is None:
+        return None
+    cleaned = value.strip()
+    for known in KNOWN_CATEGORIES:
+        if cleaned.lower() == known.lower():
+            return known
+    return cleaned or None
+
+
+def normalize_profile(profile: UserProfile) -> UserProfile:
+    """
+    Apply the occupation whitelist/synonyms (and category casing) to a profile.
+
+    Used for structured input (POST /eligibility/check), where the client sends
+    a profile directly instead of free text.
+    """
+    return profile.model_copy(update={
+        "occupation": _normalize_occupation(profile.occupation),
+        "category": _canonical_category(profile.category),
+    })
 
 
 # ==========================================================================
@@ -76,13 +183,6 @@ class SchemeRules:
     category: str | None = None
     rule_sources: dict[str, str] = field(default_factory=dict)
     unmodelled_conditions: list[str] = field(default_factory=list)
-
-
-def _normalize(value: str | None) -> str:
-    """Lowercase, trim, and collapse separators so 'Street Vendor' == 'street_vendor'."""
-    if value is None:
-        return ""
-    return value.strip().lower().replace("-", "_").replace(" ", "_")
 
 
 def load_rules(settings: Settings | None = None) -> dict[str, SchemeRules]:
@@ -154,6 +254,73 @@ def load_rules(settings: Settings | None = None) -> dict[str, SchemeRules]:
 # Profile extraction (the only LLM call in this flow)
 # ==========================================================================
 
+# "2.5 lakh", "1.5 crore". Decimal x is allowed; nothing else is.
+_INCOME_UNIT_RE = re.compile(
+    r"^\s*(\d+(?:\.\d+)?)\s*(lakhs?|lacs?|crores?)\s*$", re.IGNORECASE
+)
+_INCOME_DIGITS_RE = re.compile(r"^\s*\d[\d,]*\s*$")
+_AGE_RE = re.compile(r"^\s*(\d{1,3})\s*(?:years?|yrs?|yo)?\s*$", re.IGNORECASE)
+
+# Below this a "yearly income" is almost certainly a unit slip (a value in lakh,
+# or a monthly figure), and guessing would produce a false ELIGIBLE.
+MIN_PLAUSIBLE_ANNUAL_INCOME = 1000
+
+
+def parse_income(value) -> int | None:
+    """
+    Turn whatever the extractor returned into rupees per year, or None.
+
+    ACCEPTED (anything else -> None, which the engine treats as "not provided"):
+      - an int or float JSON number, taken as rupees;
+      - a digit string with optional separators: "150000", "1,50,000";
+      - an explicit "<x> lakh" / "<x> crore" with a decimal x: "2.5 lakh".
+    A result under Rs 1,000 is rejected as a probable unit mistake.
+
+    WHY SO STRICT: the old code joined every digit it found, so "2.5 lakh"
+    became 25 and "1-2 lakh" became 12; Rs 25 then passed every income cap,
+    giving a false ELIGIBLE (audit finding M4).
+    """
+    if value is None or isinstance(value, bool):
+        return None
+
+    amount: Decimal | None = None
+    if isinstance(value, (int, float)):
+        try:
+            amount = Decimal(str(value))
+        except InvalidOperation:
+            return None
+    elif isinstance(value, str):
+        text = value.strip()
+        if _INCOME_DIGITS_RE.match(text):
+            amount = Decimal(text.replace(",", ""))
+        else:
+            match = _INCOME_UNIT_RE.match(text)
+            if match:
+                unit = match.group(2).lower()
+                multiplier = 10_000_000 if unit.startswith("crore") else 100_000
+                amount = Decimal(match.group(1)) * multiplier
+    if amount is None:
+        return None
+
+    rupees = int(amount.to_integral_value())
+    return rupees if rupees >= MIN_PLAUSIBLE_ANNUAL_INCOME else None
+
+
+def parse_age(value) -> int | None:
+    """An int, a whole float, or "35" / "35 years". Anything else -> None."""
+    if value is None or isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        age = int(value)
+    elif isinstance(value, str):
+        match = _AGE_RE.match(value)
+        if not match:
+            return None
+        age = int(match.group(1))
+    else:
+        return None
+    return age if 0 <= age <= 120 else None
+
 
 def extract_profile(
     llm: LLMClient,
@@ -163,23 +330,21 @@ def extract_profile(
     """
     Turn free text into a UserProfile. Unstated fields stay None.
 
-    On failure we return an empty profile rather than raising: every scheme then
-    reports NEED_MORE_INFO, which is the correct, safe outcome when we know
-    nothing about the user.
+    An LLM failure is NOT swallowed: it raises LLMError. The old behaviour (return
+    an empty profile) made an outage look like "the person told us nothing", so
+    the UI claimed fields were deliberately left blank. The API turns the error
+    into a clear 503 and points to the form-based check, which needs no LLM.
     """
-    try:
-        parsed, _ = llm.complete_json(
-            prompt_name="extract_profile",
-            system=PROFILE_EXTRACTOR_SYSTEM,
-            user=PROFILE_EXTRACTOR_USER.format(description=description),
-            max_tokens=400,
-            counter=counter,
-        )
-    except LLMError:
-        return UserProfile()
+    parsed, _ = llm.complete_json(
+        prompt_name="extract_profile",
+        system=profile_extractor_system(KNOWN_OCCUPATIONS, KNOWN_CATEGORIES),
+        user=PROFILE_EXTRACTOR_USER.format(description=description),
+        max_tokens=400,
+        counter=counter,
+    )
 
     if not isinstance(parsed, dict):
-        return UserProfile()
+        raise LLMError("profile extractor did not return a JSON object", kind="bad_output")
 
     def clean(key: str):
         value = parsed.get(key)
@@ -192,18 +357,6 @@ def extract_profile(
             return None
         return value
 
-    def as_int(value):
-        if value is None:
-            return None
-        try:
-            # Tolerate "35", "35 years", 35.0
-            if isinstance(value, str):
-                digits = "".join(ch for ch in value if ch.isdigit())
-                return int(digits) if digits else None
-            return int(value)
-        except (TypeError, ValueError):
-            return None
-
     gender = None
     raw_gender = clean("gender")
     if raw_gender is not None:
@@ -212,30 +365,54 @@ def extract_profile(
         except ValueError:
             gender = None
 
-    age = as_int(clean("age"))
-    income = as_int(clean("annual_income"))
+    raw_state = clean("state")
+    raw_category = clean("category")
 
     try:
         return UserProfile(
-            age=age if (age is None or 0 <= age <= 120) else None,
-            annual_income=income if (income is None or income >= 0) else None,
-            state=(str(clean("state")) if clean("state") is not None else None),
-            occupation=(
-                _normalize(str(clean("occupation")))
-                if clean("occupation") is not None
-                else None
+            age=parse_age(clean("age")),
+            annual_income=parse_income(clean("annual_income")),
+            state=str(raw_state) if raw_state is not None else None,
+            # Whitelist + synonyms: unknown occupations become None.
+            occupation=_normalize_occupation(
+                str(clean("occupation")) if clean("occupation") is not None else None
             ),
             gender=gender,
-            category=(str(clean("category")) if clean("category") is not None else None),
+            category=_canonical_category(
+                str(raw_category) if raw_category is not None else None
+            ),
         )
     except ValueError:
-        # Pydantic rejected something; an empty profile is the safe fallback.
+        # Pydantic rejected something; an empty profile is the safe fallback for
+        # *malformed values* (not for a failed call, which raised above).
         return UserProfile()
 
 
 # ==========================================================================
 # The rule engine (pure Python — no LLM, no I/O, fully unit-tested)
 # ==========================================================================
+
+
+def format_inr(amount: int) -> str:
+    """
+    Group digits the Indian way: 1800000 -> "18,00,000" (not "1,800,000").
+
+    The official scheme pages write amounts like this, so the reasons we show
+    should match what the user will read on the government site.
+    """
+    sign = "-" if amount < 0 else ""
+    digits = str(abs(int(amount)))
+    if len(digits) <= 3:
+        return sign + digits
+    head, tail = digits[:-3], digits[-3:]
+    # Everything before the last three digits is grouped in pairs.
+    pairs = []
+    while len(head) > 2:
+        pairs.insert(0, head[-2:])
+        head = head[:-2]
+    if head:
+        pairs.insert(0, head)
+    return sign + ",".join(pairs) + "," + tail
 
 
 def check_scheme(profile: UserProfile, rules: SchemeRules) -> SchemeEligibility:
@@ -303,19 +480,19 @@ def check_scheme(profile: UserProfile, rules: SchemeRules) -> SchemeEligibility:
         if profile.annual_income is None:
             need(
                 "max_annual_income", "annual_income",
-                f"Annual income must not exceed Rs {limit:,}, but your income was not provided.",
+                f"Annual income must not exceed Rs {format_inr(limit)}, but your income was not provided.",
             )
         elif profile.annual_income > limit:
             failed = True
             checks.append(RuleCheck(
                 rule="max_annual_income", passed=False,
-                reason=f"Your annual income Rs {profile.annual_income:,} is above the limit of Rs {limit:,}.",
+                reason=f"Your annual income Rs {format_inr(profile.annual_income)} is above the limit of Rs {format_inr(limit)}.",
                 official_text=source_for("max_annual_income"),
             ))
         else:
             checks.append(RuleCheck(
                 rule="max_annual_income", passed=True,
-                reason=f"Your annual income Rs {profile.annual_income:,} is within the limit of Rs {limit:,}.",
+                reason=f"Your annual income Rs {format_inr(profile.annual_income)} is within the limit of Rs {format_inr(limit)}.",
                 official_text=source_for("max_annual_income"),
             ))
 
@@ -344,6 +521,12 @@ def check_scheme(profile: UserProfile, rules: SchemeRules) -> SchemeEligibility:
         readable = ", ".join(rules.allowed_occupations)
         if profile.occupation is None:
             need("allowed_occupations", "occupation", f"This scheme is for: {readable}. Your occupation was not provided.")
+        elif (_normalize(profile.occupation) not in allowed
+              and _normalize(profile.occupation) in BROAD_OCCUPATIONS):
+            # Umbrella value: could still be a vendor / farmer / artisan. Ask, don't reject.
+            need("allowed_occupations", "occupation",
+                 f"This scheme is for: {readable}. '{profile.occupation}' is a broad term, so please "
+                 "tell us your exact work (for example street vendor, farmer or artisan).")
         elif _normalize(profile.occupation) not in allowed:
             failed = True
             checks.append(RuleCheck(

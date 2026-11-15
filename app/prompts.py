@@ -20,6 +20,10 @@ and eligibility all happen in Python.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
+
+from app.schemas import RefusalReason
+
 # ==========================================================================
 # 1. Query normalizer
 # ==========================================================================
@@ -204,11 +208,13 @@ ANSWER_REPAIR_SYSTEM = """\
 You rewrite an answer so that it contains ONLY verified facts.
 
 You are given a list of verified claims and the evidence passages they came from.
+Each claim ends with the [n] marker of the passage that supports it. The number at
+the START of a line is only its position in the list; it is NOT a passage number.
 
 RULES:
 1. State only the verified claims. Add nothing else — no extra facts, no
    explanation, no advice, no filler.
-2. Keep the [n] citation markers for the passages the facts came from.
+2. Cite each fact with the [n] marker that ends its claim line. Never invent a marker.
 3. Reply in the SAME language as the original answer ({language}).
 4. Short and plain: 2 to 5 sentences, or a short bulleted list.
 5. If the verified claims do not really answer the question, say plainly that
@@ -223,8 +229,8 @@ Evidence passages:
 Verified claims (these are the ONLY facts you may state):
 {claims}
 
-Original question (language = {language}):
-\"\"\"{question}\"\"\"
+The question, as a plain English search query (language = {language}):
+\"\"\"{query}\"\"\"
 
 Write the corrected answer in {language}, using only the verified claims."""
 
@@ -246,21 +252,23 @@ Return ONLY a JSON object with exactly these keys:
   "state": "<Indian state or union territory name in English, or null>",
   "occupation": "<one of the values listed below, or null>",
   "gender": "<female | male | other | null>",
-  "category": "<SC | ST | OBC | General | EWS | null>"
+  "category": "<<<CATEGORIES>>> | null"
 }
 
 THE MOST IMPORTANT RULE: if the person did not say it, the value is null.
 Never guess, never infer, never fill in a typical value. A null means "ask them",
 which is a correct answer. A guess produces a confidently wrong eligibility result.
 
-annual_income:
+annual_income = the TOTAL YEARLY income of the person's household/family, in rupees.
+(Several schemes test family income, not one person's salary.)
+- Only fill it when the person actually states an amount. "I don't earn anything"
+  or "no income" about themselves alone is NOT a household income -> null.
 - Always convert to rupees PER YEAR as a plain integer, with no separators.
 - "2 lakh" -> 200000. "₹50,000 per month" -> 600000. "12 LPA" -> 1200000.
 - "I am poor" / "low income" -> null. That is not a number.
 
 occupation: use exactly one of these when it clearly applies, else null:
-  "farmer", "student", "street_vendor", "artisan", "unorganized_worker",
-  "salaried", "self_employed", "homemaker", "unemployed", "retired"
+  <<<OCCUPATIONS>>>
 - A woman who describes herself only as a housewife -> "homemaker".
 - "I have 2 acres of land and grow wheat" -> "farmer".
 
@@ -270,6 +278,27 @@ category: only if the person names their category. Do not infer it from anything
 
 The description may be in English, Hindi or Hinglish. Understand all three.
 """
+
+def profile_extractor_system(
+    occupations: Iterable[str],
+    categories: Iterable[str],
+) -> str:
+    """
+    Fill the occupation and category vocabularies into the extraction prompt.
+
+    The vocabularies live in ONE place (core/eligibility.py) so the prompt, the
+    synonym map, the form options and the rule files cannot drift apart. The
+    template uses <<<...>>> placeholders (not str.format) because the prompt
+    contains literal JSON braces.
+    """
+    occupation_text = ", ".join(f'"{name}"' for name in occupations)
+    category_text = " | ".join(categories)
+    return (
+        PROFILE_EXTRACTOR_SYSTEM
+        .replace("<<<OCCUPATIONS>>>", occupation_text)
+        .replace("<<<CATEGORIES>>>", category_text)
+    )
+
 
 PROFILE_EXTRACTOR_USER = """\
 Person's description:
@@ -327,7 +356,54 @@ BLOCKED_MESSAGES: dict[str, str] = {
 }
 
 
+# Shown when an LLM call failed (rate limit, quota, outage) and so the answer
+# could not be drafted or verified. Deliberately NOT worded as "no information":
+# the information may well exist, the checking service just was not available.
+SERVICE_UNAVAILABLE_MESSAGES: dict[str, str] = {
+    "en": (
+        "I could not verify an answer right now because the verification service is "
+        "temporarily unavailable (the language model did not respond). SchemeSure "
+        "never shows an unchecked answer, so please try again in a minute."
+    ),
+    "hi": (
+        "अभी उत्तर की जाँच नहीं हो सकी, क्योंकि सत्यापन सेवा अस्थायी रूप से उपलब्ध नहीं है। "
+        "SchemeSure बिना जाँचा हुआ उत्तर कभी नहीं दिखाता, इसलिए कृपया एक मिनट बाद फिर से "
+        "प्रयास करें।"
+    ),
+    "hinglish": (
+        "Abhi answer verify nahi ho paaya, kyunki verification service thodi der ke liye "
+        "available nahi hai. SchemeSure bina check kiya hua answer kabhi nahi dikhata, "
+        "isliye ek minute baad dobara try karein."
+    ),
+}
+
+
 def refusal_for(language: str, blocked: bool = False) -> str:
     """Pick the right canned refusal, defaulting to English for unknown codes."""
     table = BLOCKED_MESSAGES if blocked else REFUSAL_MESSAGES
+    return table.get(language, table["en"])
+
+
+def refusal_message(language: str, reason: RefusalReason | str) -> str:
+    """
+    The canned refusal text for a given refusal reason, in the user's language.
+
+      low_evidence / no_claims -> "I do not have official information on this"
+      not_supported            -> "I could not verify a reliable answer"
+      service_unavailable      -> "the verification service is unavailable, retry"
+
+    Unknown languages fall back to English, unknown reasons to the strictest
+    honest text (not_supported).
+    """
+    try:
+        reason = RefusalReason(reason)
+    except ValueError:
+        reason = RefusalReason.NOT_SUPPORTED
+
+    if reason == RefusalReason.SERVICE_UNAVAILABLE:
+        table = SERVICE_UNAVAILABLE_MESSAGES
+    elif reason in (RefusalReason.LOW_EVIDENCE, RefusalReason.NO_CLAIMS):
+        table = REFUSAL_MESSAGES
+    else:
+        table = BLOCKED_MESSAGES
     return table.get(language, table["en"])

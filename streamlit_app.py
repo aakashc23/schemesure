@@ -18,9 +18,16 @@ differs, and `Dockerfile`/`start.sh` remain the production path.
 
 WHY A THREAD AND NOT A SUBPROCESS
 Streamlit re-runs this script on every interaction. A subprocess would be
-orphaned or re-spawned; a module-level daemon thread guarded by a global starts
-once per process and dies with it. `@st.cache_resource` would also work but is
-re-evaluated per session, which is the wrong lifetime for a server.
+orphaned or re-spawned; a daemon thread starts once per process and dies with it.
+
+WHY `@st.cache_resource` AND NOT A MODULE GLOBAL
+Streamlit executes this script into a FRESH module on every rerun, so a
+module-level flag or lock is re-created each time and guards nothing: a second
+session, a widget click or a page reload during the slow cold start would launch
+another uvicorn thread (each one loads the ~470 MB embedding model and builds the
+index before failing to bind the port). `st.cache_resource` is shared by the whole
+Python process across all sessions and reruns, so the thread is started exactly
+once.
 """
 
 from __future__ import annotations
@@ -40,10 +47,6 @@ API_URL = f"http://{API_HOST}:{API_PORT}"
 
 # The UI reads this; set it before the UI module runs.
 os.environ["API_URL"] = API_URL
-
-_SERVER_LOCK = threading.Lock()
-_SERVER_STARTED = False
-
 
 def _serve() -> None:
     """Run uvicorn in this thread. Blocks for the life of the process."""
@@ -68,6 +71,19 @@ def _api_is_up(timeout: float = 1.0) -> bool:
         return False
 
 
+@st.cache_resource
+def _start_api_thread() -> threading.Thread:
+    """
+    Start the API thread. Cached, so it runs once per PROCESS, not per rerun.
+
+    Every session and every rerun that reaches this call gets back the same
+    thread object instead of starting another server.
+    """
+    thread = threading.Thread(target=_serve, daemon=True, name="schemesure-api")
+    thread.start()
+    return thread
+
+
 def ensure_api_running() -> bool:
     """
     Start the API thread once, then wait for it to answer /health.
@@ -76,17 +92,15 @@ def ensure_api_running() -> bool:
     build step, builds the Chroma index from data/schemes. Both happen once per
     process, so the wait is shown to the user instead of silently timing out.
     """
-    global _SERVER_STARTED
-
     if _api_is_up():
         return True
 
-    with _SERVER_LOCK:
-        # Re-check inside the lock: a second Streamlit session can arrive here
-        # while the first is still starting the server.
-        if not _SERVER_STARTED:
-            threading.Thread(target=_serve, daemon=True, name="schemesure-api").start()
-            _SERVER_STARTED = True
+    # The cached thread may have DIED (port still held, index build raised).
+    # Clearing the cache makes the next call start a fresh server instead of
+    # waiting 120 s on a corpse.
+    if not _start_api_thread().is_alive():
+        _start_api_thread.clear()
+        _start_api_thread()
 
     placeholder = st.empty()
     placeholder.info(
@@ -120,5 +134,11 @@ if ensure_api_running():
     # expects, and keeps ui/streamlit_app.py usable on its own for local
     # development against a separately-run API.
     import runpy
+    from pathlib import Path
 
-    runpy.run_path("ui/streamlit_app.py", run_name="__main__")
+    # Relative to THIS file, not the working directory, so it works however the
+    # host launches Streamlit.
+    runpy.run_path(
+        str(Path(__file__).resolve().parent / "ui" / "streamlit_app.py"),
+        run_name="__main__",
+    )

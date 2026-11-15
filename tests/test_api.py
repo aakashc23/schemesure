@@ -48,17 +48,20 @@ class FakeLLM:
         "fabricated"    -> SUPPORTED verdicts citing ids that do not exist
     """
 
-    def __init__(self, mode: str = "all_supported", fail_on: str | None = None):
+    def __init__(self, mode: str = "all_supported", fail_on: str | None = None,
+                 fail_kind: str = "upstream"):
         self.mode = mode
         self.fail_on = fail_on
+        self.fail_kind = fail_kind
         self.calls: list[str] = []
+        self.judge_calls = 0
 
     # -- helpers ------------------------------------------------------------
 
     def _record(self, prompt_name: str, counter) -> LLMResult:
         self.calls.append(prompt_name)
         if self.fail_on == prompt_name:
-            raise LLMError(f"simulated failure in {prompt_name}")
+            raise LLMError(f"simulated failure in {prompt_name}", kind=self.fail_kind)
         result = LLMResult(
             text="", prompt_name=prompt_name, model="fake-model",
             prompt_tokens=10, completion_tokens=5, latency_ms=1,
@@ -79,6 +82,7 @@ class FakeLLM:
                                "The amount is paid in three instalments"]}
 
         if prompt_name == "judge_claims":
+            self.judge_calls += 1
             claims = re.findall(r"^\s*\d+\.\s+(.*)$", user, re.M)
             chunk_ids = _CHUNK_ID_RE.findall(user)
             real_id = chunk_ids[0] if chunk_ids else None
@@ -92,7 +96,9 @@ class FakeLLM:
                     verdicts.append({"claim": claim, "verdict": "SUPPORTED",
                                      "evidence_chunk_id": "made_up#section#99"})
                 elif self.mode == "half":
-                    supported = index == 0
+                    # Only the FIRST judge call (the draft) is half-wrong. The
+                    # second one re-checks the repaired answer, which is clean.
+                    supported = index == 0 or self.judge_calls > 1
                     verdicts.append({
                         "claim": claim,
                         "verdict": "SUPPORTED" if supported else "NOT_SUPPORTED",
@@ -151,12 +157,16 @@ def client():
         yield test_client
 
 
-def use_fake(client: TestClient, mode: str = "all_supported", fail_on: str | None = None) -> FakeLLM:
+def use_fake(client: TestClient, mode: str = "all_supported", fail_on: str | None = None,
+             fail_kind: str = "upstream") -> FakeLLM:
     """Swap the app's pipeline for one backed by a FakeLLM. Returns the fake."""
     from app.config import get_settings
 
-    fake = FakeLLM(mode=mode, fail_on=fail_on)
+    fake = FakeLLM(mode=mode, fail_on=fail_on, fail_kind=fail_kind)
     settings = get_settings()
+    # Many tests ask the same question with different fakes; start each from an
+    # empty answer cache so one test's response is never served to the next.
+    client.app.state.answer_cache.clear()
     client.app.state.llm = fake
     client.app.state.pipeline = AnswerPipeline(client.app.state.retriever, fake, settings)
     return fake
@@ -248,8 +258,15 @@ class TestAsk:
 
         assert body["guardrail"]["decision"] == "REPAIR"
         assert body["status"] == "partially_verified"
-        assert body["llm_calls"] == 5          # the extra repair call
-        assert "repair_answer" in fake.calls
+        # normalize, generate, split, judge, repair, then the repaired text is
+        # re-checked with its own split + judge: 7 calls.
+        assert body["llm_calls"] == 7
+        assert fake.calls == [
+            "normalize_query", "generate_answer", "split_claims", "judge_claims",
+            "repair_answer", "split_claims", "judge_claims",
+        ]
+        assert body["repair_report"]["decision"] == "PASS"
+        assert body["refusal_reason"] is None
 
     def test_fully_unsupported_answer_is_blocked(self, client):
         """The hallucination case: a fluent draft with nothing backing it."""
@@ -511,7 +528,7 @@ class TestCitationHonesty:
         assert [c.chunk_id for c in only_verified] == ["b#s#0"]
         assert only_verified[0].index == 2  # keeps its [n] position
 
-    def test_explicit_markers_still_win(self):
+    def test_markers_win_only_when_the_judge_verified_that_chunk(self):
         from app.schemas import ChunkMetadata, RetrievedChunk
         from core.generator import build_citations
 
@@ -525,8 +542,17 @@ class TestCitationHonesty:
             )
             for i in range(1, 4)
         ]
-        # The answer cites [3]; the verified list says [1]. The answer wins.
+        # The answer cites [3] but the judge verified the fact against [1]: the
+        # judge's Python-validated evidence wins (audit finding M2).
         citations = build_citations("Fact [3].", chunks, ["s1#x#0"])
+        assert [c.chunk_id for c in citations] == ["s1#x#0"]
+
+        # A marker that IS verified is kept, and unverified extra markers go.
+        citations = build_citations("Fact [3]. Other [1].", chunks, ["s1#x#0"])
+        assert [c.chunk_id for c in citations] == ["s1#x#0"]
+
+        # Without any verified ids (guardrail off) the markers are all we have.
+        citations = build_citations("Fact [3].", chunks, [])
         assert [c.chunk_id for c in citations] == ["s3#x#0"]
 
     def test_unknown_verified_id_is_ignored(self):

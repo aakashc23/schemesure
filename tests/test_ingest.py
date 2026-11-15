@@ -20,7 +20,7 @@ from core.ingest import (
 )
 
 # A token counter that needs no model: ~1 token per 4 characters. Good enough to
-# exercise the packing logic without loading 120 MB of weights.
+# exercise the packing logic without loading ~470 MB of weights.
 def fake_count(text: str) -> int:
     return max(1, len(text) // 4)
 
