@@ -59,12 +59,13 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY --chown=user app   ./app
 COPY --chown=user core  ./core
 COPY --chown=user ui    ./ui
+COPY --chown=user .streamlit ./.streamlit
 COPY --chown=user data  ./data
 COPY --chown=user start.sh ./start.sh
 
 # ---- Build-time preparation -------------------------------------------------
 # 1. Download the embedding model now, so a cold start does not spend a minute
-#    pulling ~120 MB from the Hub (and does not fail if the Hub is unreachable).
+#    pulling ~470 MB from the Hub (and does not fail if the Hub is unreachable).
 RUN python -c "\
 from sentence_transformers import SentenceTransformer; \
 m = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'); \

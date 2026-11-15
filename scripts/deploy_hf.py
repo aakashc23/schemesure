@@ -44,13 +44,14 @@ ALLOW_PATTERNS = [
     "app/*.py",
     "core/*.py",
     "ui/*.py",
+    ".streamlit/config.toml",   # theme; the Dockerfile COPYs this folder
     "data/schemes/*.md",
     "data/schemes/*.rules.json",
 ]
 
 # Belt and braces: even if an allow-list pattern were widened by accident, a path
 # matching any of these aborts the upload.
-FORBIDDEN_NAMES = {".env", ".env.local"}
+FORBIDDEN_NAMES = {".env", ".env.local", "secrets.toml"}
 FORBIDDEN_SUFFIXES = {".db", ".sqlite", ".sqlite3", ".pem", ".key"}
 
 # Stages reported by the Spaces runtime API.

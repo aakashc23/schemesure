@@ -1,0 +1,18 @@
+# Streamlit theme for SchemeSure.
+#
+# WHY A THEME FILE: a sober, high-contrast light theme reads as trustworthy and
+# keeps the look identical on every host (local, Docker, Community Cloud).
+# Streamlit reads this file from the folder `streamlit run` is started in, so the
+# Dockerfile copies it next to the app. Secrets never go here
+# (.streamlit/secrets.toml is the git-ignored place for those).
+
+[theme]
+base = "light"
+primaryColor = "#1F4E79"            # deep navy: buttons, links, active tab
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F6F9" # sidebar and cards
+textColor = "#1B1F24"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
