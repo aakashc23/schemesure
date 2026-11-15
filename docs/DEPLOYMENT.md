@@ -84,9 +84,7 @@ all logic still lives behind the API, and `eval/run_eval.py` still measures the
 same pipeline. Only the process topology differs.
 
 Why a **thread** and not a subprocess: Streamlit re-runs its script on every user
-interaction. A subprocess would be orphaned or re-spawned each time; a
-module-level daemon thread guarded by a global starts once per process and dies
-with it.
+interaction. A subprocess would be orphaned or re-spawned each time; a daemon thread started through `@st.cache_resource` (shared by every session and rerun in the process) starts once per process and dies with it. A module-level global would not work, because Streamlit re-executes the script into a fresh module on every rerun.
 
 ---
 
@@ -122,7 +120,7 @@ Expect **2–4 minutes**, mostly installing dependencies:
 
 1. `pip install -r requirements.txt` — including CPU-only torch (~200 MB).
 2. The app starts; the thread launches FastAPI.
-3. The embedding model downloads (~120 MB) and loads (~15 s).
+3. The embedding model downloads (~470 MB) and loads (~15 s).
 4. **No Chroma index exists**, so `app/main.py` builds it from `data/schemes/`
    (~25 s, 312 chunks). The UI shows a progress bar while this happens.
 5. `/health` answers 200 and the UI renders.
@@ -133,6 +131,17 @@ idle and takes ~30 s to wake.
 > **Do not commit `chroma_db/`.** It is gitignored, and the app rebuilds it in
 > ~25 s. Committing a binary vector index would bloat the repo and go stale
 > silently whenever the data changed.
+
+The theme (navy on white) comes from `.streamlit/config.toml`, which Streamlit
+Cloud reads automatically. `.streamlit/secrets.toml` is gitignored and must never
+be committed.
+
+### Before a live demo
+
+The app sleeps when idle, and the first question after a restart pays for
+loading the model. Open the app **10 minutes before** presenting, ask one example
+question, and check the sidebar shows the API as reachable. The full checklist is
+in [`DEMO_GUIDE.md`](DEMO_GUIDE.md#before-the-demo).
 
 ---
 
@@ -147,8 +156,7 @@ git push origin main
 Streamlit Cloud watches the repo and rebuilds automatically. Nothing else to do.
 
 **Be honest about what this means:** Streamlit Cloud rebuilds on push regardless
-of whether CI passed. The gate that actually holds is that tests run on **every
-pull request**, so a change should not reach `main` red. If you want a hard gate,
+of whether CI passed. The gate that actually holds is that tests run on **every pull request to `main`**, so a change should not reach `main` red. If you want a hard gate,
 work on branches and merge via PR.
 
 ### Changing a secret
@@ -245,8 +253,7 @@ gcloud run deploy schemesure --source . --port 7860 \
 
 ## Configuration reference
 
-Everything is read by `app/config.py` from environment variables (or `.env`
-locally). Nothing else in the codebase reads `os.environ`.
+The backend's settings are read by `app/config.py` from environment variables (or `.env` locally). The only other `os.environ` reads are the UI's `API_URL` (`ui/streamlit_app.py`) and the root `streamlit_app.py` entrypoint's `INTERNAL_API_PORT`, which it uses to set `API_URL`.
 
 | Variable | Default | Notes |
 |---|---|---|
@@ -257,7 +264,10 @@ locally). Nothing else in the codebase reads `os.environ`.
 | `RETRIEVAL_TOP_K` | `5` | Passages retrieved per question |
 | `GUARDRAIL_ENABLED` | `true` | `false` only for the evaluation baseline |
 | `GUARDRAIL_BLOCK_THRESHOLD` | `0.5` | Unsupported fraction above which we refuse |
-| `MAX_QUESTION_LENGTH` | `500` | Characters |
+| `MAX_QUESTION_LENGTH` | `500` | Characters; longer questions get a 400 |
+| `REQUEST_DEADLINE_SECONDS` | `90` | Budget for one `/ask`, all LLM calls and retries included; below the UI's 120 s timeout |
+| `ANSWER_CACHE_TTL_SECONDS` | `3600` | How long a repeated question is served from the cache |
+| `ANSWER_CACHE_MAX_ENTRIES` | `256` | `0` disables the answer cache |
 | `CHROMA_PATH` | `./chroma_db` | Rebuilt automatically if empty |
 | `LLM_LOG_DB` | `./llm_calls.db` | Powers `/metrics` |
 | `API_URL` | `http://localhost:8000` | Where the UI looks for the API |
@@ -277,12 +287,18 @@ automatic build failed — run `python -m core.ingest` and read the error. If
 `llm_key_configured` is `false`, the secret is not reaching the process.
 
 **`/ask` returns 503.**
-`LLM_API_KEY` is empty or was rejected at startup. The server deliberately still
-boots in this state so `/health` can tell you so.
+`LLM_API_KEY` is empty (startup only checks that it is present; a wrong key still boots, and questions that reach answer generation come back as a `service_unavailable` refusal, with the provider's error in the server log). The server deliberately still
+boots in this state so `/health` can tell you so. Eligibility still works through
+the **Fill in a form** mode (`POST /eligibility/check`), which makes no LLM call.
+
+**Answers say "the verification service is temporarily unavailable" (badge: "Verification unavailable").**
+This is the `service_unavailable` refusal: an LLM call failed (rate limit, daily
+quota, timeout), so the answer could not be generated or verified and nothing
+unchecked was shown. It is deliberately different from "no official information".
+The System tab shows failed calls; the server log has the provider's own message.
 
 **`/ask` returns 502.**
-Groq itself failed. 502 means "upstream broke", 500 would mean "our bug" — the
-distinction is there so logs are readable.
+An LLMError escaped the pipeline. This should not normally happen, because an LLM failure during /ask comes back as a `service_unavailable` refusal (HTTP 200) and the 502 handler is only a safety net. 502 means "upstream broke"; 500 would mean "our bug".
 
 **Answers come back empty, or JSON parsing fails.**
 You are probably using a **reasoning** model. Groq's `openai/gpt-oss-*` models
@@ -293,10 +309,13 @@ empty. `app/llm_client.py` detects this and says so explicitly. Either raise
 `qwen/qwen3.8-27b`.
 
 **Lots of rate-limit errors.**
-Groq's free tier allows **8,000 tokens per minute**, and one verified answer costs
-roughly 1,500–2,000. The client parses Groq's own "try again in 1.68s" hint and
-waits exactly that long. For bulk runs, pace them:
-`python eval/run_eval.py --delay 25`.
+Groq's free tier for this model allows **30 requests**, **8,000 tokens** and
+**1,000 output tokens per minute**, plus a daily token quota (about 200,000). One verified answer is 4 calls and roughly 2,900 tokens (measured median: ~2,700 prompt + ~250 output); the output-token limit is hit first when several questions arrive within a minute (e.g. during an evaluation run). The client parses
+Groq's own "try again in 23.76s" hint and waits that long if it is under a minute
+and fits inside the request deadline; a multi-minute hint means the daily quota is
+spent, and it gives up at once rather than hanging. For bulk runs, pace them and
+use a separate key from the live demo:
+`python -m eval.run_eval --stratified 20 --delay 8`.
 
 **The container exits immediately with "no such file or directory" for `start.sh`.**
 `start.sh` has Windows CRLF line endings, so Linux is looking for an interpreter

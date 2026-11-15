@@ -35,12 +35,11 @@ can back them up.
 > cited actually exists, and *Python* decides whether to publish, repair or
 > refuse. An LLM judging its own work is not a control, it's another generation.
 >
-> I measured it both ways on a 50-question golden set, guardrail off versus on.
+> I measured it both ways, guardrail off versus on, on a preliminary 20-question subset of my 50-question golden set; the full 50-question run has not been done yet.
 > *(quote your headline numbers from `eval/results.md`)*
 >
 > It's FastAPI, ChromaDB and a local multilingual embedding model, with a
-> Streamlit frontend, 179 tests that run with no network calls, Dockerised, and
-> deployed with CI. It answers in English, Hindi and Hinglish.
+> Streamlit frontend, 573 tests that run with no network calls, Dockerised and smoke-tested in CI, and deployed on Streamlit Community Cloud. It answers in English, Hindi and Hinglish.
 
 **If you have 30 seconds instead:** "A RAG assistant for Indian government
 schemes where every answer is fact-checked claim-by-claim against the retrieved
@@ -56,7 +55,7 @@ guessing."
 
 **1. How do you actually detect a hallucination?**
 Three layers. (a) Before generating: if the best retrieved passage is below a
-calibrated similarity threshold, I refuse without spending an LLM call — there's
+calibrated similarity threshold, I refuse without generating anything — there's
 nothing to ground an answer in. (b) After generating: the draft is split into
 atomic claims and a judge checks each one against *only* the passages. (c) In
 code: Python verifies the judge's cited `chunk_id` really exists, and a pure
@@ -214,8 +213,8 @@ pipeline scales as-is; it's already a script.
 
 **19. What does a question cost, and how do you know?**
 Measured per request, not estimated: **1** LLM call for an out-of-scope question
-(refused before generating), **4** for a verified answer, **5** when a repair
-runs. Every call is logged to SQLite with prompt name, tokens and latency, and
+(refused before generating), **4** for a verified answer, **7** when a repair
+runs (the repaired text is checked again), and **3** when the draft states nothing checkable. Every call is logged to SQLite with prompt name, tokens and latency, and
 `/metrics` reads that back — so the numbers survive a restart and come from real
 measurements rather than in-memory counters.
 
@@ -232,12 +231,11 @@ supported/unsupported pairs — that's a narrow, stable task where it would help
 *Chroma:* zero setup, runs in-process, persists to a folder, and embeds in the
 container. At this scale a hosted vector DB would be operational overhead for no
 gain; the retriever interface is small enough to swap later.
-*Docker:* the app needs Python 3.12, pinned libraries, a 120 MB model and a
+*Docker:* the app needs Python 3.12, pinned libraries, a ~470 MB model and a
 pre-built index. Docker makes that one artifact that runs identically everywhere,
 and it lets me build the index at image-build time so a broken corpus fails the
 build instead of reaching users.
-*CI:* 179 tests on every push catches the thing I didn't think to re-check. It
-also validates the data and scans for leaked credentials before anything ships.
+*CI:* 573 tests run on every push and pull request to main, along with data validation, a credential scan and a container build-and-smoke-test. It doesn't block the live deploy, because Streamlit Cloud rebuilds on push either way, so the real gate is merging through a pull request.
 
 ---
 
@@ -377,14 +375,10 @@ Use the real numbers from `eval/results.md`. Placeholders marked `<...>`.
 > Designed a four-stage LLM guardrail — atomic claim extraction, evidence-only
 > LLM judging, Python-side citation validation, and a deterministic decision
 > policy — raising correct refusal of unanswerable questions to `<ON>%` while
-> holding over-blocking at `<X>%`, at a measured cost of 4 LLM calls per answer.
+> holding over-blocking at `<X>%`, at a measured cost of 4 LLM calls per verified answer (7 when repaired; 3.8 per question on average in the 20-question preliminary run).
 
 **3.**
-> Engineered a rule-based eligibility engine (pure Python, 179 automated tests,
-> zero network calls in CI) that returns an auditable per-rule reason and an
-> explicit NEED_MORE_INFO state instead of guessing, with every rule traceable to
-> the official source sentence it was derived from; calibrated the retrieval
-> refusal threshold on 22 measured queries and shipped via GitHub Actions CI/CD.
+> Engineered a rule-based eligibility engine (pure Python, 141 eligibility tests within a 573-test suite that makes no network calls) that returns an auditable per-rule reason and an explicit NEED_MORE_INFO state instead of guessing, with every rule traceable to the official source sentence it was derived from; calibrated the retrieval refusal threshold on 22 measured queries, with GitHub Actions CI running the tests and a container smoke test on every push and pull request to main.
 
 ### Interchangeable phrasings
 

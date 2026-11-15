@@ -15,8 +15,10 @@ Ask it in Hinglish and it answers in Hinglish, verified and cited:
 > hain [2]. Ye paisa teen barabar hisson mein diya jata hai, jismein har hissa
 > Rs 2000 ka hota hai [2]."
 
-Then open **"How was this verified?"** to see each claim and the passage it was
-checked against. Try the last two examples in the dropdown to watch it refuse.
+Under each answer, the **Verification** tab lists every claim with its verdict and
+the passage it was checked against, **Evidence** shows the retrieval scores against
+the refusal threshold, and **Pipeline** shows each stage with its duration and LLM
+calls. The last two example buttons are trap questions, to watch it refuse.
 
 *(The FastAPI service is internal to the deployed process and is not exposed
 publicly — run it locally to get `/docs`. See [Local setup](#local-setup).)*
@@ -32,12 +34,7 @@ eligibility rule that does not exist. For welfare information that is not a
 cosmetic flaw: it sends someone to a government office with the wrong documents,
 or convinces them not to apply for money they were entitled to.
 
-Retrieval-augmented generation helps, but it does not solve this. **It is the
-plausible-looking failure that is dangerous**, and I measured it on this very
-system: asking about *Sukanya Samriddhi Yojana* — a real scheme this project does
-**not** index — retrieves PM-Mudra passages at **0.71** cosine similarity, far
-above the 0.45 refusal threshold. A naive RAG pipeline answers that question
-confidently, from the wrong scheme's text.
+Retrieval-augmented generation helps, but it does not solve this. **It is the plausible-looking failure that is dangerous.** On this very system, asking about *Sukanya Samriddhi Yojana*, a real scheme this project does **not** index, retrieves PM-Mudra passages at **0.71** cosine similarity, far above the 0.45 refusal threshold. Nothing at the retrieval stage stops a pipeline from answering that question from the wrong scheme's text. (In our runs, the grounded draft declined to answer; the threshold alone would not have.)
 
 So SchemeSure assumes the model will sometimes be wrong, and checks its work.
 
@@ -63,7 +60,7 @@ flowchart TD
     N --> R["Retriever<br/><i>no LLM call</i><br/>cosine search over 312 chunks"]
 
     R --> C{"Best score<br/>&ge; 0.45?"}
-    C -- "no: weak evidence" --> REF["Honest refusal<br/><b>0 LLM calls spent</b>"]
+    C -- "no: weak evidence" --> REF["Honest refusal<br/><b>no answer generated</b>"]
 
     C -- yes --> G["Generator<br/><i>1 LLM call</i><br/>answer ONLY from the passages, with [n] citations"]
 
@@ -73,8 +70,13 @@ flowchart TD
     J --> V["<b>Python: validate citations</b><br/>does the cited chunk_id actually exist?<br/>fabricated &rarr; demote the claim"]
     V --> D{"<b>Python: decision policy</b><br/>pure function, no LLM"}
 
-    D -- "all claims supported" --> PASS["✅ Verified<br/>ship the answer"]
-    D -- "some unsupported" --> REP["Repair<br/><i>1 LLM call</i><br/>rebuild from verified claims only<br/>⚠️ Partially verified"]
+    D -- "all claims supported" --> NG{"<b>Python: number &amp; link check</b><br/>every amount, % and URL<br/>appears in the passages?"}
+    NG -- yes --> PASS["✅ Verified<br/>ship the answer"]
+    NG -- no --> REP
+    D -- "some unsupported" --> REP["Repair<br/><i>1 LLM call</i><br/>rebuild from verified claims only"]
+    REP --> RC{"Full re-check<br/>of the repaired text<br/><i>2 LLM calls</i>"}
+    RC -- PASS --> PV["⚠️ Partially verified"]
+    RC -- otherwise --> BLOCK
     D -- "&gt;50% unsupported<br/>or none supported" --> BLOCK["🛑 Refuse<br/>safer than answering"]
 
     subgraph ING ["Build-time ingestion (no LLM)"]
@@ -97,6 +99,7 @@ flowchart TD
     style PASS fill:#e8f5e9,stroke:#2e7d32
     style REP fill:#fff8e1,stroke:#f9a825
     style V fill:#e3f2fd,stroke:#1565c0
+    style NG fill:#e3f2fd,stroke:#1565c0
     style D fill:#e3f2fd,stroke:#1565c0
     style RULES fill:#e3f2fd,stroke:#1565c0
 ```
@@ -138,10 +141,16 @@ threshold. **The threshold was calibrated, not guessed** — on 22 real queries:
 | Out of scope ("capital of France", "pizza recipe") | 0.100 – 0.350 |
 | **Safe window** | **0.350 – 0.574** → threshold **0.45** |
 
-### 3. Refuse early when the evidence is weak (0 LLM calls)
+On the full 50-question benchmark ([`eval/threshold_results.md`](eval/threshold_results.md)),
+with normalised queries, 0.45 refuses **0 of 35** answerable questions and **5 of 5**
+off-topic ones — but only **1 of 9** questions about fake or unindexed schemes, which
+score 0.43–0.71, just like real questions. The threshold catches off-topic questions
+and little else; the rest is the guardrail's job.
+
+### 3. Refuse early when the evidence is weak (1 LLM call in total)
 
 If nothing retrieved clears the threshold, there is nothing to ground an answer
-in, so no answer is generated. Out-of-scope questions therefore cost **nothing**.
+in, so no answer is generated. Out-of-scope questions cost only the normalisation call.
 
 ### 4. Draft an answer (1 LLM call)
 
@@ -163,18 +172,36 @@ language.
   SUPPORTED while citing a passage that was never retrieved is hallucinating
   about its own evidence — an authoritative-looking verdict that is worthless.
   Set membership is something code gets exactly right, every time.
+- **Check numbers and links in Python.** Every amount of 10 or more, every
+  percentage, decimal and lakh/crore figure, and every link in the answer must
+  appear in the retrieved passages (after normalising "₹2.00 Lakh" = "2,00,000").
+  The judge occasionally accepts a wrong number that is close to a right one;
+  this check does not.
 - **Decide in Python.** `decide()` is a pure function: all supported → PASS; some
   unsupported → REPAIR; more than half unsupported, or none supported → BLOCK.
+- **Record an independent signal.** The cosine similarity between each claim and
+  its evidence passage is stored for later calibration against human labels. It
+  does **not** influence the decision yet.
 
 An LLM judging its own work is not a control, it is another generation. So the
 parts that must not be wrong are code.
 
 ### 6. Repair or refuse
 
-REPAIR hands the model a fixed list of verified facts and tells it to state those
-and nothing else — so the claim that just failed cannot reappear. BLOCK returns a
-hand-written refusal, because a refusal is the one message that must never itself
-be hallucinated.
+REPAIR hands the model a fixed list of verified facts and tells it to state those and nothing else. That makes a repeat of the failed claim unlikely, but the instruction alone does not guarantee it. The repaired text
+is new model output, so it goes through the **whole check again** and is shown only
+if that re-check passes. BLOCK returns a hand-written refusal, because a refusal is
+the one message that must never itself be hallucinated.
+
+Refusals say **why**: no official information (weak evidence), the draft failed
+verification, the draft stated nothing checkable, or the language model is
+unavailable right now. An outage is never reported as "no information".
+
+### Eligibility can run without any LLM call
+
+The **Fill in a form** mode posts fields straight to the rule engine
+(`POST /eligibility/check`), so eligibility keeps working even when the LLM quota is
+exhausted.
 
 ### Eligibility is a separate flow, and no LLM decides it
 
@@ -190,19 +217,45 @@ a numeric field.
 
 ## Evaluation
 
-The same 50 golden-set questions run twice — guardrail **off** (plain RAG) and
-**on** — with identical retrieval, model and prompts. Full numbers and method:
-**[`eval/results.md`](eval/results.md)**.
+Golden-set questions run twice — guardrail **off** (plain RAG) and **on** — with
+identical retrieval, model and prompts. The full 50-question run has not completed
+yet (the free tier allows about 200k tokens a day); a preliminary, paired 20-question
+subset has. Status and method: **[`eval/results.md`](eval/results.md)**.
 
 <!--EVAL_TABLE_START-->
-> **Not yet run.** The harness, the golden set and the metrics are built and
-> tested; the benchmark needs ~302,000 tokens and Groq's free tier allows
-> 200,000/day, so it runs one condition per day. Method, cost breakdown and the
-> exact commands are in [`eval/results.md`](eval/results.md).
->
-> No numbers are quoted anywhere in this repository until that run completes —
-> inventing them would undercut the one thing this project is about.
+**PRELIMINARY: n=20 of 50 golden-set questions (a subset). Not the full benchmark.**
+
+| Metric | Guardrail OFF | Guardrail ON | Change |
+|---|---|---|---|
+| **Unsupported claim rate** (in delivered answers) | 5.0% (2/40) | 0.0% (0/34) | better (-5.0 pp) |
+| Answers containing any unsupported claim | 15.4% (2/13) | 0.0% (0/11) | better (-15.4 pp) |
+| Correct refusal rate (unanswerable) | 77.8% (7/9) | 100.0% (9/9) | better (+22.2 pp) |
+| Over-blocking rate (answerable refused) | 0.0% (0/11) | 0.0% (0/11) | no change |
+| End-to-end fact accuracy (refusal = 0) | 81.8% (9/11) | 81.8% (9/11) | no change |
+| Key-fact coverage (answered only) | 81.8% (9/11) | 81.8% (9/11) | no change |
+| Retrieval hit rate (top-5) | 100.0% (11/11) | 100.0% (11/11) | no change |
+| Avg LLM calls / question | 1.85 | 3.8 | +1.95 |
+| Median latency | 3.1s | 9.0s | +5.9s |
+
+*n=20 questions per condition (11 answerable, 9 unanswerable); scored on the same 20 questions in both (infrastructure failures excluded: OFF 0, ON 0; a question that failed in either condition is dropped from both). The ON unsupported-claim figure comes from the same judge that approves answers, so it is not an independent measurement. Full method and per-category breakdown in [`eval/results.md`](eval/results.md).*
 <!--EVAL_TABLE_END-->
+
+> **Read before quoting.** On this subset, both "unsupported" claims in the baseline
+> turned out on inspection not to be invented scheme facts. In one, the claim splitter
+> dropped an exception and the judge rejected the resulting over-general claim, so the
+> repair removed a true document requirement from the answer. So the subset shows no
+> over-blocking and that half-refusals become clean refusals. ON's 0 unsupported claims
+> comes from the guardrail's own verdicts (not an independent audit), and the subset does
+> **not** yet show a measured reduction in real hallucinations. Case-by-case analysis:
+> [`docs/TEST_REPORT.md` §3](docs/TEST_REPORT.md#3-end-to-end-evaluation-preliminary).
+
+**Retrieval** is benchmarked on the full set (35 answerable questions, 0–1 LLM calls
+each; [`eval/retrieval_results.md`](eval/retrieval_results.md)):
+
+| Query | Recall@1 | Recall@5 | MRR@10 |
+|---|---|---|---|
+| As typed | 74.3% | 94.3% | 0.806 |
+| Normalised to English (production) | 80.0% | 97.1% | 0.851 |
 
 Two things make the measurement honest:
 
@@ -215,9 +268,9 @@ Two things make the measurement honest:
 
 | Type | Example | What catches it |
 |---|---|---|
-| `off_topic` | "capital of France" | Retrieval threshold, before any LLM call |
-| `fake_scheme` | "PM Free Laptop Yojana 2026" | **Only the guardrail** — scores *above* threshold |
-| `not_indexed` | "Sukanya Samriddhi interest rate" | **Only the guardrail** — 0.71 similarity, real-but-wrong evidence |
+| `off_topic` | "capital of France" | Retrieval threshold, before generation (1 LLM call: normalisation) |
+| `fake_scheme` | "PM Free Laptop Yojana 2026" | Not the threshold (scores *above* it). The grounded generator usually declines by itself, and claim verification catches the drafts that don't (subset: 3/4 refused with the guardrail OFF, 4/4 with it ON) |
+| `not_indexed` | "Sukanya Samriddhi interest rate" | **Not the threshold**: 0.71 similarity, real-but-wrong evidence. In measured runs the draft declined (refused as `no_claims`); claim verification is the backstop |
 
 A single averaged "refusal rate" would hide the only interesting part.
 
@@ -234,10 +287,10 @@ A single averaged "refusal rate" would hide the only interesting part.
 | Rules | Plain Python + JSON per scheme | Auditable, exact, testable |
 | UI | Streamlit over HTTP | No business logic in the frontend |
 | Monitoring | SQLite (`llm_calls.db`) | Every call logged; `/metrics` reads real measurements |
-| Tests | pytest — **179 tests, no network calls** | LLM always mocked; retrieval is real |
+| Tests | pytest — **573 tests, no network calls** | LLM always mocked; retrieval is real |
 | Container | Docker (`Dockerfile` + `start.sh`) | Two processes, one port; index built at build time |
 | Live host | Streamlit Community Cloud | Free, and redeploys on every push to `main` |
-| CI | GitHub Actions | Validate data → build index → 179 tests → secret scan |
+| CI | GitHub Actions | Validate data → build index → tests → secret scan; in parallel, Docker build + smoke test |
 
 ### A note on where it is hosted
 
@@ -343,22 +396,27 @@ The UI is at `http://localhost:8501`, the API docs at `http://localhost:8000/doc
 Useful commands:
 
 ```bash
-python -m pytest -q                      # 179 tests, no API key needed
-python scripts/validate_data.py          # validate the corpus
-python scripts/build_golden_set.py       # rebuild + verify the golden set
-python eval/run_eval.py --limit 6        # quick eval smoke test
-python scripts/deploy_hf.py              # deploy to a Space
+python -m pytest -q                                  # 573 tests, no API key needed
+python scripts/validate_data.py                      # validate the corpus
+python scripts/build_golden_set.py                   # rebuild + verify the golden set
+python -m eval.run_retrieval --variants raw          # retrieval benchmark, 0 LLM calls
+python -m eval.run_eval --stratified 20              # preliminary OFF vs ON subset
+python -m eval.run_eval --condition off              # full run, one condition per day
+python scripts/deploy_hf.py                          # deploy to a Space
 ```
 
 ### Endpoints
 
 | Endpoint | Purpose |
 |---|---|
-| `POST /ask` | Answer a question, with citations and the full guardrail report |
-| `POST /eligibility` | Check a free-text profile against all 15 schemes |
+| `POST /ask` | Answer a question: citations, guardrail report, evidence table, stage trace, refusal reason |
+| `POST /eligibility` | Free-text profile → LLM extraction → rule checks for all 15 schemes |
+| `POST /eligibility/check` | Structured profile → rule checks, **no LLM call** |
+| `GET /eligibility/options` | Accepted occupations, genders and categories |
 | `GET /schemes` | Covered schemes, source URLs, verification dates |
-| `GET /health` | Index size, model names, whether the LLM key is configured |
-| `GET /metrics` | LLM call count, latency, guardrail PASS/REPAIR/BLOCK counts |
+| `GET /schemes/{id}` | One scheme: sections, encoded rules with their official sentences |
+| `GET /health` | Index size, model, thresholds, whether the LLM is ready |
+| `GET /metrics` | LLM calls and latency per prompt, guardrail decisions, answer statuses, cache hits |
 
 ---
 
@@ -378,18 +436,30 @@ project.
   limited. India has hundreds of central schemes and thousands of state ones.
 - **The data is a snapshot.** Schemes change; `last_verified` is shown everywhere
   and nothing re-checks the source automatically.
-- **Verification costs 2–3 extra LLM calls** per question, roughly doubling
-  latency. That is the price of the guarantee.
+- **Verification costs 2 extra LLM calls** per question (5 more when an answer is
+  repaired and re-checked), roughly tripling median latency in the 20-question preliminary run (3.1 s to 9.0 s, including free-tier rate-limit waits). That is the price of the check.
+- **The retrieval threshold stops off-topic questions and little else** (5/5 off-topic, but only 1 of 9 fake or unindexed). Fake and unindexed schemes mostly score like real ones; the claim check is what stands in their way.
 - **Fails closed.** If verification cannot run, the system refuses rather than
   shipping an unchecked answer — availability traded for safety.
 - **50 eval questions is small.** Differences of a few percent are noise, and the
-  set was written by the same person who wrote the system.
+  set was written by the same team that built the system. Hindi and Hinglish have
+  only 4–5 answerable questions each.
+- **The judge has not yet been validated against human labels.** Until it is,
+  "verified" means "the LLM judge and the Python checks found support", not
+  "a person confirmed it".
 - **Not an official service.** Guidance only; always confirm on the official page.
 
 ## Future work
 
+The second-half plan, with priorities and "done when" criteria, is in
+[`docs/ROADMAP.md`](docs/ROADMAP.md). The main items:
+
+- Run the full 50-question OFF/ON benchmark, then grow the set to 300+ questions with
+  gold passage ids and translation-paired Hindi/Hinglish questions.
+- An NLI verifier alongside the LLM judge, compared against human labels.
 - A different (ideally stronger) model as judge, to break the shared-blind-spot
   problem, with a human-labelled subset to calibrate it.
+- A plain-LLM baseline (no retrieval) for a three-way comparison.
 - Cache claim verdicts by `(claim, chunk_id)` — common questions repeat the same
   claims, so most verification is re-done work.
 - Scale the corpus: at 1,000 schemes, retrieval needs metadata pre-filtering by
@@ -407,17 +477,25 @@ project.
 ```
 app/     config.py schemas.py llm_client.py prompts.py main.py
 core/    ingest.py query_normalizer.py retriever.py generator.py
-         guardrail.py eligibility.py
+         guardrail.py eligibility.py answer_cache.py
 data/    schemes/ (15 .md + 15 .rules.json)   raw/ (API responses)
-eval/    golden_set.jsonl  run_eval.py  results.md
+eval/    golden_set.jsonl  run_retrieval.py  run_eval.py  common.py
+         retrieval_results.md  threshold_results.md  results.md  runs/
 scripts/ fetch_schemes.py build_rules.py validate_data.py
          build_golden_set.py make_verify_checklist.py
-         scan_secrets.py deploy_hf.py
-tests/   179 tests
-docs/    DECISIONS.md LEARN.md INTERVIEW_NOTES.md
-         DEPLOYMENT.md VERIFY_CHECKLIST.md
+         scan_secrets.py deploy_hf.py update_readme_eval.py
+tests/   573 tests
+docs/    PROGRESS_REPORT.md ARCHITECTURE.md RESEARCH.md ROADMAP.md
+         DEMO_GUIDE.md TEST_REPORT.md DECISIONS.md LEARN.md
+         INTERVIEW_NOTES.md DEPLOYMENT.md VERIFY_CHECKLIST.md
 ui/      streamlit_app.py
+.streamlit/config.toml         Streamlit theme
+streamlit_app.py               Streamlit Cloud entry point
 ```
+
+**Evaluators:** start with [`docs/PROGRESS_REPORT.md`](docs/PROGRESS_REPORT.md),
+then [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and
+[`docs/DEMO_GUIDE.md`](docs/DEMO_GUIDE.md).
 
 **New here?** Read [`docs/LEARN.md`](docs/LEARN.md) — a beginner-friendly
 walkthrough following a request through the whole codebase, plus plain

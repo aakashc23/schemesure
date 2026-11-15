@@ -187,7 +187,7 @@ A **FastAPI** app: Python that answers HTTP requests. Five endpoints:
 
 Two deliberate choices:
 
-- **The heavy objects load once at startup**, not per request. Loading a 120 MB
+- **The heavy objects load once at startup**, not per request. Loading a ~470 MB
   model on every question would add seconds to every answer.
 - **A missing API key does not stop the server.** It boots, `/health` reports
   `llm_key_configured: false`, `/schemes` still works, and `/ask` returns a clear
@@ -235,10 +235,10 @@ Every LLM call in the project goes through here, which buys three things:
 We talk to **Groq** (fast, free tier) using the **OpenAI client library**, because
 Groq speaks the same format. Switching providers means editing `.env`, not code.
 
-### `app/prompts.py` — all five prompts in one file
+### `app/prompts.py` — all six prompts in one file
 
 Prompts *are* the behaviour of an LLM app. Scattering them through the code makes
-them impossible to review. Here you can read all five in two minutes.
+them impossible to review. Here you can read all six in two minutes.
 
 Also here: the **refusal messages**, hand-written in English, Hindi and Hinglish.
 A refusal must never itself be hallucinated — and we often refuse precisely
@@ -306,9 +306,9 @@ That is the guardrail's job. **Two failure modes, two different defences.**
 
 ### Step 3 · `core/generator.py` — write a draft
 
-If evidence is weak → **refuse immediately, with zero LLM calls**. There is
+If evidence is weak → **refuse immediately, without generating**. There is
 nothing to ground an answer in, so generating one can only produce fiction.
-Out-of-scope questions are therefore free.
+Out-of-scope questions therefore cost only the one normalisation call.
 
 Otherwise, one call: here are the passages, answer using only these, cite them as
 `[1]`, reply in the user's language.
@@ -364,8 +364,9 @@ exhaustively, including every boundary.
 
 - **PASS** → ✅ Verified. Ship it.
 - **REPAIR** → the model gets the list of *verified* claims and is told to state
-  those and nothing else. Not "try again" — the failed claim **cannot** come
-  back, because it is not in the list. → ⚠️ Partially verified.
+  those and nothing else. Not "try again" — the failed claim is not in the list,
+  so it is unlikely to come back, and the repaired text is checked again in full
+  to make sure. Only if that re-check passes → ⚠️ Partially verified.
 - **BLOCK** → 🛑 the hand-written refusal.
 
 **One more trap, found by actually running it.** For a scheme we do not index, the
@@ -421,9 +422,18 @@ falsy — a newborn would read as "age not provided". The code uses
 
 **Streamlit** turns Python into a web page with no HTML or JavaScript.
 
-Three tabs: **Ask**, **Check eligibility**, **Schemes**. Plus the part that makes
-the project convincing — the expander **"How was this verified?"**, which shows
-every claim, its verdict, and the passage behind it.
+Five tabs: **Ask**, **Eligibility**, **Schemes**, **How it works**, **System**.
+The part that makes the project convincing is under each answer in the Ask tab:
+
+- **Verification** — every claim, its verdict, the passage it was checked against,
+  and any number or link that was not found in the official text.
+- **Evidence** — the retrieved passages with their scores, drawn against the
+  refusal threshold, and which ones the answer actually cites.
+- **Pipeline** — each stage (normalise, retrieve, generate, split, judge, repair,
+  re-check) with its duration and LLM calls, taken from the API's `trace` field.
+
+The **System** tab reads `/metrics`, so it shows real LLM call counts and
+latencies, not a mock-up. The **How it works** tab shows a fixed diagram, and the step-by-step text under it fills in the live `/health` values (threshold, top-k, model, block threshold).
 
 > A badge alone is just another confident assertion. Showing the audit trail is
 > what makes it believable.
@@ -434,12 +444,13 @@ code — if logic lived here, the eval would measure something users never touch
 
 ---
 
-## Part 7 — Testing: 179 tests, no internet
+## Part 7 — Testing: 573 tests, no internet
 
 Run them with `python -m pytest -q`. They need **no API key** and make **no
-network calls** — so they are fast (~17s) and never flaky.
+network calls**, so they never flake. The suite takes several minutes on a laptop CPU,
+mostly the Streamlit UI tests, which render every tab headlessly.
 
-**What is faked and what is real:** only the LLM is faked. The embedding model,
+**What is faked and what is real:** in the API and pipeline tests, only the LLM is faked. (Narrower unit tests use their own stand-ins. The eval-harness tests fake the retriever and the pipeline, and the UI tests fake the backend API.) The embedding model,
 the Chroma index, retrieval scores, the decision policy and the eligibility rules
 are all real. Mocking retrieval too would leave the tests asserting that mocks
 return mocks.
@@ -455,7 +466,8 @@ citation check as the real thing.
 | `test_ingest.py` | chunking, deterministic ids, the token budget (real tokenizer) |
 | `test_query_normalizer.py` | language detection, graceful degradation |
 | `test_llm_client.py` | JSON extraction, rate-limit retry parsing |
-| `test_api.py` | all 5 endpoints end-to-end with real retrieval |
+| `test_api.py` | the original 5 endpoints (/ask, /eligibility, /schemes, /health, /metrics) end-to-end with real retrieval |
+| `test_api_features.py` | /eligibility/check, /eligibility/options, /schemes/{scheme_id}, the answer cache |
 
 **Memory trick:** *fake the expensive and unpredictable thing; keep everything
 else real.*
@@ -576,7 +588,7 @@ On every push and pull request, GitHub rents a fresh Linux machine and runs:
    the data is broken, every later failure is a confusing symptom of the same
    cause.
 2. `python -m core.ingest` — build the index (the tests use real retrieval).
-3. `python -m pytest -v` — all 179 tests.
+3. `python -m pytest -v` — all 573 tests.
 4. `python scripts/scan_secrets.py --tracked` — did a credential sneak in?
 
 The whole thing takes about two minutes, and you see a ✓ or ✗ on the commit.
@@ -638,8 +650,10 @@ If you are opening this project cold, read in this order:
 6. `tests/test_guardrail.py` — the guarantees, as executable statements
 7. `core/eligibility.py` — rules without an LLM
 8. `core/generator.py` — the pipeline tying it together
-9. `eval/results.md` — did any of it work
+9. `eval/retrieval_results.md` and `eval/results.md` — did any of it work
 10. `docs/DECISIONS.md` — every trade-off, with its measurement
+11. `docs/ARCHITECTURE.md` — the diagrams, once you know the pieces
+12. `docs/ROADMAP.md` — what is still to do, and why
 
 ### The five sentences
 
@@ -654,3 +668,67 @@ If you are opening this project cold, read in this order:
    `chunk_id` is caught by set membership, which code never gets wrong.
 5. **When in doubt, refuse.** A withheld answer costs the user one web search; a
    confidently wrong one can cost them a wasted day at a government office.
+
+---
+
+## Part 11 — What was added at the mid-term (November 2026)
+
+Read this after the rest; each item names the file and the problem it fixes.
+
+### `core/answer_cache.py` — do not pay twice for the same question
+
+A small dictionary with an expiry time (one hour) and a size limit (256). The key
+is the question (lower-cased, spaces collapsed), the chosen language and whether
+the guardrail is on. It lives in `/ask` in `app/main.py`, **not** in the pipeline,
+so the evaluation never measures a cached answer. A failed answer ("service
+unavailable") is never stored.
+
+*Analogy:* a shop that writes today's most-asked answer on a board by the door.
+
+### The guardrail grew two Python checks
+
+- `numeric_and_link_grounding()` in `core/guardrail.py` — every number of 10 or
+  more, every percentage, decimal and lakh/crore amount, and every link in the
+  answer must appear in the retrieved passages. If not, a PASS becomes a REPAIR.
+- `attach_similarity()` — the cosine similarity between each claim and its evidence
+  passage, **recorded only**. It is data for a future study of how reliable the
+  judge is, so it must not change any decision yet.
+
+And the repaired answer is now **checked again** (`core/generator.py`, step 6). A
+repaired answer is new model text, so it gets no free pass.
+
+### Refusal reasons
+
+`RefusalReason` in `app/schemas.py`: `low_evidence`, `not_supported`, `no_claims`,
+`service_unavailable`. The last one exists so that a Groq outage is never shown as
+"we have no official information" — that would be a false statement of its own.
+
+### `app/llm_client.py` — knowing when a retry can help
+
+`classify_error()` sorts provider failures into kinds (rate limit, daily quota, auth, too large, timeout, upstream); a response that cannot be used is raised separately as `bad_output`. Only the kinds that can clear in
+seconds are retried, and a whole question has a 90-second budget
+(`REQUEST_DEADLINE_SECONDS`) so the UI always gets an answer before its own
+120-second timeout.
+
+### Eligibility without the LLM
+
+`POST /eligibility/check` takes a filled-in form and runs the same Python rules,
+with zero LLM calls. `normalize_profile()` maps synonyms ("kisan" → farmer),
+turns unknown occupations into "not provided" rather than a wrong "no", and
+treats broad answers ("self employed") as NEED_MORE_INFO. `parse_income()`
+understands "2.5 lakh".
+
+### The evaluation became two benchmarks
+
+- `eval/run_retrieval.py` — does the right scheme come back? Recall@k and MRR, raw
+  vs normalised queries, plus a sweep of the refusal threshold. Costs 0 LLM calls
+  (raw) or 1 per question (normalised, cached in `eval/cache/`).
+- `eval/run_eval.py` — guardrail OFF vs ON on the same questions. It can run a
+  `--stratified N` subset, resume after an interruption, and leaves out
+  questions where the LLM service failed (in **both** conditions, so the
+  comparison stays paired). A subset run is labelled PRELIMINARY with its n.
+- `eval/common.py` — the shared maths: Wilson confidence intervals, AUROC, and
+  question selection.
+
+*Trick to remember:* **retrieval benchmark = "did we find the right page?";
+end-to-end benchmark = "did we say only what the page says?"**

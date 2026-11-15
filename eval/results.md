@@ -86,8 +86,8 @@ Every proportion is reported with its n; empty denominators print as "n/a", neve
 | Type | Example | What catches it |
 |---|---|---|
 | `off_topic` | "capital of France" | The retrieval threshold, before generation (1 LLM call: normalisation) |
-| `fake_scheme` | "PM Free Laptop Yojana 2026" | Claim-level verification; scores 0.45–0.62, mostly above the threshold |
-| `not_indexed` | "Sukanya Samriddhi interest rate" | Claim-level verification; up to 0.71 — confident, wrong-scheme evidence |
+| `fake_scheme` | "PM Free Laptop Yojana 2026" | Claim-level verification; all 5 score 0.45–0.62, above the threshold (in the 20-question subset, 3 of 4 were already refused with the guardrail OFF) |
+| `not_indexed` | "Sukanya Samriddhi interest rate" | Not the threshold: up to 0.71, confident wrong-scheme evidence. In measured runs the draft declined (refused as `no_claims`); claim verification is the backstop |
 | `trick_unstated_fact` | A real scheme, asked for something the source never states | Claim-level verification |
 
 ## The golden set
@@ -101,7 +101,7 @@ appear in its scheme's source file when the set is built.
 
 - **Small n.** 50 questions overall; 4–5 answerable Hindi or Hinglish questions.
 - **Same judge everywhere.** The judge is the same model as the generator, and the
-  audit uses that judge too. In the preliminary subset the judge was over-strict at
+  audit uses that judge too. In the preliminary subset the splitter and judge were over-strict at
   least once. A human-labelled subset and a different judge model are planned.
 - **Key facts are matched by substring.** Both misses in the preliminary subset were
   correct answers worded differently.
