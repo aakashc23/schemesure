@@ -39,7 +39,7 @@ can back them up.
 > *(quote your headline numbers from `eval/results.md`)*
 >
 > It's FastAPI, ChromaDB and a local multilingual embedding model, with a
-> Streamlit frontend, 589 tests that run with no network calls, Dockerised and smoke-tested in CI, and deployed on Streamlit Community Cloud. It answers in English, Hindi and Hinglish.
+> Streamlit frontend, 592 tests that run with no network calls, Dockerised and smoke-tested in CI, and deployed on Streamlit Community Cloud. It answers in English, Hindi and Hinglish.
 
 **If you have 30 seconds instead:** "A RAG assistant for Indian government
 schemes where every answer is fact-checked claim-by-claim against the retrieved
@@ -235,7 +235,7 @@ gain; the retriever interface is small enough to swap later.
 pre-built index. Docker makes that one artifact that runs identically everywhere,
 and it lets me build the index at image-build time so a broken corpus fails the
 build instead of reaching users.
-*CI:* 589 tests run on every push and pull request to main, along with data validation, a credential scan and a container build-and-smoke-test. It doesn't block the live deploy, because Streamlit Cloud rebuilds on push either way, so the real gate is merging through a pull request.
+*CI:* 592 tests run on every push and pull request to main, along with data validation, a credential scan and a container build-and-smoke-test. It doesn't block the live deploy, because Streamlit Cloud rebuilds on push either way, so the real gate is merging through a pull request.
 
 ---
 
@@ -378,7 +378,7 @@ Use the real numbers from `eval/results.md`. Placeholders marked `<...>`.
 > holding over-blocking at **2.9%**, at a measured cost of 4 LLM calls per verified answer (7 when repaired; 3.74 per question on average across the 50-question benchmark).
 
 **3.**
-> Engineered a rule-based eligibility engine (pure Python, 141 eligibility tests within a 589-test suite that makes no network calls) that returns an auditable per-rule reason and an explicit NEED_MORE_INFO state instead of guessing, with every rule traceable to the official source sentence it was derived from; calibrated the retrieval refusal threshold on 22 measured queries, with GitHub Actions CI running the tests and a container smoke test on every push and pull request to main.
+> Engineered a rule-based eligibility engine (pure Python, 141 eligibility tests within a 592-test suite that makes no network calls) that returns an auditable per-rule reason and an explicit NEED_MORE_INFO state instead of guessing, with every rule traceable to the official source sentence it was derived from; calibrated the retrieval refusal threshold on 22 measured queries, with GitHub Actions CI running the tests and a container smoke test on every push and pull request to main.
 
 **If asked what the 3.3% was** (say this plainly): the 3 baseline "unsupported" claims
 were not invented scheme facts. Two were remarks added to a decline ("the passages only
