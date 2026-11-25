@@ -1,110 +1,167 @@
 # Evaluation results
 
-## Status (2026-11-16)
+The same 50 golden-set questions run with the verification layer **off** (plain RAG, the baseline) and **on**. Each question is normalized once and both conditions retrieve with that identical query; the only difference is whether answers are checked before being returned.
 
-| Benchmark | Questions | State | Results |
+## Setup
+
+- **Date:** 2026-11-25
+- **Questions:** n=50 (35 answerable, 15 unanswerable) of 50 in the golden set
+- **LLM:** `qwen/qwen3.8-27b` via https://api.groq.com/openai/v1
+- **Embeddings:** `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` (cosine)
+- **Retrieval:** top-5, refusal threshold 0.45
+- **Block threshold:** 0.5 (unsupported-claim fraction above which an answer is refused)
+- **Corpus:** 312 chunks from 15 central schemes
+- **Claim audit:** on
+
+## Headline comparison
+
+| Metric | Guardrail OFF | Guardrail ON | Change |
 |---|---|---|---|
-| Retrieval, raw vs normalised queries | 50 (35 answerable) | **complete** | [`retrieval_results.md`](retrieval_results.md) |
-| Refusal-threshold sweep | 50 | **complete** | [`threshold_results.md`](threshold_results.md) |
-| Guardrail OFF vs ON, preliminary subset | 20 (11 answerable, 9 unanswerable) | **complete, PRELIMINARY** | [`runs/subset-20q-c5a697aa/results.md`](runs/subset-20q-c5a697aa/results.md) |
-| Guardrail OFF vs ON, full set | 50 | **not yet run** | this file will be replaced by the run |
+| **Unsupported claim rate** (delivered answers) | 3.3% (3/92) | 0.0% (0/81) | better (-3.3 pp) |
+| Answers containing any unsupported claim | 8.1% (3/37) | 0.0% (0/34) | better (-8.1 pp) |
+| Correct refusal rate (unanswerable) | 78.6% (11/14) | 100.0% (14/14) | better (+21.4 pp) |
+| Over-blocking rate (answerable refused) | 2.9% (1/35) | 2.9% (1/35) | no change |
+| Answered rate (of answerable) | 97.1% (34/35) | 97.1% (34/35) | no change |
+| Key-fact coverage (answered only) | 78.9% (30/38) | 78.9% (30/38) | no change |
+| **End-to-end fact accuracy** (all answerable; refusal = 0) | 76.9% (30/39) | 76.9% (30/39) | no change |
+| Questions fully correct (all key facts) | 74.3% (26/35) | 74.3% (26/35) | no change |
+| Avg LLM calls / question | 1.88 | 3.74 | +1.86 |
+| Avg tokens / question | 1240 | 2690 | |
+| Median latency | 1.9s | 20.4s | |
+| p95 latency | 9.6s | 39.2s | |
+| Infrastructure failures (excluded) | 0 | 0 | |
+| Questions scored (paired: the same ones in both) | 50 | 50 | |
 
-The full OFF/ON run needs roughly 300,000 tokens. Groq's free tier allows about
-200,000 a day and also limits output tokens to 1,000 a minute, so the run is done one
-condition per day, ideally on a key separate from the live demo. A case-by-case
-reading of the preliminary subset is in
-[`docs/TEST_REPORT.md` §3](../docs/TEST_REPORT.md#3-end-to-end-evaluation-preliminary).
-Read it before quoting any OFF/ON number.
+*Refusal rates leave out answers whose refusal status could not be determined (no claim audit ran for them, so a decline in the model's own words was undetectable): OFF 1, ON 1.*
 
-## How to run
+*Retrieval is identical in both conditions by construction (shared cached normalization): expected scheme in top-5 for 97.1% (34/35) of answerable questions.*
 
-Retrieval only (0 LLM calls for `raw`, 1 cached call per question for `normalized`):
+### How to read this
 
-```bash
-python -m eval.run_retrieval --variants raw,normalized
-```
+- **Unsupported claim rate** is the headline: of all factual claims in answers the user actually saw, how many the judge found unsupported by the retrieved official text. For ON, a PASS answer has zero unsupported claims *by definition of PASS* and its verdicts come from the same judge, so ON's figure is not independent evidence; use `--audit-all` for an independent re-audit.
 
-Full OFF/ON benchmark, one condition per day:
+- **Correct refusal vs over-blocking** trade against each other: refusing more catches more unanswerable questions and blocks more good answers. Refusal here uses one detector for both conditions (pipeline status, canned refusal text, or an answer with no checkable claims); answers the detector could not classify are left out of the refusal rates in both.
 
-```bash
-python -m eval.run_eval --condition off --delay 8
-```
+- **End-to-end fact accuracy** counts a refusal as zero facts, so it does not flatter a system that simply refuses more. Key-fact coverage (answered questions only) is shown beside it for that reason.
 
-```bash
-python -m eval.run_eval --condition on --delay 8
-```
+- **Latency** includes time the harness spent waiting out free-tier rate limits, so read the median, not the mean.
 
-The second command merges with the first automatically, but only if the model,
-embeddings, threshold and golden set are unchanged; otherwise it refuses to compare.
-If a run is interrupted, add `--resume`. Questions that failed because the LLM
-service was unavailable are retried, and until then they are excluded from **both**
-conditions so the comparison stays paired.
+## Guardrail OFF (baseline)
 
-A cheaper preliminary run on a subset that covers every language and failure mode:
+| Metric | Value |
+|---|---|
+| Questions run | 50 |
+| Infrastructure failures (excluded from all rates) | 0 |
+| Scored | 50 (35 answerable, 15 not) |
+| Retrieval: expected scheme in top-5 | 97.1% (34/35) |
+| Retrieval: top-1 | 80.0% (28/35) |
+| Answered (of answerable) | 97.1% (34/35) |
+| Over-blocking rate | 2.9% (1/35) |
+| Correct refusal rate | 78.6% (11/14) |
+| Key-fact coverage (answered only) | 78.9% (30/38) |
+| End-to-end fact accuracy (all answerable) | 76.9% (30/39) |
+| Unsupported claim rate (delivered) | 3.3% (3/92) |
+| Answers with any unsupported claim | 8.1% (3/37) |
+| Answers that could not be audited | 1 (audit failures: 1) |
+| Fabricated citations caught in code (draft level) | 0 |
+| Avg / median / p95 latency | 3.2s / 1.9s / 9.6s |
+| Avg LLM calls per question (production) | 1.88 (normalization counts as 1) |
+| Avg tokens per question (production) | 1240 |
+| Extra calls used for measurement only | 80 |
 
-```bash
-python -m eval.run_eval --stratified 20 --delay 8
-```
+**Guardrail decisions:** SKIPPED=50
 
-Publish the numbers into the README (it refuses to fill resume bullets from a
-subset):
+**Refusals by how they were detected:** no_claims=6, pipeline=6
 
-```bash
-python scripts/update_readme_eval.py
-```
+**Where delivered-answer verdicts came from:** audit=43
 
-## What is measured
+**Refusal rate by type of unanswerable question:**
 
-The same golden-set questions, run twice — guardrail **off** (plain RAG, the
-baseline) and **on** — with identical retrieval (one cached normalisation per
-question, shared by both), model and prompts.
+| Type | Questions | Refused | Rate |
+|---|---|---|---|
+| `fake_scheme` | 4 | 3 | 75.0% |
+| `not_indexed` | 4 | 3 | 75.0% |
+| `off_topic` | 5 | 5 | 100.0% |
+| `trick_unstated_fact` | 1 | 0 | 0.0% |
 
-| Metric | What it means | Better |
-|---|---|---|
-| **Unsupported claim rate** | Of all factual claims in answers the user actually saw, how many the judge found unsupported by the retrieved official text | lower |
-| Answers containing any unsupported claim | Share of answers with at least one ungrounded claim | lower |
-| Correct refusal rate | Unanswerable questions that were refused | higher |
-| Over-blocking rate | Answerable questions refused anyway — the cost of strictness | lower |
-| Key-fact coverage / end-to-end accuracy | Expected facts present in the answer; end-to-end counts a refusal as 0 | higher |
-| Retrieval hit rate | Expected scheme present in the top-5 passages | higher |
-| LLM calls, tokens, latency | Measured per request, not estimated | lower |
+**Answerable questions by language** (small n: read with care):
 
-Every proportion is reported with its n; empty denominators print as "n/a", never 0%.
+| Language | n | Refused | Retrieval hit |
+|---|---|---|---|
+| en | 26 | 1 | 26/26 |
+| hi | 4 | 0 | 4/4 |
+| hinglish | 5 | 0 | 4/5 |
 
-### Choices that keep the measurement honest
+**Claim-evidence similarity (EXPLORATORY, not used in any decision):**
 
-- **The delivered answer is audited, not the draft.** When the guardrail returns
-  PASS, the answer ships unchanged, so its verdicts are reused (re-auditing would be
-  a byte-identical call). REPAIR answers carry the verdicts of their own re-check.
-  `--audit-all` forces an independent re-audit of everything.
-- **One refusal detector for both conditions**: pipeline status, canned refusal
-  text, or an answer with no checkable claims.
-- **Infrastructure failures are excluded, in pairs**, not counted as refusals.
-- **Unanswerable questions are split by failure mode**, because the defence against
-  each differs:
+- not enough data: SUPPORTED n=89, NOT_SUPPORTED n=0 claims carry a similarity value (needs both classes; the backend must record `evidence_similarity`).
 
-| Type | Example | What catches it |
-|---|---|---|
-| `off_topic` | "capital of France" | The retrieval threshold, before generation (1 LLM call: normalisation) |
-| `fake_scheme` | "PM Free Laptop Yojana 2026" | Claim-level verification; all 5 score 0.45–0.62, above the threshold (in the 20-question subset, 3 of 4 were already refused with the guardrail OFF) |
-| `not_indexed` | "Sukanya Samriddhi interest rate" | Not the threshold: up to 0.71, confident wrong-scheme evidence. In measured runs the draft declined (refused as `no_claims`); claim verification is the backstop |
-| `trick_unstated_fact` | A real scheme, asked for something the source never states | Claim-level verification |
+## Guardrail ON
 
-## The golden set
+| Metric | Value |
+|---|---|
+| Questions run | 50 |
+| Infrastructure failures (excluded from all rates) | 0 |
+| Scored | 50 (35 answerable, 15 not) |
+| Retrieval: expected scheme in top-5 | 97.1% (34/35) |
+| Retrieval: top-1 | 80.0% (28/35) |
+| Answered (of answerable) | 97.1% (34/35) |
+| Over-blocking rate | 2.9% (1/35) |
+| Correct refusal rate | 100.0% (14/14) |
+| Key-fact coverage (answered only) | 78.9% (30/38) |
+| End-to-end fact accuracy (all answerable) | 76.9% (30/39) |
+| Unsupported claim rate (delivered) | 0.0% (0/81) |
+| Answers with any unsupported claim | 0.0% (0/34) |
+| Answers that could not be audited | 0 (audit failures: 0) |
+| Fabricated citations caught in code (draft level) | 2 |
+| Avg / median / p95 latency | 17.3s / 20.4s / 39.2s |
+| Avg LLM calls per question (production) | 3.74 (normalization counts as 1) |
+| Avg tokens per question (production) | 2690 |
+| Extra calls used for measurement only | 0 |
 
-50 questions, built by `scripts/build_golden_set.py`: 35 answerable across all 15
-schemes and 15 unanswerable across the four failure modes. By language: 36 English,
-7 Hindi (Devanagari), 7 Hinglish (romanised). Every expected fact is checked to
-appear in its scheme's source file when the set is built.
+**Guardrail decisions:** PASS=40, REPAIR=4, SKIPPED=6
 
-## Limitations to state alongside any number
+**Refusals by how they were detected:** pipeline=16
 
-- **Small n.** 50 questions overall; 4–5 answerable Hindi or Hinglish questions.
-- **Same judge everywhere.** The judge is the same model as the generator, and the
-  audit uses that judge too. In the preliminary subset the splitter and judge were over-strict at
-  least once. A human-labelled subset and a different judge model are planned.
-- **Key facts are matched by substring.** Both misses in the preliminary subset were
-  correct answers worded differently.
-- **Scheme-level relevance.** A hit means the right scheme was retrieved, not every
-  passage needed to answer fully.
-- **Author-written questions** may under-represent failure modes nobody thought of.
+**Where delivered-answer verdicts came from:** guardrail_pass=33, repair_report=1
+
+**Refusal rate by type of unanswerable question:**
+
+| Type | Questions | Refused | Rate |
+|---|---|---|---|
+| `fake_scheme` | 4 | 4 | 100.0% |
+| `not_indexed` | 4 | 4 | 100.0% |
+| `off_topic` | 5 | 5 | 100.0% |
+| `trick_unstated_fact` | 1 | 1 | 100.0% |
+
+**Answerable questions by language** (small n: read with care):
+
+| Language | n | Refused | Retrieval hit |
+|---|---|---|---|
+| en | 26 | 1 | 26/26 |
+| hi | 4 | 0 | 4/4 |
+| hinglish | 5 | 0 | 4/5 |
+
+**Claim-evidence similarity (EXPLORATORY, not used in any decision):**
+
+- not enough data: SUPPORTED n=81, NOT_SUPPORTED n=0 claims carry a similarity value (needs both classes; the backend must record `evidence_similarity`).
+
+## What the categories mean
+
+- **`off_topic`**: not about schemes at all ("capital of France"). The retrieval threshold refuses these before any generation, so they cost only the **1 normalization call** (normalization always runs first) and no answer or verification calls.
+- **`fake_scheme`**: an invented but plausible scheme name. These score *above* the retrieval threshold because they look like scheme questions, so only claim-level verification can catch them.
+- **`not_indexed`**: a **real** scheme we do not cover. Retrieval returns confident, real, *wrong-scheme* evidence, which makes it the hardest case.
+- **`trick_unstated_fact`**: a real scheme, but the question asks for something the official source never states.
+
+## Honest limitations of this evaluation
+
+- **n=50 is small.** Differences of a few points are noise; the numbers show direction and rough size, not precision.
+- **The judge is the same model family as the generator**, and the audit uses the same judge. A shared blind spot would be invisible here. Stronger: a different judge model plus a human-labelled subset.
+- **Reused verdicts are not independent.** ON's unsupported-claim rate on PASS answers is zero by construction of PASS.
+- **Key facts are matched by substring.** A correct answer that words a number differently ("2 lakh" vs "2.00 Lakh") or answers in Hindi against an English key fact is scored as a miss, which biases against Hindi/Hinglish.
+- **Some gold labels are ambiguous** (for example the SVANidhi interest rate is stated two ways in the source). Per-question misses are worth reading in `raw_results.json` before drawing conclusions.
+- **Written by the same people who built the system**, so the set may under-represent failure modes we did not think of.
+
+---
+
+Regenerate with `python eval/run_eval.py`. Per-question records (answers, verdicts, top-10 retrieval) are in `raw_results.json`.
