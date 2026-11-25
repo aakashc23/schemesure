@@ -218,35 +218,35 @@ a numeric field.
 ## Evaluation
 
 Golden-set questions run twice — guardrail **off** (plain RAG) and **on** — with
-identical retrieval, model and prompts. The full 50-question run has not completed
-yet (the free tier allows about 200k tokens a day); a preliminary, paired 20-question
-subset has. Status and method: **[`eval/results.md`](eval/results.md)**.
+identical retrieval, model and prompts, on all 50 questions (paired; 0 infrastructure
+failures). Full method and per-category tables: **[`eval/results.md`](eval/results.md)**.
 
 <!--EVAL_TABLE_START-->
-**PRELIMINARY: n=20 of 50 golden-set questions (a subset). Not the full benchmark.**
-
 | Metric | Guardrail OFF | Guardrail ON | Change |
 |---|---|---|---|
-| **Unsupported claim rate** (in delivered answers) | 5.0% (2/40) | 0.0% (0/34) | better (-5.0 pp) |
-| Answers containing any unsupported claim | 15.4% (2/13) | 0.0% (0/11) | better (-15.4 pp) |
-| Correct refusal rate (unanswerable) | 77.8% (7/9) | 100.0% (9/9) | better (+22.2 pp) |
-| Over-blocking rate (answerable refused) | 0.0% (0/11) | 0.0% (0/11) | no change |
-| End-to-end fact accuracy (refusal = 0) | 81.8% (9/11) | 81.8% (9/11) | no change |
-| Key-fact coverage (answered only) | 81.8% (9/11) | 81.8% (9/11) | no change |
-| Retrieval hit rate (top-5) | 100.0% (11/11) | 100.0% (11/11) | no change |
-| Avg LLM calls / question | 1.85 | 3.8 | +1.95 |
-| Median latency | 3.1s | 9.0s | +5.9s |
+| **Unsupported claim rate** (in delivered answers) | 3.3% (3/92) | 0.0% (0/81) | better (-3.3 pp) |
+| Answers containing any unsupported claim | 8.1% (3/37) | 0.0% (0/34) | better (-8.1 pp) |
+| Correct refusal rate (unanswerable) | 78.6% (11/14) | 100.0% (14/14) | better (+21.4 pp) |
+| Over-blocking rate (answerable refused) | 2.9% (1/35) | 2.9% (1/35) | no change |
+| End-to-end fact accuracy (refusal = 0) | 76.9% (30/39) | 76.9% (30/39) | no change |
+| Key-fact coverage (answered only) | 78.9% (30/38) | 78.9% (30/38) | no change |
+| Retrieval hit rate (top-5) | 97.1% (34/35) | 97.1% (34/35) | no change |
+| Avg LLM calls / question | 1.88 | 3.74 | +1.86 |
+| Median latency | 1.9s | 20.4s | +18.5s |
 
-*n=20 questions per condition (11 answerable, 9 unanswerable); scored on the same 20 questions in both (infrastructure failures excluded: OFF 0, ON 0; a question that failed in either condition is dropped from both). The ON unsupported-claim figure comes from the same judge that approves answers, so it is not an independent measurement. Full method and per-category breakdown in [`eval/results.md`](eval/results.md).*
+*n=50 questions per condition (35 answerable, 15 unanswerable); scored on the same 50 questions in both (infrastructure failures excluded: OFF 0, ON 0; a question that failed in either condition is dropped from both). The ON unsupported-claim figure comes from the same judge that approves answers, so it is not an independent measurement. Full method and per-category breakdown in [`eval/results.md`](eval/results.md).*
 <!--EVAL_TABLE_END-->
 
-> **Read before quoting.** On this subset, both "unsupported" claims in the baseline
-> turned out on inspection not to be invented scheme facts. In one, the claim splitter
-> dropped an exception and the judge rejected the resulting over-general claim, so the
-> repair removed a true document requirement from the answer. So the subset shows no
-> over-blocking and that half-refusals become clean refusals. ON's 0 unsupported claims
-> comes from the guardrail's own verdicts (not an independent audit), and the subset does
-> **not** yet show a measured reduction in real hallucinations. Case-by-case analysis:
+> **Read before quoting.** Each of the 3 "unsupported" claims in the baseline was read
+> by hand, and **none is an invented scheme fact**. Two are remarks added to a decline
+> ("the passages only cover X and Y"), which also made those declines count as
+> non-refusals. The third is the judge rejecting a true claim (Aadhaar as a required
+> Ujjwala document). With the guardrail ON, that same false rejection made the repair
+> **remove a true fact**. What the run does show: declines padded with irrelevant facts
+> become clean refusals (11/14 → 14/14), at no over-blocking cost (1/35 in both, the same
+> question) and about 2× the LLM calls. ON's 0 unsupported claims comes from the
+> guardrail's own judge, not an independent audit. ON's median latency includes waits
+> for the free tier's per-minute token limit. The 20-question preliminary analysis is in
 > [`docs/TEST_REPORT.md` §3](docs/TEST_REPORT.md#3-end-to-end-evaluation-preliminary).
 
 **Retrieval** is benchmarked on the full set (35 answerable questions, 0–1 LLM calls
@@ -287,7 +287,7 @@ A single averaged "refusal rate" would hide the only interesting part.
 | Rules | Plain Python + JSON per scheme | Auditable, exact, testable |
 | UI | Streamlit over HTTP | No business logic in the frontend |
 | Monitoring | SQLite (`llm_calls.db`) | Every call logged; `/metrics` reads real measurements |
-| Tests | pytest — **574 tests, no network calls** | LLM always mocked; retrieval is real |
+| Tests | pytest — **592 tests, no network calls** | LLM always mocked; retrieval is real |
 | Container | Docker (`Dockerfile` + `start.sh`) | Two processes, one port; index built at build time |
 | Live host | Streamlit Community Cloud | Free, and redeploys on every push to `main` |
 | CI | GitHub Actions | Validate data → build index → tests → secret scan; in parallel, Docker build + smoke test |
@@ -396,7 +396,7 @@ The UI is at `http://localhost:8501`, the API docs at `http://localhost:8000/doc
 Useful commands:
 
 ```bash
-python -m pytest -q                                  # 574 tests, no API key needed
+python -m pytest -q                                  # 592 tests, no API key needed
 python scripts/validate_data.py                      # validate the corpus
 python scripts/build_golden_set.py                   # rebuild + verify the golden set
 python -m eval.run_retrieval --variants raw          # retrieval benchmark, 0 LLM calls
@@ -484,7 +484,7 @@ eval/    golden_set.jsonl  run_retrieval.py  run_eval.py  common.py
 scripts/ fetch_schemes.py build_rules.py validate_data.py
          build_golden_set.py make_verify_checklist.py
          scan_secrets.py deploy_hf.py update_readme_eval.py
-tests/   574 tests
+tests/   592 tests
 docs/    PROGRESS_REPORT.md ARCHITECTURE.md RESEARCH.md ROADMAP.md
          DEMO_GUIDE.md TEST_REPORT.md DECISIONS.md LEARN.md
          INTERVIEW_NOTES.md DEPLOYMENT.md VERIFY_CHECKLIST.md
