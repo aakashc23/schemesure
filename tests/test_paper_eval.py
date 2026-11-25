@@ -143,3 +143,37 @@ def test_wrong_value_avoids_evidence_numbers():
 def test_render_has_no_exponent():
     assert render(Decimal("2E+5")) == "200000"
     assert render(Decimal("1.50")) == "1.5"
+
+
+# ---- E9b: LLM judge on the number test (ordering only; no LLM) ---------------
+
+from eval.run_numeric_judge import KIND_ORDER, item_key, ordered_items  # noqa: E402
+
+
+def _items():
+    rows = []
+    for s in range(6):
+        for kind in ("faithful_format", "perturbed_out", "faithful_original", "perturbed_in"):
+            rows.append({"source_chunk_id": f"c{s}", "original": f"sentence {s}",
+                         "kind": kind, "claim": f"{kind} {s}"})
+    return rows
+
+
+def test_ordered_items_keeps_every_item_once():
+    rows = _items()
+    ordered = ordered_items(rows, seed=0)
+    assert sorted(map(item_key, ordered)) == sorted(map(item_key, rows))
+
+
+def test_ordered_items_groups_sentences_in_kind_order():
+    ordered = ordered_items(_items(), seed=0)
+    for start in range(0, len(ordered), 4):
+        group = ordered[start:start + 4]
+        assert len({r["original"] for r in group}) == 1
+        assert [r["kind"] for r in group] == list(KIND_ORDER)
+
+
+def test_ordered_items_is_seeded():
+    a = [r["original"] for r in ordered_items(_items(), seed=1)]
+    b = [r["original"] for r in ordered_items(_items(), seed=1)]
+    assert a == b

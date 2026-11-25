@@ -1,6 +1,6 @@
 # Paper analysis: retrieval similarity is not answerability
 
-Question file: `paper_set.jsonl`, n=279 (105 answerable, 174 unanswerable), every question in English, Hindi and Hinglish. Retrieval variant: **raw** (the question as typed, 0 LLM calls). Production refuses on the LLM-normalised query, which has not been run on this set yet.
+Question file: `paper_set.jsonl`, n=279 (105 answerable, 174 unanswerable), every question in English, Hindi and Hinglish. Retrieval variant: **raw** (the question as typed, 0 LLM calls).
 
 ## 1. Separability per failure mode
 
@@ -64,13 +64,13 @@ Recall@1 = the expected scheme owns the top chunk. Each answerable concept is co
 
 | Language | Over-block (answerable) | Unanswerable refused |
 |---|---|---|
-| en | 0/35 (0%) 0.0% [0.0-9.9] | 17/58 (29%) |
-| hi | 3/35 (9%) 8.6% [3.0-22.4] | 23/58 (40%) |
-| hinglish | 4/35 (11%) 11.4% [4.5-26.0] | 18/58 (31%) |
+| en | 0/35, 0.0% [0.0-9.9] | 17/58 (29%) |
+| hi | 3/35, 8.6% [3.0-22.4] | 23/58 (40%) |
+| hinglish | 4/35, 11.4% [4.5-26.0] | 18/58 (31%) |
 
 ## Caveats
 
-- Raw queries only. The LLM normaliser translates Hindi/Hinglish to English before retrieval in production; its effect on this set is not yet measured.
+- Raw queries only; see `paper_analysis_normalized.md` for the production (translated) queries.
 - Author-written questions and translations; not yet reviewed by a second native speaker.
 - Relevance is scheme-level (no gold passage ids).
 - This analysis is about the retrieval gate only. Whether claim-level verification catches what the threshold misses is measured end-to-end by `eval/run_eval.py`, which needs the LLM.

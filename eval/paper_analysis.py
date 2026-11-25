@@ -43,6 +43,11 @@ DEFAULT_RAW = ROOT / "eval" / "runs" / "paper_set" / "retrieval_raw.json"
 DEFAULT_QUESTIONS = ROOT / "eval" / "paper_set.jsonl"
 DEFAULT_OUT = ROOT / "eval" / "runs" / "paper_set" / "paper_analysis.md"
 
+VARIANT_TEXT = {
+    "raw": "Retrieval variant: **raw** (the question as typed, 0 LLM calls).",
+    "normalized": "Retrieval variant: **normalized** (the question translated to English by "
+                  "one LLM call before retrieval, exactly as production does).",
+}
 FAILURE_MODES = ("off_topic", "fake_scheme", "not_indexed", "trick_unstated_fact")
 LANGUAGES = ("en", "hi", "hinglish")
 GRID = [round(0.20 + 0.01 * i, 2) for i in range(61)]  # 0.20 .. 0.80
@@ -110,7 +115,8 @@ def _fmt(value: float | None, digits: int = 3) -> str:
     return "n/a" if value is None else f"{value:.{digits}f}"
 
 
-def build_report(records: list[dict], questions: dict[str, dict], configured: float) -> str:
+def build_report(records: list[dict], questions: dict[str, dict], configured: float,
+                 variant: str = "raw") -> str:
     by_id = {r["id"]: r for r in records}
     answerable = [r for r in records if r["answerable"]]
     ans_scores = [r["best_score"] for r in answerable]
@@ -122,9 +128,7 @@ def build_report(records: list[dict], questions: dict[str, dict], configured: fl
     out.append("# Paper analysis: retrieval similarity is not answerability\n")
     out.append(f"Question file: `paper_set.jsonl`, n={len(records)} "
                f"({len(answerable)} answerable, {len(all_unans)} unanswerable), every question "
-               "in English, Hindi and Hinglish. Retrieval variant: **raw** (the question as "
-               "typed, 0 LLM calls). Production refuses on the LLM-normalised query, which has "
-               "not been run on this set yet.\n")
+               "in English, Hindi and Hinglish. " + VARIANT_TEXT.get(variant, f"Variant `{variant}`.") + "\n")
 
     # ---- 1. separability -------------------------------------------------
     out.append("## 1. Separability per failure mode\n")
@@ -233,8 +237,10 @@ def build_report(records: list[dict], questions: dict[str, dict], configured: fl
     out.append("")
 
     out.append("## Caveats\n")
-    out.append("- Raw queries only. The LLM normaliser translates Hindi/Hinglish to English "
-               "before retrieval in production; its effect on this set is not yet measured.\n"
+    out.append(("- Raw queries only; see `paper_analysis_normalized.md` for the production "
+                "(translated) queries.\n" if variant == "raw" else
+                "- Normalised queries: one LLM call per question translated it to English "
+                "first, as in production.\n") +
                "- Author-written questions and translations; not yet reviewed by a second "
                "native speaker.\n"
                "- Relevance is scheme-level (no gold passage ids).\n"
@@ -263,7 +269,7 @@ def main() -> int:
         questions = {row["id"]: row for row in map(json.loads, filter(str.strip, fh))}
     configured = data["meta"]["configured_min_score"]
 
-    report = build_report(records, questions, configured)
+    report = build_report(records, questions, configured, args.variant)
     Path(args.out).write_text(report, encoding="utf-8")
     print(f"Wrote {args.out}")
     return 0
