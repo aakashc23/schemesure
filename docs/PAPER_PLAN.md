@@ -94,8 +94,22 @@ about schemes, so they translate into fluent scheme questions too.
 
 Embedding similarity is at chance on number swaps (AUROC 0.53). The number rule is
 exact on what it can see and blind by construction to swaps within the evidence.
-That case is left to the LLM judge, and measuring how often the judge catches it is
-experiment E9b below.
+That case is left to the LLM judge.
+
+**E9b — the LLM judge on the same items** (`eval/runs/numeric_perturbation/judge_results.md`;
+seeded random sample of 28 sentences, sized to the day's quota, one claim per call):
+
+| Item type | n | LLM judge flags | number rule flags |
+|---|---|---|---|
+| correct sentence | 28 | 1 (3.6%) — a garbled table fragment | 0 |
+| wrong number present elsewhere in evidence | 27 | **27 (100%)** | 0 |
+
+The two checks are complementary: the rule covers every number absent from the
+evidence at zero false alarms; the judge covered every in-evidence swap in this
+sample. Caveats: each test claim is the source sentence with one number changed,
+which is easier than a paraphrased claim; a few swaps are implausible ("2500000%")
+and the generator garbled two units; n is small. Remaining items can be judged
+later with `--resume`-style re-runs of `eval/run_numeric_judge.py`.
 
 ## 4. What is still needed, in order
 
@@ -103,7 +117,7 @@ experiment E9b below.
 |---|---|---|---|
 | 1 | ~~Normalised-query retrieval on the paper set~~ **Done** (§3.1–3.2) | — | `eval/runs/paper_set/` |
 | 2 | End-to-end guardrail OFF vs ON on the paper set: unsupported-claim rate, correct refusal and over-blocking **per failure mode and per language** | LLM key; ~1.7M tokens, so several days on the Groq free tier or a paid key | `eval/run_eval.py` (needs the same `--questions` flag added) |
-| 3 | E9b: run the LLM judge on `numeric_perturbation/items.jsonl` (especially `perturbed_in`) | LLM key; ~550 judge calls | detection rate of the judge vs the rule |
+| 3 | E9b: LLM judge on the number test — **sample done** (27/27 in-evidence swaps caught); extend to paraphrased claims and the remaining items | LLM key; ~500 judge calls | `eval/run_numeric_judge.py` |
 | 4 | Second-family judge on the same claims (validity: same model drafts and judges) | a second provider's key | judge agreement |
 | 5 | Human labels: ~300 (claim, passage) pairs, 2 annotators, Cohen's κ; LLM judge vs NLI vs similarity vs hybrid | 2 people, ~6 hours each; a multilingual NLI model | RQ4 table |
 | 6 | Native-speaker review of the Hindi and Hinglish questions | 1 Hindi speaker, ~2 hours | fixes to `build_paper_set.py` |

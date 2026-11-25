@@ -276,7 +276,7 @@ structured eligibility rules.
 | E6 | Cross-model judge | a different model family judges the same claims; disagreement analysis | RQ4, validity |
 | E7 | Embedding ablation | MiniLM vs multilingual-e5 vs BGE-M3 (offline, retrieval-only) | RQ1 |
 | E8 | Policy ablation | block threshold 0.3/0.5/0.7; top-k 3/5/8; repair vs regenerate | RQ3 |
-| E9 | Robustness | prompt-injection questions ("ignore the evidence…"), number-perturbation tests. **Number perturbation done without the LLM** (`eval/runs/numeric_perturbation/results.md`): numeric rule 100% on wrong numbers absent from evidence, 0% false alarms over Indian number formats, 0% on in-evidence swaps (by design); similarity AUROC 0.53. LLM-judge run on the same items pending | RQ3 |
+| E9 | Robustness | prompt-injection questions ("ignore the evidence…"), number-perturbation tests. **Number perturbation done without the LLM** (`eval/runs/numeric_perturbation/results.md`): numeric rule 100% on wrong numbers absent from evidence, 0% false alarms over Indian number formats, 0% on in-evidence swaps (by design); similarity AUROC 0.53. LLM judge on a 28-sentence sample: 27/27 in-evidence swaps flagged, 1/28 correct sentences rejected (`judge_results.md`) | RQ3 |
 | E10 | User study | small task-based study with Hindi/Hinglish speakers on trust and comprehension of the verification view | usability |
 
 The paper built on RQ2–RQ4 is planned in [`PAPER_PLAN.md`](PAPER_PLAN.md).
