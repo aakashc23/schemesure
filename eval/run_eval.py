@@ -1098,12 +1098,17 @@ def main() -> int:
                         help="continue from checkpoints / earlier results in the out dir")
     parser.add_argument("--overwrite", action="store_true",
                         help="allow replacing a finished condition in the out dir")
+    parser.add_argument("--questions", default="",
+                        help="question file (default eval/golden_set.jsonl); "
+                             "e.g. eval/paper_set.jsonl")
     args = parser.parse_args()
     if args.limit and not args.stratified:
         args.stratified = args.limit
 
-    if not GOLDEN_PATH.exists():
-        print(f"ERROR: {GOLDEN_PATH} not found. Run scripts/build_golden_set.py first.")
+    questions_path = Path(args.questions) if args.questions else None
+    if not (questions_path or GOLDEN_PATH).exists():
+        print(f"ERROR: {questions_path or GOLDEN_PATH} not found. "
+              "Run scripts/build_golden_set.py (or build_paper_set.py) first.")
         return 1
 
     # Heavy imports are deferred so importing this module (e.g. in tests) stays fast.
@@ -1114,7 +1119,7 @@ def main() -> int:
     from core.retriever import Retriever
     from eval.norm_cache import NormalizationCache
 
-    all_rows = load_rows()
+    all_rows = load_rows(questions_path)
     rows = rows_from_args(args, all_rows)
     if not rows:
         print("ERROR: the selection matched no questions.")
@@ -1123,6 +1128,11 @@ def main() -> int:
 
     if args.out_dir:
         out_dir = Path(args.out_dir)
+    elif questions_path is not None:
+        # Another question file never overwrites the golden-set results in eval/.
+        out_dir = ROOT / "eval" / "runs" / f"e2e_{questions_path.stem}"
+        if subset:
+            out_dir = out_dir / subset_dir_name(rows)
     elif subset:
         out_dir = ROOT / "eval" / "runs" / subset_dir_name(rows)
     else:
