@@ -22,7 +22,16 @@ Does the retriever put the right scheme in the top results? Measured with no ans
 
 *Language-ID for `raw` is the offline script/word heuristic (`detect_language_heuristic`), not an LLM.*
 
-> The `normalized` variant has **not been run** (it needs the LLM, one call per question, cached afterwards). Until it runs, the effect of the normalizer is unmeasured and no comparison is claimed.
+## Variant `normalized` (English rewrite from the LLM, as in production)
+
+| Language | n answerable | Recall@1 | Recall@3 | Recall@5 | MRR@10 | MRR@10 (distinct schemes) | Language-ID accuracy |
+|---|---|---|---|---|---|---|---|
+| **all** | 105 | 82.9% [74.5-88.9] | 92.4% [85.7-96.1] | 99.0% [94.8-99.8] | 0.880 | 0.886 | 100.0% [98.6-100.0] |
+| en | 35 | 80.0% [64.1-90.0] | 94.3% [81.4-98.4] | 100.0% [90.1-100.0] | 0.865 | 0.876 | 100.0% [96.0-100.0] |
+| hi | 35 | 82.9% [67.3-91.9] | 91.4% [77.6-97.0] | 100.0% [90.1-100.0] | 0.885 | 0.889 | 100.0% [96.0-100.0] |
+| hinglish | 35 | 85.7% [70.6-93.7] | 91.4% [77.6-97.0] | 97.1% [85.5-99.5] | 0.889 | 0.893 | 100.0% [96.0-100.0] |
+
+*Normalizer fallbacks (LLM failed, raw question used): 0.*
 
 ## How to read this
 

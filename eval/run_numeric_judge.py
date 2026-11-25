@@ -110,6 +110,8 @@ def main() -> int:
                         help="stop after this many tokens in THIS run (quota guard)")
     parser.add_argument("--delay", type=float, default=3.0, help="seconds between calls")
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--kinds", default=",".join(KIND_ORDER),
+                        help="comma-separated item kinds to judge (default: all)")
     parser.add_argument("--report-only", action="store_true")
     args = parser.parse_args()
 
@@ -145,7 +147,9 @@ def main() -> int:
 
         llm = LLMClient(settings)
         used = 0
-        todo = [i for i in ordered_items(items, args.seed) if item_key(i) not in done]
+        kinds = {k.strip() for k in args.kinds.split(",") if k.strip()}
+        todo = [i for i in ordered_items(items, args.seed)
+                if item_key(i) not in done and i["kind"] in kinds]
         print(f"{len(done)} already judged, {len(todo)} to go, token budget {args.max_tokens}")
         with io.open(results_path, "a", encoding="utf-8") as fh:
             for n, item in enumerate(todo, start=1):

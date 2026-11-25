@@ -42,33 +42,44 @@ Python checks (citation existence, number grounding).
 6. *(pending human labels)* A comparison of LLM judge vs NLI vs similarity vs hybrid
    verifiers on Hindi/Hinglish-derived claims.
 
-## 3. Results so far (0 LLM calls, reproducible)
+## 3. Results so far (reproducible)
 
-### 3.1 Retrieval gate vs failure mode — `eval/runs/paper_set/paper_analysis.md`
+Two retrieval variants: **raw** (the question as typed, 0 LLM calls) and
+**translated** (one LLM call rewrites it in English first, as production does).
+Production refuses on the translated score, so that column is the one that matters
+for the system; the raw column shows what the translation step buys.
 
-| Unanswerable type | n | median best score | AUROC vs answerable (median 0.626) | refused at 0.45 |
+### 3.1 Retrieval gate vs failure mode — `eval/runs/paper_set/paper_analysis*.md`
+
+| Unanswerable type | n | AUROC raw | **AUROC translated** | refused at 0.45 (translated) |
 |---|---|---|---|---|
-| off_topic | 45 | 0.260 | **0.989** | 42/45 (93%) |
-| fake_scheme | 45 | 0.578 | 0.643 | 4/45 (9%) |
-| not_indexed | 45 | 0.519 | 0.734 | 8/45 (18%) |
-| trick_unstated_fact | 39 | 0.580 | 0.616 | 4/39 (10%) |
+| off_topic | 45 | 0.989 | **1.000** | 45/45 (100%) |
+| fake_scheme | 45 | 0.643 | **0.766** | 3/45 (7%) |
+| not_indexed | 45 | 0.734 | **0.855** | 7/45 (16%) |
+| trick_unstated_fact | 39 | 0.616 | **0.666** | 0/39 (0%) |
+| all unanswerable | 174 | 0.750 | **0.827** | 55/174 (32%) |
 
-At 0.45, 7/105 (7%) answerable questions are wrongly refused. **37 of 45**
-not-indexed questions pass the gate, typically to a lookalike scheme: PM Kisan
-Maandhan → Atal Pension Yojana (0.72), Sukanya Samriddhi → PM Mudra (0.71),
-Senior Citizens Savings Scheme → Atal Pension Yojana (0.60–0.68), PMAY-Gramin →
-PMAY-Urban (0.57–0.61).
+Translated, 0.45 wrongly refuses **0/105** answerable questions, but **38 of 45**
+not-indexed questions pass the gate, each to a lookalike scheme: PM Kisan Maandhan →
+Atal Pension Yojana (0.74–0.75), PMAY-Gramin → PMAY-Urban (0.62–0.73), Sukanya
+Samriddhi → PM Mudra (0.71–0.72), National Pension System → Atal Pension (0.53–0.66).
+Even at the threshold that allows 10% over-blocking (0.57), a threshold refuses only
+31% of fake-scheme and 31% of unstated-fact questions.
 
-### 3.2 Language, paired by translation — same file
+### 3.2 Language, paired by translation — same files
 
-| | both hit | only en | only other | neither | exact McNemar p | median score drop |
-|---|---|---|---|---|---|---|
-| en vs hi (Recall@1) | 21 | 8 | 0 | 6 | **0.008** | 0.138 |
-| en vs hinglish | 24 | 5 | 2 | 4 | 0.453 | 0.104 |
+Recall@1 (right scheme ranked first), 35 answerable concepts per language:
 
-Over-block at 0.45: en 0/35, hi 3/35, hinglish 4/35. **Raw queries only**: the
-production normaliser translates to English first, and its effect on this set is
-the next measurement (needs the LLM; see §4).
+| | English | Hindi | Hinglish | en vs hi (only-en / only-hi, McNemar p) |
+|---|---|---|---|---|
+| raw | 82.9% | **60.0%** | 74.3% | 8 / 0, **p = 0.008** |
+| translated | 80.0% | 82.9% | 85.7% | 0 / 1, p = 1.0 |
+
+Over-block at 0.45: raw en 0/35, hi 3/35, hinglish 4/35; **translated 0/35 in all
+three**. So the translation step is what makes one fixed threshold fair across
+languages: it removes the Hindi retrieval gap and the extra Hindi/Hinglish
+over-blocking. It does **not** help with the failure modes: those questions are
+about schemes, so they translate into fluent scheme questions too.
 
 ### 3.3 Number perturbation — `eval/runs/numeric_perturbation/results.md`
 
@@ -90,7 +101,7 @@ experiment E9b below.
 
 | # | Experiment | Needs | Output |
 |---|---|---|---|
-| 1 | Normalised-query retrieval on the paper set (does translation-to-English close the Hindi gap? does it equalise over-blocking?) | LLM key; 279 calls, cached | `python eval/run_retrieval.py --questions eval/paper_set.jsonl --variants raw,normalized` |
+| 1 | ~~Normalised-query retrieval on the paper set~~ **Done** (§3.1–3.2) | — | `eval/runs/paper_set/` |
 | 2 | End-to-end guardrail OFF vs ON on the paper set: unsupported-claim rate, correct refusal and over-blocking **per failure mode and per language** | LLM key; ~1.7M tokens, so several days on the Groq free tier or a paid key | `eval/run_eval.py` (needs the same `--questions` flag added) |
 | 3 | E9b: run the LLM judge on `numeric_perturbation/items.jsonl` (especially `perturbed_in`) | LLM key; ~550 judge calls | detection rate of the judge vs the rule |
 | 4 | Second-family judge on the same claims (validity: same model drafts and judges) | a second provider's key | judge agreement |
