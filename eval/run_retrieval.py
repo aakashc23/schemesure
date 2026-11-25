@@ -138,7 +138,8 @@ def build_retrieval_report(data: dict, ks=DEFAULT_KS) -> str:
     )
     lines.append("## Setup\n")
     lines.append(f"- **Date:** {meta['date']}")
-    lines.append(f"- **Questions:** n={meta['n_questions']} (golden set has {meta['n_golden']})")
+    source = meta.get("questions_file", "golden_set.jsonl")
+    lines.append(f"- **Questions:** n={meta['n_questions']} (`{source}` has {meta['n_golden']})")
     lines.append(f"- **Embeddings:** `{meta['embedding_model']}`, cosine similarity")
     lines.append(f"- **Depth stored:** top {meta['top_n']} chunks per question")
     lines.append("- **Relevance:** scheme-level. A hit means the expected scheme owns at "
@@ -185,10 +186,18 @@ def build_retrieval_report(data: dict, ks=DEFAULT_KS) -> str:
         )
 
     lines.append("## How to read this\n")
+    if meta.get("translation_paired"):
+        language_note = (
+            "- Every question is asked in English, Hindi and Hinglish (same `pair_id`), "
+            "so per-language differences hold the content fixed. The translations are "
+            "author-written and not yet reviewed by a second native speaker.\n")
+    else:
+        language_note = (
+            "- Hindi and Hinglish questions in the golden set are **not translations** of "
+            "the English ones, so a per-language difference mixes language with question "
+            "difficulty. Treat it as a hint, not a controlled comparison.\n")
     lines.append(
-        "- Hindi and Hinglish questions in the golden set are **not translations** of "
-        "the English ones, so a per-language difference mixes language with question "
-        "difficulty. Treat it as a hint, not a controlled comparison.\n"
+        language_note +
         "- Per-language n is small (see the n column); the Wilson intervals are wide "
         "on purpose. A single question moves a small-group percentage a lot.\n"
         "- Recall@k only says the right *scheme* was retrieved, not that the "
@@ -341,18 +350,27 @@ def main() -> int:
                         help="output folder (default eval/, or eval/runs/<subset> for subsets)")
     parser.add_argument("--analyze-only", action="store_true",
                         help="skip retrieval; re-analyse the saved retrieval_raw.json")
+    parser.add_argument("--questions", default="",
+                        help="question file (default eval/golden_set.jsonl); "
+                             "e.g. eval/paper_set.jsonl")
     add_selection_args(parser)
     args = parser.parse_args()
 
     from app.config import Settings
 
     settings = Settings()
-    all_rows = load_rows()
+    questions_path = Path(args.questions) if args.questions else None
+    all_rows = load_rows(questions_path)
     rows = rows_from_args(args, all_rows)
     subset = selection_is_subset(rows, all_rows)
 
     if args.out_dir:
         out_dir = Path(args.out_dir)
+    elif questions_path is not None:
+        # A different question file never overwrites the golden-set results.
+        out_dir = ROOT / "eval" / "runs" / questions_path.stem
+        if subset:
+            out_dir = out_dir / subset_dir_name(rows)
     elif subset:
         out_dir = ROOT / "eval" / "runs" / subset_dir_name(rows)
     else:
@@ -397,6 +415,9 @@ def main() -> int:
         "n_golden": len(all_rows),
         "subset": subset,
         "golden_sha1": golden_sha1(all_rows),
+        "questions_file": (questions_path or Path("eval/golden_set.jsonl")).name,
+        # True when every question comes in en/hi/hinglish versions sharing a pair_id.
+        "translation_paired": all("pair_id" in r for r in all_rows),
     }
 
     # Keep variants from an earlier run only if they are truly comparable: same

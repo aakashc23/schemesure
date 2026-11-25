@@ -62,8 +62,8 @@ The design deliberately prefers over-blocking to unsupported claims.
 
 | RQ | Question | Status |
 |---|---|---|
-| RQ1 | Does normalising Hindi and Hinglish queries to English close the retrieval gap with English queries (Recall@k, MRR)? | **In progress** — first full run on the 50-question set (`eval/retrieval_results.md`): Recall@1 for Hindi 2/4 → 4/4 and Hinglish 3/5 → 4/5 with normalisation, overall MRR@10 0.806 → 0.851. Per-language n is 4–5, so this is a direction, not a finding; translation-paired questions planned |
-| RQ2 | How well does a retrieval-score threshold separate answerable from unanswerable questions, per failure mode (F1–F4)? | **In progress** — sweep on normalised queries (`eval/threshold_results.md`): at 0.45, 0/35 answerable refused, 5/5 off-topic refused, but only 1/4 not-indexed and 0/5 fake-scheme questions refused (AUROC 1.00 vs off-topic, 0.92 vs all unanswerable). Confirms the threshold only handles F1; held-out calibration planned |
+| RQ1 | Does normalising Hindi and Hinglish queries to English close the retrieval gap with English queries (Recall@k, MRR)? | **In progress** — first full run on the 50-question set (`eval/retrieval_results.md`): Recall@1 for Hindi 2/4 → 4/4 and Hinglish 3/5 → 4/5 with normalisation, overall MRR@10 0.806 → 0.851. Per-language n is 4–5, so this is a direction, not a finding. **Translation-paired set built** (`eval/paper_set.jsonl`, 35 concepts × 3 languages): on raw queries Hindi Recall@1 is significantly below English for the same questions (21 both / 8 only-en / 0 only-hi, exact McNemar p = 0.008; `eval/runs/paper_set/paper_analysis.md`). Normalised run pending (needs the LLM) |
+| RQ2 | How well does a retrieval-score threshold separate answerable from unanswerable questions, per failure mode (F1–F4)? | **In progress** — sweep on normalised queries (`eval/threshold_results.md`): at 0.45, 0/35 answerable refused, 5/5 off-topic refused, but only 1/4 not-indexed and 0/5 fake-scheme questions refused (AUROC 1.00 vs off-topic, 0.92 vs all unanswerable). Confirms the threshold only handles F1. **Replicated at n=279** (`eval/paper_set.jsonl`, raw queries): AUROC 0.989 vs off-topic but 0.643 fake-scheme, 0.734 not-indexed, 0.616 unstated-fact; 37/45 not-indexed questions pass 0.45. Held-out calibration planned |
 | RQ3 | How much does claim-level verification reduce unsupported claims reaching the user compared with baseline RAG, and what does it cost in over-blocking, latency and LLM calls? | **In progress** — harness implemented (`eval/run_eval.py`, guardrail OFF vs ON); preliminary subset only, full run planned |
 | RQ4 | Which claim verifier agrees best with human judgement: LLM-as-judge, an NLI cross-encoder, embedding similarity, or a hybrid? | **Planned** — similarity signal is already recorded per claim; NLI verifier and human labels planned |
 | RQ5 | How do plain LLM, baseline RAG and SchemeSure compare on faithfulness, answer accuracy and abstention quality? | **Planned** — plain-LLM condition designed, not built |
@@ -276,8 +276,10 @@ structured eligibility rules.
 | E6 | Cross-model judge | a different model family judges the same claims; disagreement analysis | RQ4, validity |
 | E7 | Embedding ablation | MiniLM vs multilingual-e5 vs BGE-M3 (offline, retrieval-only) | RQ1 |
 | E8 | Policy ablation | block threshold 0.3/0.5/0.7; top-k 3/5/8; repair vs regenerate | RQ3 |
-| E9 | Robustness | prompt-injection questions ("ignore the evidence…"), number-perturbation tests | RQ3 |
+| E9 | Robustness | prompt-injection questions ("ignore the evidence…"), number-perturbation tests. **Number perturbation done without the LLM** (`eval/runs/numeric_perturbation/results.md`): numeric rule 100% on wrong numbers absent from evidence, 0% false alarms over Indian number formats, 0% on in-evidence swaps (by design); similarity AUROC 0.53. LLM-judge run on the same items pending | RQ3 |
 | E10 | User study | small task-based study with Hindi/Hinglish speakers on trust and comprehension of the verification view | usability |
+
+The paper built on RQ2–RQ4 is planned in [`PAPER_PLAN.md`](PAPER_PLAN.md).
 
 ## 8. Contribution (stated honestly)
 
